@@ -1,0 +1,27 @@
+when running from VSCode with Remote Dev:
+-- chmod u+x jsh
+
+Build
+-- docker build -t jsh .
+
+Non-interactive mode
+-- docker run --rm -ti jsh /jsh/jsh -c "echo hello world"
+
+Interactive mode
+-- docker run --rm -ti jsh /jsh/jsh
+
+Run unit tests
+-- docker run --rm -it -p 80:8000 jsh /jsh/tools/test
+-- see at http://localhost/surefire-report.html
+
+Run system tests
+-- docker build -t jsh-test . 
+-- 
+
+Coverage
+-- see at http://localhost/jacoco/uk.ac.ucl.jsh/index.html
+
+PMD analysis
+-- docker run --rm -ti -p 80:8000 jsh /jsh/jsh
+-- in the final project, coverage > 90%
+-- see at http://localhost/pmd.html

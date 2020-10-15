@@ -285,6 +285,32 @@ public class Jsh {
                     }
                 }
                 break;
+
+
+            case "cut":
+                writer.write(appArgs.toString());
+                writer.write(System.getProperty("line.separator"));
+                writer.flush();
+                break;
+            
+            case "find":
+                writer.write(appArgs.toString());
+                writer.write(System.getProperty("line.separator"));
+                writer.flush();
+                break;
+
+            case "uniq":
+                writer.write(appArgs.toString());
+                writer.write(System.getProperty("line.separator"));
+                writer.flush();
+                break;
+
+            case "sort":
+                writer.write(appArgs.toString());
+                writer.write(System.getProperty("line.separator"));
+                writer.flush();
+                break;
+
             default:
                 throw new RuntimeException(appName + ": unknown application");
             }
@@ -306,6 +332,7 @@ public class Jsh {
                 System.out.println("jsh: " + e.getMessage());
             }
         } else {
+            System.out.println("Welcome to JSH!");
             Scanner input = new Scanner(System.in);
             try {
                 while (true) {
