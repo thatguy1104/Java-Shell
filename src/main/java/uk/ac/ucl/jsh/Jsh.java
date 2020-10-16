@@ -13,9 +13,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.sound.midi.SysexMessage;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -287,16 +291,37 @@ public class Jsh {
                 break;
 
 
-            case "cut":
-                writer.write(appArgs.toString());
-                writer.write(System.getProperty("line.separator"));
-                writer.flush();
-                break;
-            
+
             case "find":
-                writer.write(appArgs.toString());
-                writer.write(System.getProperty("line.separator"));
-                writer.flush();
+                File cur = new File(currentDirectory);
+
+                if (appArgs.isEmpty()) {
+                    throw new RuntimeException("find: missing arguemnts");
+                } 
+                
+                try {
+                    File[] listOfFiles = cur.listFiles();
+                    Set<String> result_set = new HashSet<String>();
+
+                    for (File file : listOfFiles) {
+                        if (!file.getName().startsWith(".")) {
+                            if (appArgs.size() == 1 && appArgs.get(0).equals(file.getName())) {
+                                result_set.add(file.getName());
+                            } else if (appArgs.size() > 1) {
+                                for (String ar : appArgs) {
+                                    result_set.add(ar);
+                                }
+                            }                
+                        }
+                    }
+                    for (String item : result_set) {
+                        writer.write(item);
+                        writer.write("\n");
+                        writer.flush();
+                    }
+                } catch (NullPointerException e) {
+                    throw new RuntimeException("find: no such directory");
+                }
                 break;
 
             case "uniq":
@@ -332,7 +357,6 @@ public class Jsh {
                 System.out.println("jsh: " + e.getMessage());
             }
         } else {
-            System.out.println("Welcome to JSH!");
             Scanner input = new Scanner(System.in);
             try {
                 while (true) {
@@ -340,7 +364,11 @@ public class Jsh {
                     System.out.print(prompt);
                     try {
                         String cmdline = input.nextLine();
-                        eval(cmdline, System.out);
+
+                        // Check for empty string input
+                        if (!(cmdline.equals("\n") || cmdline.equals("") || cmdline.equals(" "))) {
+                            eval(cmdline, System.out);
+                        }
                     } catch (Exception e) {
                         System.out.println("jsh: " + e.getMessage());
                     }
@@ -350,5 +378,4 @@ public class Jsh {
             }
         }
     }
-
 }
