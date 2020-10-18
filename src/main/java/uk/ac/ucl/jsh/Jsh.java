@@ -93,6 +93,39 @@ public class Jsh {
         return total_range;
     }
 
+    //Recursive quicksort algorithm for sorting an array list of strings
+    public static ArrayList<String> stringQuicksort(ArrayList<String> lines){
+        //Base case if the file read is empty
+        if (lines.isEmpty()){
+            return lines;
+        }
+        ArrayList<String> beforePivot = new ArrayList<String>();
+        ArrayList<String> afterPivot = new ArrayList<String>();
+        
+        //Initialise the pivot to be the first element of the array (line of file)
+        String pivot = lines.get(0);
+        String line;
+
+        //Compare each line to the pivot and add to respective array
+        for(int i = 1; i < lines.size(); i++){
+            line = lines.get(i);
+            if(line.compareTo(pivot) < 0){
+                beforePivot.add(line);
+            }else{
+                afterPivot.add(line);
+            }
+        }
+
+        //Recursively sort the arrays
+        beforePivot = stringQuicksort(beforePivot);
+        afterPivot = stringQuicksort(afterPivot);
+
+        //Combine and return the final array
+        beforePivot.add(pivot);
+        beforePivot.addAll(afterPivot);
+        return beforePivot;
+    }
+
     public static void eval(String cmdline, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
@@ -137,7 +170,7 @@ public class Jsh {
                 }
             }
             String appName = tokens.get(0);
-            ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));
+            ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));          
             switch (appName) {
                 case "cd":
                     if (appArgs.isEmpty()) {
@@ -464,6 +497,7 @@ public class Jsh {
                     try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
                         String line = reader.readLine();
                         ArrayList<String> lines = new ArrayList<String>();
+                        ArrayList<String> sortedLines;
 
                         //Populate array with lines of the file
                         while(line != null){
@@ -471,16 +505,20 @@ public class Jsh {
                             line = reader.readLine();
                         }
 
+                        //Use the quicksort on the array list of strings
+                        sortedLines = stringQuicksort(lines);
+
                         //Check if the -r is present then display array in reverse order
                         if (appArgs.size() == 2) {
-                            for(int i = lines.size() - 1; i >= 0; i--) {
-                                writer.write(lines.get(i));
+                            for(int i = sortedLines.size() - 1; i >= 0; i--) {
+                                writer.write(sortedLines.get(i));
                                 writer.write(System.getProperty("line.separator"));
                                 writer.flush();
                             }
                         } else {
-                            for(int i = 0; i < lines.size(); i++) {
-                                writer.write(lines.get(i));
+                            //If -r is not present display array normally
+                            for(int i = 0; i < sortedLines.size(); i++) {
+                                writer.write(sortedLines.get(i));
                                 writer.write(System.getProperty("line.separator"));
                                 writer.flush();
                             }
