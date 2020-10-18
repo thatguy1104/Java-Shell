@@ -442,10 +442,56 @@ public class Jsh {
                     break;
 
                 case "sort":
-                    writer.write(appArgs.toString());
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
-                    break;
+                String sortArg;
+                if (appArgs.isEmpty()){
+                    throw new RuntimeException("sort: missing arguments");
+                }
+                if (appArgs.size() != 1 && appArgs.size() != 2){
+                    throw new RuntimeException("sort: wrong number of arguments");
+                }
+                if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
+                    throw new RuntimeException("sort: wrong argument " + appArgs.get(0));
+                }
+                if (appArgs.size() == 2){
+                    sortArg = appArgs.get(1);
+                }else{
+                    sortArg = appArgs.get(0);
+                }
+                File sortFile = new File(currentDirectory + File.separator + sortArg);
+                Charset encoding = StandardCharsets.UTF_8;
+                if(sortFile.exists()){
+                    Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
+                    try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
+                        String line = reader.readLine();
+                        ArrayList<String> lines = new ArrayList<String>();
+
+                        //Populate array with lines of the file
+                        while(line != null){
+                            lines.add(line);
+                            line = reader.readLine();
+                        }
+
+                        //Check if the -r is present then display array in reverse order
+                        if (appArgs.size() == 2) {
+                            for(int i = lines.size() - 1; i >= 0; i--) {
+                                writer.write(lines.get(i));
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+                        } else {
+                            for(int i = 0; i < lines.size(); i++) {
+                                writer.write(lines.get(i));
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException("sort: cannot open " + sortArg);
+                    }
+                } else {
+                    throw new RuntimeException("sort: " + sortArg + " does not exist");
+                }
+                break;
 
                 default:
                     throw new RuntimeException(appName + ": unknown application");
