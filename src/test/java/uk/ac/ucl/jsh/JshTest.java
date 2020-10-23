@@ -35,4 +35,18 @@ public class JshTest {
         }
     }
 
+    @Test
+    public void test_find() throws Exception {
+        PipedInputStream in = new PipedInputStream();
+        PipedOutputStream out;
+        out = new PipedOutputStream(in);
+        String[] cases = { "find *.txt", "find run.txt", "find text1.txt", "find text2.txt"};
+        String[] expected_out = {"text1.txt", "run.txt", "text1.txt", "text2.txt"};
+        for (int i = 0; i < cases.length; i++) {
+            Jsh.eval(cases[i], out);
+            Scanner scn = new Scanner(in);
+            assertEquals(scn.next(), expected_out[i]);
+        }
+    }
+
 }
