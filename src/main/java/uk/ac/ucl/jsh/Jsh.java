@@ -612,7 +612,7 @@ public class Jsh {
                                             }
                                         }
                                     } catch (IOException e) {
-                                        writer.write("grep: cannot open " + appArgs.get(j + 1));
+                                        writer.write("_grep: cannot open " + appArgs.get(j + 1));
                                         writer.write(System.getProperty("line.separator"));
                                         writer.flush();
                                         break;
@@ -728,11 +728,17 @@ public class Jsh {
                 case "cut":
                     if (unsafeMode) {
                         if (appArgs.isEmpty()) {
-                            throw new RuntimeException("cut: missing arguments");
+                            writer.write("_cut: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
                         } else if (appArgs.size() != 1 && appArgs.size() != 3) {
-                            throw new RuntimeException("cut: wrong arguments");
+                            writer.write("_cut: wrong arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
                         } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-b")) {
-                            throw new RuntimeException("cut: wrong argument " + appArgs.get(0));
+                            writer.write("_cut: wrong argument " + appArgs.get(0));
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
                         } else {
                             String start_end = appArgs.get(1);
                             start_end = start_end.replaceAll("[^-?0-9]+", " ");
@@ -849,11 +855,11 @@ public class Jsh {
                             writer.write(System.getProperty("line.separator"));
                             writer.flush();
                         } else if (appArgs.size() != 1 && appArgs.size() != 2){
-                            writer.write("sort: wrong number of arguments");
+                            writer.write("_sort: wrong number of arguments");
                             writer.write(System.getProperty("line.separator"));
                             writer.flush();
                         } else if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
-                            writer.write("sort: wrong argument " + appArgs.get(0));
+                            writer.write("_sort: wrong argument " + appArgs.get(0));
                             writer.write(System.getProperty("line.separator"));
                             writer.flush();
                         } else {
@@ -896,12 +902,12 @@ public class Jsh {
                                         }
                                     }
                                 } catch (IOException e) {
-                                    writer.write("sort: cannot open " + sortArg);
+                                    writer.write("_sort: cannot open " + sortArg);
                                     writer.write(System.getProperty("line.separator"));
                                     writer.flush();
                                 }
                             } else {
-                                writer.write("sort: " + sortArg + " does not exist");
+                                writer.write("_sort: " + sortArg + " does not exist");
                                 writer.write(System.getProperty("line.separator"));
                                 writer.flush();
                             }
