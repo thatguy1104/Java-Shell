@@ -28,7 +28,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.graalvm.compiler.phases.common.InsertGuardFencesPhase;
 
 public class Jsh {
 
@@ -457,11 +456,17 @@ public class Jsh {
                 case "tail":
                     if (unsafeMode) {
                         if (appArgs.isEmpty()) {
-                            throw new RuntimeException("_tail: missing arguments");
+                            writer.write("_tail: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
                         } else if (appArgs.size() != 1 && appArgs.size() != 3) {
-                            throw new RuntimeException("_tail: wrong arguments");
+                            writer.write("_tail: wrong arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
                         } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
-                            throw new RuntimeException("_tail: wrong argument " + appArgs.get(0));
+                            writer.write("_tail: wrong argument " + appArgs.get(0));
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
                         } else {
                             int tailLines = 10;
                             String tailArg;
