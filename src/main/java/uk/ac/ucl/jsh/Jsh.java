@@ -516,7 +516,6 @@ public class Jsh {
                                     writer.write("_tail: " + tailArg + " does not exist");
                                     writer.write(System.getProperty("line.separator"));
                                     writer.flush();
-                                    throw new RuntimeException("_tail: " + tailArg + " does not exist");
                                 }
                             }
                         }
