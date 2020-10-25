@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -33,6 +34,7 @@ public class Jsh {
 
     private static String currentDirectory = System.getProperty("user.dir");
 
+    // parses cut case input
     public static List<Integer> parse_cut_input(String str) throws IOException {
         // Num of char per line:
         int num_of_char_per_line = 1000;
@@ -417,9 +419,82 @@ public class Jsh {
                     break;
 
                 case "uniq":
-                    writer.write(appArgs.toString());
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
+                    String uniqFilename;
+
+                    if (appArgs.isEmpty()) {
+                        throw new RuntimeException("uniq: missing argument");
+                    } else if (appArgs.size() > 2) {
+                        throw new RuntimeException("uniq: too many arguments");
+                    }
+                    if (appArgs.size() == 2 && !appArgs.get(0).equals("-i")){
+                        throw new RuntimeException("uniq: wrong argument" + appArgs.get(0));
+                    }
+                    if (appArgs.size() == 2){
+                        uniqFilename = appArgs.get(1);
+                    }
+                    else {
+                        uniqFilename = appArgs.get(0);
+                    }
+
+                    // String input = appArgs(*)
+                    File uniqFile = new File(currentDirectory + File.separator + uniqFilename);
+                    if(uniqFile.exists()) 
+                    {
+                        //Charset encoding = StandardCharsets.UTF_8;
+                        Path sortPath = Paths.get((String) currentDirectory + File.separator + uniqFilename);
+                        try(BufferedReader reader = Files.newBufferedReader(sortPath /*, encoding*/))
+                        {
+                            String line = reader.readLine();
+                            ArrayList<String> lines = new ArrayList<String>();
+                            ArrayList<String> uniqLines;
+
+                            //Populate array with lines of the file
+                            while(line != null)
+                            {
+                                lines.add(line);
+                                line = reader.readLine();
+                            }
+
+                            //Check if the -i and if exists make comparision case insensitive 
+                            if (appArgs.size() == 2) {
+                                uniqLines = new ArrayList<String>();
+                                
+                                for(int i = 0; i < lines.size(); i++) {
+                                    boolean equals = false;
+                                    String row = lines.get(i);
+                                    for(int j = i+1; j < lines.size(); j++){
+                                        String row2 = lines.get(j);
+                                        if (row.equalsIgnoreCase(row2)){
+                                            equals = true;
+                                        }
+                                    }
+                                    if (!equals && !uniqLines.contains(row)) {
+                                        uniqLines.add(row);
+                                    }
+                                }
+                            }
+                            else { // case sensitive
+                            LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
+                            uniqLines = new ArrayList<>(uniqSet);
+                            }
+                            
+
+                            // display array of uniq lines
+                            for(int i = 0; i < uniqLines.size(); i++) 
+                            {
+                                writer.write(uniqLines.get(i));
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+
+                        } catch (IOException e) 
+                            {
+                                throw new RuntimeException("uniq: cannot open " + uniqFilename);
+                            } 
+                    } else 
+                        {
+                            throw new RuntimeException("uniq: " + uniqFilename + " does not exist");
+                        }
                     break;
 
                 case "cut":
@@ -475,64 +550,64 @@ public class Jsh {
                     break;
 
                 case "sort":
-                String sortArg;
-                if (appArgs.isEmpty()){
-                    throw new RuntimeException("sort: missing arguments");
-                }
-                if (appArgs.size() != 1 && appArgs.size() != 2){
-                    throw new RuntimeException("sort: wrong number of arguments");
-                }
-                if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
-                    throw new RuntimeException("sort: wrong argument " + appArgs.get(0));
-                }
-                if (appArgs.size() == 2){
-                    sortArg = appArgs.get(1);
-                }else{
-                    sortArg = appArgs.get(0);
-                }
+                    String sortArg;
+                    if (appArgs.isEmpty()){
+                        throw new RuntimeException("sort: missing arguments");
+                    }
+                    if (appArgs.size() != 1 && appArgs.size() != 2){
+                        throw new RuntimeException("sort: wrong number of arguments");
+                    }
+                    if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
+                        throw new RuntimeException("sort: wrong argument " + appArgs.get(0));
+                    }
+                    if (appArgs.size() == 2){
+                        sortArg = appArgs.get(1);
+                    }else{
+                        sortArg = appArgs.get(0);
+                    }
                 File sortFile = new File(currentDirectory + File.separator + sortArg);
                 Charset encoding = StandardCharsets.UTF_8;
-                if(sortFile.exists()){
-                    Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
-                    try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
-                        String line = reader.readLine();
-                        ArrayList<String> lines = new ArrayList<String>();
-                        ArrayList<String> sortedLines;
+                    if(sortFile.exists()){
+                        Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
+                        try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
+                            String line = reader.readLine();
+                            ArrayList<String> lines = new ArrayList<String>();
+                            ArrayList<String> sortedLines;
 
-                        //Populate array with lines of the file
-                        while(line != null){
-                            lines.add(line);
-                            line = reader.readLine();
-                        }
-
-                        //Use the quicksort on the array list of strings
-                        sortedLines = stringQuicksort(lines);
-
-                        //Check if the -r is present then display array in reverse order
-                        if (appArgs.size() == 2) {
-                            for(int i = sortedLines.size() - 1; i >= 0; i--) {
-                                writer.write(sortedLines.get(i));
-                                writer.write(System.getProperty("line.separator"));
-                                writer.flush();
+                            //Populate array with lines of the file
+                            while(line != null){
+                                lines.add(line);
+                                line = reader.readLine();
                             }
-                        } else {
-                            //If -r is not present display array normally
-                            for(int i = 0; i < sortedLines.size(); i++) {
-                                writer.write(sortedLines.get(i));
-                                writer.write(System.getProperty("line.separator"));
-                                writer.flush();
+
+                            //Use the quicksort on the array list of strings
+                            sortedLines = stringQuicksort(lines);
+
+                            //Check if the -r is present then display array in reverse order
+                            if (appArgs.size() == 2) {
+                                for(int i = sortedLines.size() - 1; i >= 0; i--) {
+                                    writer.write(sortedLines.get(i));
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                }
+                            } else {
+                                //If -r is not present display array normally
+                                for(int i = 0; i < sortedLines.size(); i++) {
+                                    writer.write(sortedLines.get(i));
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                }
                             }
+                        } catch (IOException e) {
+                            throw new RuntimeException("sort: cannot open " + sortArg);
                         }
-                    } catch (IOException e) {
-                        throw new RuntimeException("sort: cannot open " + sortArg);
+                    } else {
+                        throw new RuntimeException("sort: " + sortArg + " does not exist");
                     }
-                } else {
-                    throw new RuntimeException("sort: " + sortArg + " does not exist");
-                }
-                break;
+                    break;
 
-                default:
-                    throw new RuntimeException(appName + ": unknown application");
+                    default:
+                        throw new RuntimeException(appName + ": unknown application");
             }
         }
     }
