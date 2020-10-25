@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
@@ -126,9 +127,9 @@ public class Jsh {
         return beforePivot;
     }
 
-    public static void eval(String cmdline, OutputStream output) throws IOException {
+    // cat text1.txt | cut -b 1,2 text2.txt
+    public static ArrayList<String> supplementary(String cmdline, OutputStream output) throws IOException{
         OutputStreamWriter writer = new OutputStreamWriter(output);
-
         CharStream parserInput = CharStreams.fromString(cmdline);
         JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -139,12 +140,31 @@ public class Jsh {
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!tree.getChild(i).getText().equals(";")) {
                 lastSubcommand += tree.getChild(i).getText();
+            } else if (!tree.getChild(i).getText().equals("|")) {
+                lastSubcommand += tree.getChild(i).getText();
             } else {
                 rawCommands.add(lastSubcommand);
                 lastSubcommand = "";
             }
         }
         rawCommands.add(lastSubcommand);
+        // ArrayList<String> result = new ArrayList<String>();
+        // for (int i = rawCommands.size(); i >= 0; i--) {
+        //     result.add(rawCommands.get(i));
+        // }
+        // writer.write("rjfndwoienroied");
+        // writer.write(rawCommands.toString());
+        // writer.write(System.getProperty("line.separator"));
+        // writer.flush();
+        
+        // return result;
+        return rawCommands;
+    }
+
+    public static void eval(String cmdline, OutputStream output) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        ArrayList<String> rawCommands = supplementary(cmdline, output);
+        
         for (String rawCommand : rawCommands) {
             String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
             ArrayList<String> tokens = new ArrayList<String>();
@@ -170,7 +190,8 @@ public class Jsh {
                 }
             }
             String appName = tokens.get(0);
-            ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));          
+            ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));
+            
             switch (appName) {
                 case "cd":
                     if (appArgs.isEmpty()) {
