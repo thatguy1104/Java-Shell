@@ -193,15 +193,12 @@ public class Jsh {
             }
             String appName = tokens.get(0);
             ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));
-<<<<<<< HEAD
-=======
 
             Boolean unsafeMode = false;
             if(appName.charAt(0) == '_'){
                 appName = appName.substring(1);
                 unsafeMode = true;
             }
->>>>>>> 1e06bbd1f5aa74bb98474d2999e0f6e8d64030d4
             
             switch (appName) {
                 case "cd":
@@ -947,65 +944,6 @@ public class Jsh {
                     break;
                 case "sort":
                     String sortArg;
-<<<<<<< HEAD
-                    if (appArgs.isEmpty()){
-                        throw new RuntimeException("sort: missing arguments");
-                    }
-                    if (appArgs.size() != 1 && appArgs.size() != 2){
-                        throw new RuntimeException("sort: wrong number of arguments");
-                    }
-                    if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
-                        throw new RuntimeException("sort: wrong argument " + appArgs.get(0));
-                    }
-                    if (appArgs.size() == 2){
-                        sortArg = appArgs.get(1);
-                    }else{
-                        sortArg = appArgs.get(0);
-                    }
-                File sortFile = new File(currentDirectory + File.separator + sortArg);
-                Charset encoding = StandardCharsets.UTF_8;
-                    if(sortFile.exists()){
-                        Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
-                        try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
-                            String line = reader.readLine();
-                            ArrayList<String> lines = new ArrayList<String>();
-                            ArrayList<String> sortedLines;
-
-                            //Populate array with lines of the file
-                            while(line != null){
-                                lines.add(line);
-                                line = reader.readLine();
-                            }
-
-                            //Use the quicksort on the array list of strings
-                            sortedLines = stringQuicksort(lines);
-
-                            //Check if the -r is present then display array in reverse order
-                            if (appArgs.size() == 2) {
-                                for(int i = sortedLines.size() - 1; i >= 0; i--) {
-                                    writer.write(sortedLines.get(i));
-                                    writer.write(System.getProperty("line.separator"));
-                                    writer.flush();
-                                }
-                            } else {
-                                //If -r is not present display array normally
-                                for(int i = 0; i < sortedLines.size(); i++) {
-                                    writer.write(sortedLines.get(i));
-                                    writer.write(System.getProperty("line.separator"));
-                                    writer.flush();
-                                }
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException("sort: cannot open " + sortArg);
-                        }
-                    } else {
-                        throw new RuntimeException("sort: " + sortArg + " does not exist");
-                    }
-                    break;
-
-                    default:
-                        throw new RuntimeException(appName + ": unknown application");
-=======
                     if (unsafeMode) {
                         if (appArgs.isEmpty()){
                             writer.write("_sort: missing arguments");
@@ -1127,7 +1065,6 @@ public class Jsh {
                     break;
                 default:
                     throw new RuntimeException(appName + ": unknown application");
->>>>>>> 034059b0ad3d8d6f87f72959edd5af1ba957babf
             }
         }
     }
