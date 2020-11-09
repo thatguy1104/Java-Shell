@@ -10,6 +10,7 @@ public class Factory {
             case "ls": return new Ls();
             case "cat": return new Cat();
             case "echo": return new Echo();
+            case "head": return new Head();
         }
         return null;
     }
