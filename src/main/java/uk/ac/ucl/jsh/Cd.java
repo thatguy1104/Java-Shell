@@ -10,7 +10,7 @@ import java.io.OutputStream;
 public class Cd implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, InputStream input, OutputStream output, String currDir) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
         
         if (args.isEmpty()) {
             throw new RuntimeException("cd: missing argument");

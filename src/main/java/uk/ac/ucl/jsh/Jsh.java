@@ -197,13 +197,12 @@ public class Jsh {
 
             switch (appName) {
                 case "cd":
-                    currentDirectory = app.exec(appArgs, null, output, currentDirectory);
+                    currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
                 case "pwd":
-                    writer.write(currentDirectory);
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
+                    currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
+
                 case "ls":
                     File currDir;
                     if (unsafeMode) {
