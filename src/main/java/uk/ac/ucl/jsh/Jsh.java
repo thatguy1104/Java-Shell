@@ -148,16 +148,6 @@ public class Jsh {
             }
         }
         rawCommands.add(lastSubcommand);
-        // ArrayList<String> result = new ArrayList<String>();
-        // for (int i = rawCommands.size(); i >= 0; i--) {
-        //     result.add(rawCommands.get(i));
-        // }
-        // writer.write("rjfndwoienroied");
-        // writer.write(rawCommands.toString());
-        // writer.write(System.getProperty("line.separator"));
-        // writer.flush();
-        
-        // return result;
         return rawCommands;
     }
 
@@ -192,19 +182,14 @@ public class Jsh {
             String appName = tokens.get(0);
             ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));
             
+
+            Factory factory = new Factory();
+            Application app = factory.getApp(appName);
+
+
             switch (appName) {
                 case "cd":
-                    if (appArgs.isEmpty()) {
-                        throw new RuntimeException("cd: missing argument");
-                    } else if (appArgs.size() > 1) {
-                        throw new RuntimeException("cd: too many arguments");
-                    }
-                    String dirString = appArgs.get(0);
-                    File dir = new File(currentDirectory, dirString);
-                    if (!dir.exists() || !dir.isDirectory()) {
-                        throw new RuntimeException("cd: " + dirString + " is not an existing directory");
-                    }
-                    currentDirectory = dir.getCanonicalPath();
+                    app.exec(appArgs, null, output, currentDirectory);
                     break;
                 case "pwd":
                     writer.write(currentDirectory);
