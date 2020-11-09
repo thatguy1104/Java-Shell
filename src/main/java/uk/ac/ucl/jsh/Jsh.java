@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class Jsh {
 
     private static String currentDirectory = System.getProperty("user.dir");
 
+    // parses cut case input
     public static List<Integer> parse_cut_input(String str) throws IOException {
         // Num of char per line:
         int num_of_char_per_line = 1000;
@@ -181,6 +183,12 @@ public class Jsh {
             }
             String appName = tokens.get(0);
             ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));
+
+            Boolean unsafeMode = false;
+            if(appName.charAt(0) == '_'){
+                appName = appName.substring(1);
+                unsafeMode = true;
+            }
             
 
             Factory factory = new Factory();
@@ -189,7 +197,7 @@ public class Jsh {
 
             switch (appName) {
                 case "cd":
-                    app.exec(appArgs, null, output, currentDirectory);
+                    currentDirectory = app.exec(appArgs, null, output, currentDirectory);
                     break;
                 case "pwd":
                     writer.write(currentDirectory);
@@ -198,53 +206,119 @@ public class Jsh {
                     break;
                 case "ls":
                     File currDir;
-                    if (appArgs.isEmpty()) {
-                        currDir = new File(currentDirectory);
-                    } else if (appArgs.size() == 1) {
-                        currDir = new File(appArgs.get(0));
-                    } else {
-                        throw new RuntimeException("ls: too many arguments");
-                    }
-                    try {
-                        File[] listOfFiles = currDir.listFiles();
-                        boolean atLeastOnePrinted = false;
-                        for (File file : listOfFiles) {
-                            if (!file.getName().startsWith(".")) {
-                                writer.write(file.getName());
-                                writer.write("\t");
-                                writer.flush();
-                                atLeastOnePrinted = true;
-                            }
-                        }
-                        if (atLeastOnePrinted) {
+                    if (unsafeMode) {
+                        if (appArgs.size() > 1) {
+                            writer.write("_ls: too many arguments");
                             writer.write(System.getProperty("line.separator"));
                             writer.flush();
+                        } else {
+                            if (appArgs.isEmpty()) {
+                                currDir = new File(currentDirectory);
+                            } else {
+                                currDir = new File(appArgs.get(0));
+                            }
+                            if (!currDir.exists() || !currDir.isDirectory()) {
+                                writer.write("_ls: no such directory");
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            } else {
+                                File[] listOfFiles = currDir.listFiles();
+                                boolean atLeastOnePrinted = false;
+                                for (File file : listOfFiles) {
+                                    if (!file.getName().startsWith(".")) {
+                                        writer.write(file.getName());
+                                        writer.write("\t");
+                                        writer.flush();
+                                        atLeastOnePrinted = true;
+                                    }
+                                }
+                                if (atLeastOnePrinted) {
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                }
+                            }
                         }
-                    } catch (NullPointerException e) {
-                        throw new RuntimeException("ls: no such directory");
+                    } else {
+                        if (appArgs.isEmpty()) {
+                            currDir = new File(currentDirectory);
+                        } else if (appArgs.size() == 1) {
+                            currDir = new File(appArgs.get(0));
+                        } else {
+                            throw new RuntimeException("ls: too many arguments");
+                        }
+                        try {
+                            File[] listOfFiles = currDir.listFiles();
+                            boolean atLeastOnePrinted = false;
+                            for (File file : listOfFiles) {
+                                if (!file.getName().startsWith(".")) {
+                                    writer.write(file.getName());
+                                    writer.write("\t");
+                                    writer.flush();
+                                    atLeastOnePrinted = true;
+                                }
+                            }
+                            if (atLeastOnePrinted) {
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+                        } catch (NullPointerException e) {
+                            throw new RuntimeException("ls: no such directory");
+                        }
                     }
                     break;
                 case "cat":
-                    if (appArgs.isEmpty()) {
-                        throw new RuntimeException("cat: missing arguments");
-                    } else {
-                        for (String arg : appArgs) {
-                            Charset encoding = StandardCharsets.UTF_8;
-                            File currFile = new File(currentDirectory + File.separator + arg);
-                            if (currFile.exists()) {
-                                Path filePath = Paths.get(currentDirectory + File.separator + arg);
-                                try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                                    String line = null;
-                                    while ((line = reader.readLine()) != null) {
-                                        writer.write(String.valueOf(line));
+                    if (unsafeMode) {
+                        if (appArgs.isEmpty()) {
+                            writer.write("_cat: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            for (String arg : appArgs) {
+                                Charset encoding = StandardCharsets.UTF_8;
+                                File currFile = new File(currentDirectory + File.separator + arg);
+                                if (!currFile.exists()) {
+                                    writer.write("_cat: file does not exist");
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                } else {
+                                    Path filePath = Paths.get(currentDirectory + File.separator + arg);
+                                    try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
+                                        String line = null;
+                                        while ((line = reader.readLine()) != null) {
+                                            writer.write(String.valueOf(line));
+                                            writer.write(System.getProperty("line.separator"));
+                                            writer.flush();
+                                        }
+                                    } catch (IOException e) {
+                                        writer.write("_cat: cannot open " + arg);
                                         writer.write(System.getProperty("line.separator"));
                                         writer.flush();
                                     }
-                                } catch (IOException e) {
-                                    throw new RuntimeException("cat: cannot open " + arg);
                                 }
-                            } else {
-                                throw new RuntimeException("cat: file does not exist");
+                            }
+                        }
+                    } else {
+                        if (appArgs.isEmpty()) {
+                            throw new RuntimeException("cat: missing arguments");
+                        } else {
+                            for (String arg : appArgs) {
+                                Charset encoding = StandardCharsets.UTF_8;
+                                File currFile = new File(currentDirectory + File.separator + arg);
+                                if (currFile.exists()) {
+                                    Path filePath = Paths.get(currentDirectory + File.separator + arg);
+                                    try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
+                                        String line = null;
+                                        while ((line = reader.readLine()) != null) {
+                                            writer.write(String.valueOf(line));
+                                            writer.write(System.getProperty("line.separator"));
+                                            writer.flush();
+                                        }
+                                    } catch (IOException e) {
+                                        throw new RuntimeException("cat: cannot open " + arg);
+                                    }
+                                } else {
+                                    throw new RuntimeException("cat: file does not exist");
+                                }
                             }
                         }
                     }
@@ -263,280 +337,695 @@ public class Jsh {
                     }
                     break;
                 case "head":
-                    if (appArgs.isEmpty()) {
-                        throw new RuntimeException("head: missing arguments");
-                    }
-                    if (appArgs.size() != 1 && appArgs.size() != 3) {
-                        throw new RuntimeException("head: wrong arguments");
-                    }
-                    if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
-                        throw new RuntimeException("head: wrong argument " + appArgs.get(0));
-                    }
-                    int headLines = 10;
-                    String headArg;
-                    if (appArgs.size() == 3) {
-                        try {
-                            headLines = Integer.parseInt(appArgs.get(1));
-                        } catch (Exception e) {
-                            throw new RuntimeException("head: wrong argument " + appArgs.get(1));
-                        }
-                        headArg = appArgs.get(2);
-                    } else {
-                        headArg = appArgs.get(0);
-                    }
-                    File headFile = new File(currentDirectory + File.separator + headArg);
-                    if (headFile.exists()) {
-                        Charset encoding = StandardCharsets.UTF_8;
-                        Path filePath = Paths.get((String) currentDirectory + File.separator + headArg);
-                        try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                            for (int i = 0; i < headLines; i++) {
-                                String line = null;
-                                if ((line = reader.readLine()) != null) {
-                                    writer.write(line);
+                    if (unsafeMode) {
+                        if (appArgs.isEmpty()) {
+                            writer.write("_head: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() != 1 && appArgs.size() != 3) {
+                            writer.write("_head: wrong arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
+                            writer.write("_head: wrong argument " + appArgs.get(0));
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            int headLines = 10;
+                            String headArg;
+                            Boolean successfulParseInt = true;
+                            if (appArgs.size() == 3) {
+                                try {
+                                    headLines = Integer.parseInt(appArgs.get(1));
+                                } catch (Exception e) {
+                                    writer.write("_head: wrong argument " + appArgs.get(1));
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                    successfulParseInt = false;
+                                }
+                            }
+                            if (successfulParseInt) {
+                                if (appArgs.size() == 3) {
+                                    headArg = appArgs.get(2);
+                                } else {
+                                    headArg = appArgs.get(0);
+                                }
+                                File headFile = new File(currentDirectory + File.separator + headArg);
+                                if (headFile.exists()) {
+                                    Charset encoding = StandardCharsets.UTF_8;
+                                    Path filePath = Paths.get((String) currentDirectory + File.separator + headArg);
+                                    try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
+                                        for (int i = 0; i < headLines; i++) {
+                                            String line = null;
+                                            if ((line = reader.readLine()) != null) {
+                                                writer.write(line);
+                                                writer.write(System.getProperty("line.separator"));
+                                                writer.flush();
+                                            }
+                                        }
+                                    } catch (IOException e) {
+                                        writer.write("_head: cannot open " + headArg);
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                    }
+                                } else {
+                                    writer.write("_head: " + headArg + " does not exist");
                                     writer.write(System.getProperty("line.separator"));
                                     writer.flush();
                                 }
                             }
-                        } catch (IOException e) {
-                            throw new RuntimeException("head: cannot open " + headArg);
                         }
                     } else {
-                        throw new RuntimeException("head: " + headArg + " does not exist");
+                        if (appArgs.isEmpty()) {
+                            throw new RuntimeException("head: missing arguments");
+                        }
+                        if (appArgs.size() != 1 && appArgs.size() != 3) {
+                            throw new RuntimeException("head: wrong arguments");
+                        }
+                        if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
+                            throw new RuntimeException("head: wrong argument " + appArgs.get(0));
+                        }
+                        int headLines = 10;
+                        String headArg;
+                        if (appArgs.size() == 3) {
+                            try {
+                                headLines = Integer.parseInt(appArgs.get(1));
+                            } catch (Exception e) {
+                                throw new RuntimeException("head: wrong argument " + appArgs.get(1));
+                            }
+                            headArg = appArgs.get(2);
+                        } else {
+                            headArg = appArgs.get(0);
+                        }
+                        File headFile = new File(currentDirectory + File.separator + headArg);
+                        if (headFile.exists()) {
+                            Charset encoding = StandardCharsets.UTF_8;
+                            Path filePath = Paths.get((String) currentDirectory + File.separator + headArg);
+                            try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
+                                for (int i = 0; i < headLines; i++) {
+                                    String line = null;
+                                    if ((line = reader.readLine()) != null) {
+                                        writer.write(line);
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException("head: cannot open " + headArg);
+                            }
+                        } else {
+                            throw new RuntimeException("head: " + headArg + " does not exist");
+                        }
                     }
                     break;
                 case "tail":
-                    if (appArgs.isEmpty()) {
-                        throw new RuntimeException("tail: missing arguments");
-                    }
-                    if (appArgs.size() != 1 && appArgs.size() != 3) {
-                        throw new RuntimeException("tail: wrong arguments");
-                    }
-                    if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
-                        throw new RuntimeException("tail: wrong argument " + appArgs.get(0));
-                    }
-                    int tailLines = 10;
-                    String tailArg;
-                    if (appArgs.size() == 3) {
-                        try {
-                            tailLines = Integer.parseInt(appArgs.get(1));
-                        } catch (Exception e) {
-                            throw new RuntimeException("tail: wrong argument " + appArgs.get(1));
-                        }
-                        tailArg = appArgs.get(2);
-                    } else {
-                        tailArg = appArgs.get(0);
-                    }
-                    File tailFile = new File(currentDirectory + File.separator + tailArg);
-                    if (tailFile.exists()) {
-                        Charset encoding = StandardCharsets.UTF_8;
-                        Path filePath = Paths.get((String) currentDirectory + File.separator + tailArg);
-                        ArrayList<String> storage = new ArrayList<>();
-                        try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                storage.add(line);
+                    if (unsafeMode) {
+                        if (appArgs.isEmpty()) {
+                            writer.write("_tail: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() != 1 && appArgs.size() != 3) {
+                            writer.write("_tail: wrong arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
+                            writer.write("_tail: wrong argument " + appArgs.get(0));
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            int tailLines = 10;
+                            String tailArg;
+                            Boolean successfulParseInt = true;
+                            if (appArgs.size() == 3) {
+                                try {
+                                    tailLines = Integer.parseInt(appArgs.get(1));
+                                } catch (Exception e) {
+                                    writer.write("_tail: wrong argument " + appArgs.get(1));
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                    successfulParseInt = false;
+                                }
                             }
-                            int index = 0;
-                            if (tailLines > storage.size()) {
-                                index = 0;
-                            } else {
-                                index = storage.size() - tailLines;
-                            }
-                            for (int i = index; i < storage.size(); i++) {
-                                writer.write(storage.get(i) + System.getProperty("line.separator"));
-                                writer.flush();
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException("tail: cannot open " + tailArg);
-                        }
-                    } else {
-                        throw new RuntimeException("tail: " + tailArg + " does not exist");
-                    }
-                    break;
-                case "grep":
-                    if (appArgs.size() < 2) {
-                        throw new RuntimeException("grep: wrong number of arguments");
-                    }
-                    Pattern grepPattern = Pattern.compile(appArgs.get(0));
-                    int numOfFiles = appArgs.size() - 1;
-                    Path filePath;
-                    Path[] filePathArray = new Path[numOfFiles];
-                    Path currentDir = Paths.get(currentDirectory);
-                    for (int i = 0; i < numOfFiles; i++) {
-                        filePath = currentDir.resolve(appArgs.get(i + 1));
-                        if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath)
-                                || !Files.isReadable(filePath)) {
-                            throw new RuntimeException("grep: wrong file argument");
-                        }
-                        filePathArray[i] = filePath;
-                    }
-                    for (int j = 0; j < filePathArray.length; j++) {
-                        Charset encoding = StandardCharsets.UTF_8;
-                        try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                Matcher matcher = grepPattern.matcher(line);
-                                if (matcher.find()) {
-                                    if (numOfFiles > 1) {
-                                        writer.write(appArgs.get(j + 1));
-                                        writer.write(":");
+                            if (successfulParseInt) {
+                                if (appArgs.size() == 3) {
+                                    tailArg = appArgs.get(2);
+                                } else {
+                                    tailArg = appArgs.get(0);
+                                }
+                                File tailFile = new File(currentDirectory + File.separator + tailArg);
+                                if (tailFile.exists()) {
+                                    Charset encoding = StandardCharsets.UTF_8;
+                                    Path filePath = Paths.get((String) currentDirectory + File.separator + tailArg);
+                                    ArrayList<String> storage = new ArrayList<>();
+                                    try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
+                                        String line = null;
+                                        while ((line = reader.readLine()) != null) {
+                                            storage.add(line);
+                                        }
+                                        int index = 0;
+                                        if (tailLines > storage.size()) {
+                                            index = 0;
+                                        } else {
+                                            index = storage.size() - tailLines;
+                                        }
+                                        for (int i = index; i < storage.size(); i++) {
+                                            writer.write(storage.get(i) + System.getProperty("line.separator"));
+                                            writer.flush();
+                                        }
+                                    } catch (IOException e) {
+                                        writer.write("_tail: cannot open " + tailArg);
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
                                     }
-                                    writer.write(line);
+                                } else {
+                                    writer.write("_tail: " + tailArg + " does not exist");
                                     writer.write(System.getProperty("line.separator"));
                                     writer.flush();
                                 }
                             }
-                        } catch (IOException e) {
-                            throw new RuntimeException("grep: cannot open " + appArgs.get(j + 1));
                         }
-                    }
-                    break;
-
-                case "find":
-                    File cur = new File(currentDirectory);
-                    if (appArgs.isEmpty()) {
-                        throw new RuntimeException("find: missing arguemnts");
-                    }
-                    try {
-                        File[] listOfFiles = cur.listFiles();
-                        Set<String> result_set = new HashSet<String>();
-
-                        for (File file : listOfFiles) {
-                            if (!file.getName().startsWith(".")) {
-                                if (appArgs.size() == 1 && appArgs.get(0).equals(file.getName())) {
-                                    result_set.add(file.getName());
-                                } else if (appArgs.size() > 1) {
-                                    for (String ar : appArgs) {
-                                        result_set.add(ar);
-                                    }
-                                }
-                            }
-                        }
-                        for (String item : result_set) {
-                            writer.write(item);
-                            writer.write("\n");
-                            writer.flush();
-                        }
-                    } catch (NullPointerException e) {
-                        throw new RuntimeException("find: no such directory");
-                    }
-                    break;
-
-                case "uniq":
-                    writer.write(appArgs.toString());
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
-                    break;
-
-                case "cut":
-                    if (appArgs.isEmpty()) {
-                        throw new RuntimeException("cut: missing arguments");
-                    } else if (appArgs.size() != 1 && appArgs.size() != 3) {
-                        throw new RuntimeException("cut: wrong arguments");
-                    } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-b")) {
-                        throw new RuntimeException("cut: wrong argument " + appArgs.get(0));
                     } else {
-                        String start_end = appArgs.get(1);
-                        start_end = start_end.replaceAll("[^-?0-9]+", " ");
-                        List<String> line_args = Arrays.asList(start_end.trim().split(" "));
-
-                        // Concatinate all args into a single string
-                        String concat_args = String.join(", ", line_args);
-                        List<Integer> clean_args = parse_cut_input(concat_args);
-                        
-                        String file_name = appArgs.get(2);
-
-                        Charset encoding = StandardCharsets.UTF_8;
-                        File curr_File = new File(currentDirectory + File.separator + file_name);
-                        if (curr_File.exists()) {
-                            Path file_Path = Paths.get(currentDirectory + File.separator + file_name);
-                            try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
+                        if (appArgs.isEmpty()) {
+                            throw new RuntimeException("tail: missing arguments");
+                        }
+                        if (appArgs.size() != 1 && appArgs.size() != 3) {
+                            throw new RuntimeException("tail: wrong arguments");
+                        }
+                        if (appArgs.size() == 3 && !appArgs.get(0).equals("-n")) {
+                            throw new RuntimeException("tail: wrong argument " + appArgs.get(0));
+                        }
+                        int tailLines = 10;
+                        String tailArg;
+                        if (appArgs.size() == 3) {
+                            try {
+                                tailLines = Integer.parseInt(appArgs.get(1));
+                            } catch (Exception e) {
+                                throw new RuntimeException("tail: wrong argument " + appArgs.get(1));
+                            }
+                            tailArg = appArgs.get(2);
+                        } else {
+                            tailArg = appArgs.get(0);
+                        }
+                        File tailFile = new File(currentDirectory + File.separator + tailArg);
+                        if (tailFile.exists()) {
+                            Charset encoding = StandardCharsets.UTF_8;
+                            Path filePath = Paths.get((String) currentDirectory + File.separator + tailArg);
+                            ArrayList<String> storage = new ArrayList<>();
+                            try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
                                 String line = null;
-
-                                ArrayList<Character> seperated_bytes = new ArrayList<Character>();
                                 while ((line = reader.readLine()) != null) {
-                                    String line_from_textfile = String.valueOf(line);
-                                    seperated_bytes.clear();
-                                    for (int i : clean_args) {
-                                        if (i < 0) {
-                                            throw new RuntimeException("cut: byte index specified does not exist");
-                                        } else if (i < line_from_textfile.length()) {
-                                            seperated_bytes.add(line_from_textfile.charAt(i));
-                                        }
-                                    }
-                                    String resulting_line = seperated_bytes.stream().map(String::valueOf)
-                                            .collect(Collectors.joining());
-
-                                    writer.write(resulting_line);
-                                    writer.write(System.getProperty("line.separator"));
+                                    storage.add(line);
+                                }
+                                int index = 0;
+                                if (tailLines > storage.size()) {
+                                    index = 0;
+                                } else {
+                                    index = storage.size() - tailLines;
+                                }
+                                for (int i = index; i < storage.size(); i++) {
+                                    writer.write(storage.get(i) + System.getProperty("line.separator"));
                                     writer.flush();
                                 }
                             } catch (IOException e) {
-                                throw new RuntimeException("cut: cannot open " + file_name);
+                                throw new RuntimeException("tail: cannot open " + tailArg);
                             }
                         } else {
-                            throw new RuntimeException("cut: file does not exist");
+                            throw new RuntimeException("tail: " + tailArg + " does not exist");
                         }
                     }
                     break;
-
-                case "sort":
-                String sortArg;
-                if (appArgs.isEmpty()){
-                    throw new RuntimeException("sort: missing arguments");
-                }
-                if (appArgs.size() != 1 && appArgs.size() != 2){
-                    throw new RuntimeException("sort: wrong number of arguments");
-                }
-                if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
-                    throw new RuntimeException("sort: wrong argument " + appArgs.get(0));
-                }
-                if (appArgs.size() == 2){
-                    sortArg = appArgs.get(1);
-                }else{
-                    sortArg = appArgs.get(0);
-                }
-                File sortFile = new File(currentDirectory + File.separator + sortArg);
-                Charset encoding = StandardCharsets.UTF_8;
-                if(sortFile.exists()){
-                    Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
-                    try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
-                        String line = reader.readLine();
-                        ArrayList<String> lines = new ArrayList<String>();
-                        ArrayList<String> sortedLines;
-
-                        //Populate array with lines of the file
-                        while(line != null){
-                            lines.add(line);
-                            line = reader.readLine();
+                case "grep":
+                    if (unsafeMode) {
+                        if (appArgs.size() < 2) {
+                            writer.write("_grep: wrong number of arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            Pattern grepPattern = Pattern.compile(appArgs.get(0));
+                            int numOfFiles = appArgs.size() - 1;
+                            Path filePath;
+                            Path[] filePathArray = new Path[numOfFiles];
+                            Path currentDir = Paths.get(currentDirectory);
+                            Boolean existingFile = true;
+                            for (int i = 0; i < numOfFiles; i++) {
+                                filePath = currentDir.resolve(appArgs.get(i + 1));
+                                if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath)
+                                        || !Files.isReadable(filePath)) {
+                                    existingFile = false;
+                                    writer.write("_grep: wrong file argument");
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                    break;
+                                }
+                                filePathArray[i] = filePath;
+                            }
+                            if (existingFile) {
+                                for (int j = 0; j < filePathArray.length; j++) {
+                                    Charset encoding = StandardCharsets.UTF_8;
+                                    try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
+                                        String line = null;
+                                        while ((line = reader.readLine()) != null) {
+                                            Matcher matcher = grepPattern.matcher(line);
+                                            if (matcher.find()) {
+                                                if (numOfFiles > 1) {
+                                                    writer.write(appArgs.get(j + 1));
+                                                    writer.write(":");
+                                                }
+                                                writer.write(line);
+                                                writer.write(System.getProperty("line.separator"));
+                                                writer.flush();
+                                            }
+                                        }
+                                    } catch (IOException e) {
+                                        writer.write("_grep: cannot open " + appArgs.get(j + 1));
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                        break;
+                                    }
+                                }
+                            }
                         }
-
-                        //Use the quicksort on the array list of strings
-                        sortedLines = stringQuicksort(lines);
-
-                        //Check if the -r is present then display array in reverse order
-                        if (appArgs.size() == 2) {
-                            for(int i = sortedLines.size() - 1; i >= 0; i--) {
-                                writer.write(sortedLines.get(i));
+                    } else {
+                        if (appArgs.size() < 2) {
+                            throw new RuntimeException("grep: wrong number of arguments");
+                        }
+                        Pattern grepPattern = Pattern.compile(appArgs.get(0));
+                        int numOfFiles = appArgs.size() - 1;
+                        Path filePath;
+                        Path[] filePathArray = new Path[numOfFiles];
+                        Path currentDir = Paths.get(currentDirectory);
+                        for (int i = 0; i < numOfFiles; i++) {
+                            filePath = currentDir.resolve(appArgs.get(i + 1));
+                            if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath)
+                                    || !Files.isReadable(filePath)) {
+                                throw new RuntimeException("grep: wrong file argument");
+                            }
+                            filePathArray[i] = filePath;
+                        }
+                        for (int j = 0; j < filePathArray.length; j++) {
+                            Charset encoding = StandardCharsets.UTF_8;
+                            try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
+                                String line = null;
+                                while ((line = reader.readLine()) != null) {
+                                    Matcher matcher = grepPattern.matcher(line);
+                                    if (matcher.find()) {
+                                        if (numOfFiles > 1) {
+                                            writer.write(appArgs.get(j + 1));
+                                            writer.write(":");
+                                        }
+                                        writer.write(line);
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException("grep: cannot open " + appArgs.get(j + 1));
+                            }
+                        }
+                    }
+                    break;
+                case "find":
+                    File cur = new File(currentDirectory);
+                    if (unsafeMode) {
+                        if (appArgs.isEmpty()) {
+                            writer.write("_find: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            try {
+                                File[] listOfFiles = cur.listFiles();
+                                Set<String> result_set = new HashSet<String>();
+                                for (File file : listOfFiles) {
+                                    if (!file.getName().startsWith(".")) {
+                                        if (appArgs.size() == 1 && appArgs.get(0).equals(file.getName())) {
+                                            result_set.add(file.getName());
+                                        } else if (appArgs.size() > 1) {
+                                            for (String ar : appArgs) {
+                                                result_set.add(ar);
+                                            }
+                                        }
+                                    }
+                                }
+                                for (String item : result_set) {
+                                    writer.write(item);
+                                    writer.write("\n");
+                                    writer.flush();
+                                }
+                            } catch (NullPointerException e) {
+                                writer.write("_find: no such directory");
                                 writer.write(System.getProperty("line.separator"));
                                 writer.flush();
+                            }
+                        }
+                    } else {
+                        if (appArgs.isEmpty()) {
+                            throw new RuntimeException("find: missing arguemnts");
+                        }
+                        try {
+                            File[] listOfFiles = cur.listFiles();
+                            Set<String> result_set = new HashSet<String>();
+                            for (File file : listOfFiles) {
+                                if (!file.getName().startsWith(".")) {
+                                    if (appArgs.size() == 1 && appArgs.get(0).equals(file.getName())) {
+                                        result_set.add(file.getName());
+                                    } else if (appArgs.size() > 1) {
+                                        for (String ar : appArgs) {
+                                            result_set.add(ar);
+                                        }
+                                    }
+                                }
+                            }
+                            for (String item : result_set) {
+                                writer.write(item);
+                                writer.write("\n");
+                                writer.flush();
+                            }
+                        } catch (NullPointerException e) {
+                            throw new RuntimeException("find: no such directory");
+                        }
+                    }
+                    break;
+                case "uniq":
+                    String uniqFilename;
+
+                    if (appArgs.isEmpty()) {
+                        throw new RuntimeException("uniq: missing argument");
+                    } else if (appArgs.size() > 2) {
+                        throw new RuntimeException("uniq: too many arguments");
+                    }
+                    if (appArgs.size() == 2 && !appArgs.get(0).equals("-i")){
+                        throw new RuntimeException("uniq: wrong argument" + appArgs.get(0));
+                    }
+                    if (appArgs.size() == 2){
+                        uniqFilename = appArgs.get(1);
+                    }
+                    else {
+                        uniqFilename = appArgs.get(0);
+                    }
+
+                    // String input = appArgs(*)
+                    File uniqFile = new File(currentDirectory + File.separator + uniqFilename);
+                    if(uniqFile.exists()) 
+                    {
+                        //Charset encoding = StandardCharsets.UTF_8;
+                        Path sortPath = Paths.get((String) currentDirectory + File.separator + uniqFilename);
+                        try(BufferedReader reader = Files.newBufferedReader(sortPath /*, encoding*/))
+                        {
+                            String line = reader.readLine();
+                            ArrayList<String> lines = new ArrayList<String>();
+                            ArrayList<String> uniqLines;
+
+                            //Populate array with lines of the file
+                            while(line != null)
+                            {
+                                lines.add(line);
+                                line = reader.readLine();
+                            }
+
+                            //Check if the -i and if exists make comparision case insensitive 
+                            if (appArgs.size() == 2) {
+                                uniqLines = new ArrayList<String>();
+                                
+                                for(int i = 0; i < lines.size(); i++) {
+                                    boolean equals = false;
+                                    String row = lines.get(i);
+                                    for(int j = i+1; j < lines.size(); j++){
+                                        String row2 = lines.get(j);
+                                        if (row.equalsIgnoreCase(row2)){
+                                            equals = true;
+                                        }
+                                    }
+                                    if (!equals && !uniqLines.contains(row)) {
+                                        uniqLines.add(row);
+                                    }
+                                }
+                            }
+                            else { // case sensitive
+                            LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
+                            uniqLines = new ArrayList<>(uniqSet);
+                            }
+                            
+
+                            // display array of uniq lines
+                            for(int i = 0; i < uniqLines.size(); i++) 
+                            {
+                                writer.write(uniqLines.get(i));
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+
+                        } catch (IOException e) 
+                            {
+                                throw new RuntimeException("uniq: cannot open " + uniqFilename);
+                            } 
+                    } else 
+                        {
+                            throw new RuntimeException("uniq: " + uniqFilename + " does not exist");
+                        }
+                    break;
+                case "cut":
+                    if (unsafeMode) {
+                        if (appArgs.isEmpty()) {
+                            writer.write("_cut: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() != 1 && appArgs.size() != 3) {
+                            writer.write("_cut: wrong arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-b")) {
+                            writer.write("_cut: wrong argument " + appArgs.get(0));
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            String start_end = appArgs.get(1);
+                            start_end = start_end.replaceAll("[^-?0-9]+", " ");
+                            List<String> line_args = Arrays.asList(start_end.trim().split(" "));
+
+                            // Concatenate all args into a single string
+                            String concat_args = String.join(", ", line_args);
+                            List<Integer> clean_args = parse_cut_input(concat_args);
+                            
+                            String file_name = appArgs.get(2);
+
+                            Charset encoding = StandardCharsets.UTF_8;
+                            File curr_File = new File(currentDirectory + File.separator + file_name);
+                            if (curr_File.exists()) {
+                                Path file_Path = Paths.get(currentDirectory + File.separator + file_name);
+                                try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
+                                    String line = null;
+    
+                                    ArrayList<Character> seperated_bytes = new ArrayList<Character>();
+                                    Boolean correctByteIndex = true;
+                                    while ((line = reader.readLine()) != null) {
+                                        String line_from_textfile = String.valueOf(line);
+                                        seperated_bytes.clear();
+                                        for (int i : clean_args) {
+                                            if (i < 0) {
+                                                correctByteIndex = false;
+                                                writer.write("_cut: byte index specified does not exist");
+                                                writer.write(System.getProperty("line.separator"));
+                                                writer.flush();
+                                                break;
+                                            } else if (i < line_from_textfile.length()) {
+                                                seperated_bytes.add(line_from_textfile.charAt(i));
+                                            }
+                                        }
+                                        if (correctByteIndex) {
+                                            String resulting_line = seperated_bytes.stream().map(String::valueOf)
+                                                .collect(Collectors.joining());
+    
+                                            writer.write(resulting_line);
+                                            writer.write(System.getProperty("line.separator"));
+                                            writer.flush();
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    writer.write("_cut: cannot open " + file_name);
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                }
+                            } else {
+                                writer.write("_cut: file does not exist");
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+                        }
+                    } else {
+                        if (appArgs.isEmpty()) {
+                            throw new RuntimeException("cut: missing arguments");
+                        } else if (appArgs.size() != 1 && appArgs.size() != 3) {
+                            throw new RuntimeException("cut: wrong arguments");
+                        } else if (appArgs.size() == 3 && !appArgs.get(0).equals("-b")) {
+                            throw new RuntimeException("cut: wrong argument " + appArgs.get(0));
+                        } else {
+                            String start_end = appArgs.get(1);
+                            start_end = start_end.replaceAll("[^-?0-9]+", " ");
+                            List<String> line_args = Arrays.asList(start_end.trim().split(" "));
+    
+                            // Concatenate all args into a single string
+                            String concat_args = String.join(", ", line_args);
+                            List<Integer> clean_args = parse_cut_input(concat_args);
+                            
+                            String file_name = appArgs.get(2);
+    
+                            Charset encoding = StandardCharsets.UTF_8;
+                            File curr_File = new File(currentDirectory + File.separator + file_name);
+                            if (curr_File.exists()) {
+                                Path file_Path = Paths.get(currentDirectory + File.separator + file_name);
+                                try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
+                                    String line = null;
+    
+                                    ArrayList<Character> seperated_bytes = new ArrayList<Character>();
+                                    while ((line = reader.readLine()) != null) {
+                                        String line_from_textfile = String.valueOf(line);
+                                        seperated_bytes.clear();
+                                        for (int i : clean_args) {
+                                            if (i < 0) {
+                                                throw new RuntimeException("cut: byte index specified does not exist");
+                                            } else if (i < line_from_textfile.length()) {
+                                                seperated_bytes.add(line_from_textfile.charAt(i));
+                                            }
+                                        }
+                                        String resulting_line = seperated_bytes.stream().map(String::valueOf)
+                                                .collect(Collectors.joining());
+    
+                                        writer.write(resulting_line);
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                    }
+                                } catch (IOException e) {
+                                    throw new RuntimeException("cut: cannot open " + file_name);
+                                }
+                            } else {
+                                throw new RuntimeException("cut: file does not exist");
+                            }
+                        }
+                    }
+                    break;
+                case "sort":
+                    String sortArg;
+                    if (unsafeMode) {
+                        if (appArgs.isEmpty()){
+                            writer.write("_sort: missing arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() != 1 && appArgs.size() != 2){
+                            writer.write("_sort: wrong number of arguments");
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")){
+                            writer.write("_sort: wrong argument " + appArgs.get(0));
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                        } else {
+                            if (appArgs.size() == 2){
+                                sortArg = appArgs.get(1);
+                            } else {
+                                sortArg = appArgs.get(0);
+                            }
+                            File sortFile = new File(currentDirectory + File.separator + sortArg);
+                            Charset encoding = StandardCharsets.UTF_8;
+                            if(sortFile.exists()){
+                                Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
+                                try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)){
+                                    String line = reader.readLine();
+                                    ArrayList<String> lines = new ArrayList<String>();
+                                    ArrayList<String> sortedLines;
+        
+                                    //Populate array with lines of the file
+                                    while(line != null){
+                                        lines.add(line);
+                                        line = reader.readLine();
+                                    }
+        
+                                    //Use the quicksort on the array list of strings
+                                    sortedLines = stringQuicksort(lines);
+        
+                                    //Check if the -r is present then display array in reverse order
+                                    if (appArgs.size() == 2) {
+                                        for(int i = sortedLines.size() - 1; i >= 0; i--) {
+                                            writer.write(sortedLines.get(i));
+                                            writer.write(System.getProperty("line.separator"));
+                                            writer.flush();
+                                        }
+                                    } else {
+                                        //If -r is not present display array normally
+                                        for(int i = 0; i < sortedLines.size(); i++) {
+                                            writer.write(sortedLines.get(i));
+                                            writer.write(System.getProperty("line.separator"));
+                                            writer.flush();
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    writer.write("_sort: cannot open " + sortArg);
+                                    writer.write(System.getProperty("line.separator"));
+                                    writer.flush();
+                                }
+                            } else {
+                                writer.write("_sort: " + sortArg + " does not exist");
+                                writer.write(System.getProperty("line.separator"));
+                                writer.flush();
+                            }
+                        }
+                    } else {
+                        if (appArgs.isEmpty()) {
+                            throw new RuntimeException("sort: missing arguments");
+                        }
+                        if (appArgs.size() != 1 && appArgs.size() != 2) {
+                            throw new RuntimeException("sort: wrong number of arguments");
+                        }
+                        if (appArgs.size() == 2 && !appArgs.get(0).equals("-r")) {
+                            throw new RuntimeException("sort: wrong argument " + appArgs.get(0));
+                        }
+                        if (appArgs.size() == 2) {
+                            sortArg = appArgs.get(1);
+                        } else {
+                            sortArg = appArgs.get(0);
+                        }
+                        File sortFile = new File(currentDirectory + File.separator + sortArg);
+                        Charset encoding = StandardCharsets.UTF_8;
+                        if(sortFile.exists()) {
+                            Path sortPath = Paths.get((String) currentDirectory + File.separator + sortArg);
+                            try(BufferedReader reader = Files.newBufferedReader(sortPath, encoding)) {
+                                String line = reader.readLine();
+                                ArrayList<String> lines = new ArrayList<String>();
+                                ArrayList<String> sortedLines;
+    
+                                //Populate array with lines of the file
+                                while(line != null) {
+                                    lines.add(line);
+                                    line = reader.readLine();
+                                }
+    
+                                //Use the quicksort on the array list of strings
+                                sortedLines = stringQuicksort(lines);
+    
+                                //Check if the -r is present then display array in reverse order
+                                if (appArgs.size() == 2) {
+                                    for(int i = sortedLines.size() - 1; i >= 0; i--) {
+                                        writer.write(sortedLines.get(i));
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                    }
+                                } else {
+                                    //If -r is not present display array normally
+                                    for(int i = 0; i < sortedLines.size(); i++) {
+                                        writer.write(sortedLines.get(i));
+                                        writer.write(System.getProperty("line.separator"));
+                                        writer.flush();
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException("sort: cannot open " + sortArg);
                             }
                         } else {
-                            //If -r is not present display array normally
-                            for(int i = 0; i < sortedLines.size(); i++) {
-                                writer.write(sortedLines.get(i));
-                                writer.write(System.getProperty("line.separator"));
-                                writer.flush();
-                            }
+                            throw new RuntimeException("sort: " + sortArg + " does not exist");
                         }
-                    } catch (IOException e) {
-                        throw new RuntimeException("sort: cannot open " + sortArg);
                     }
-                } else {
-                    throw new RuntimeException("sort: " + sortArg + " does not exist");
-                }
-                break;
-
+                    break;
                 default:
                     throw new RuntimeException(appName + ": unknown application");
             }
