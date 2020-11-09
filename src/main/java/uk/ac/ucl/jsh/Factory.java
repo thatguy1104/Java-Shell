@@ -9,6 +9,7 @@ public class Factory {
             case "pwd": return new Pwd();
             case "ls": return new Ls();
             case "cat": return new Cat();
+            case "echo": return new Echo();
         }
         return null;
     }

@@ -41,8 +41,6 @@ public class Cat implements Application {
                 }
             }
         }
-
         return currentDirectory;
     }
-
 }

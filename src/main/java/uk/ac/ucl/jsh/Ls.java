@@ -39,8 +39,6 @@ public class Ls implements Application {
         } catch (NullPointerException e) {
             throw new RuntimeException("ls: no such directory");
         }
-
         return currentDirectory;
     }
-
 }
