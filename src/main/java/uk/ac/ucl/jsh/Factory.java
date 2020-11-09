@@ -11,6 +11,7 @@ public class Factory {
             case "cat": return new Cat();
             case "echo": return new Echo();
             case "head": return new Head();
+            case "tail": return new Tail();
         }
         return null;
     }
