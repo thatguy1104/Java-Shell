@@ -7,6 +7,8 @@ public class Factory {
             return new Cd();
         } else if (app.equals("pwd")) {
             return new Pwd();
+        } else if (app.equals("ls")) {
+            return new Ls();
         }
         return null;
     }

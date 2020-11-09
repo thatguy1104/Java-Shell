@@ -202,68 +202,8 @@ public class Jsh {
                 case "pwd":
                     currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
-
                 case "ls":
-                    File currDir;
-                    if (unsafeMode) {
-                        if (appArgs.size() > 1) {
-                            writer.write("_ls: too many arguments");
-                            writer.write(System.getProperty("line.separator"));
-                            writer.flush();
-                        } else {
-                            if (appArgs.isEmpty()) {
-                                currDir = new File(currentDirectory);
-                            } else {
-                                currDir = new File(appArgs.get(0));
-                            }
-                            if (!currDir.exists() || !currDir.isDirectory()) {
-                                writer.write("_ls: no such directory");
-                                writer.write(System.getProperty("line.separator"));
-                                writer.flush();
-                            } else {
-                                File[] listOfFiles = currDir.listFiles();
-                                boolean atLeastOnePrinted = false;
-                                for (File file : listOfFiles) {
-                                    if (!file.getName().startsWith(".")) {
-                                        writer.write(file.getName());
-                                        writer.write("\t");
-                                        writer.flush();
-                                        atLeastOnePrinted = true;
-                                    }
-                                }
-                                if (atLeastOnePrinted) {
-                                    writer.write(System.getProperty("line.separator"));
-                                    writer.flush();
-                                }
-                            }
-                        }
-                    } else {
-                        if (appArgs.isEmpty()) {
-                            currDir = new File(currentDirectory);
-                        } else if (appArgs.size() == 1) {
-                            currDir = new File(appArgs.get(0));
-                        } else {
-                            throw new RuntimeException("ls: too many arguments");
-                        }
-                        try {
-                            File[] listOfFiles = currDir.listFiles();
-                            boolean atLeastOnePrinted = false;
-                            for (File file : listOfFiles) {
-                                if (!file.getName().startsWith(".")) {
-                                    writer.write(file.getName());
-                                    writer.write("\t");
-                                    writer.flush();
-                                    atLeastOnePrinted = true;
-                                }
-                            }
-                            if (atLeastOnePrinted) {
-                                writer.write(System.getProperty("line.separator"));
-                                writer.flush();
-                            }
-                        } catch (NullPointerException e) {
-                            throw new RuntimeException("ls: no such directory");
-                        }
-                    }
+                    currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
                 case "cat":
                     if (unsafeMode) {
