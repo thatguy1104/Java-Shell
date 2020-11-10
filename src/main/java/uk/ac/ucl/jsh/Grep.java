@@ -1,7 +1,6 @@
 package uk.ac.ucl.jsh;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -38,7 +37,7 @@ public class Grep implements Application {
         for (int j = 0; j < filePathArray.length; j++) {
             Charset encoding = StandardCharsets.UTF_8;
             try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
-                String line = null;
+                String line;
                 while ((line = reader.readLine()) != null) {
                     Matcher matcher = grepPattern.matcher(line);
                     if (matcher.find()) {

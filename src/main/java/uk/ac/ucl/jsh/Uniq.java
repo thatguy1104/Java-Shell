@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 public class Uniq implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
         String uniqFilename;
@@ -37,10 +37,10 @@ public class Uniq implements Application {
         File uniqFile = new File(currDir + File.separator + uniqFilename);
         if (uniqFile.exists()) {
             // Charset encoding = StandardCharsets.UTF_8;
-            Path sortPath = Paths.get((String) currDir + File.separator + uniqFilename);
+            Path sortPath = Paths.get(currDir + File.separator + uniqFilename);
             try (BufferedReader reader = Files.newBufferedReader(sortPath /* , encoding */)) {
                 String line = reader.readLine();
-                ArrayList<String> lines = new ArrayList<String>();
+                ArrayList<String> lines = new ArrayList<>();
                 ArrayList<String> uniqLines;
 
                 // Populate array with lines of the file
@@ -51,7 +51,7 @@ public class Uniq implements Application {
 
                 // Check if the -i and if exists make comparision case insensitive
                 if (args.size() == 2) {
-                    uniqLines = new ArrayList<String>();
+                    uniqLines = new ArrayList<>();
 
                     for (int i = 0; i < lines.size(); i++) {
                         boolean equals = false;
@@ -72,8 +72,8 @@ public class Uniq implements Application {
                 }
 
                 // display array of uniq lines
-                for (int i = 0; i < uniqLines.size(); i++) {
-                    writer.write(uniqLines.get(i));
+                for (String uniqLine : uniqLines) {
+                    writer.write(uniqLine);
                     writer.write(System.getProperty("line.separator"));
                     writer.flush();
                 }

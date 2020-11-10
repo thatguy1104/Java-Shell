@@ -13,7 +13,7 @@ public class Ls implements Application {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
         File currDir;
-        
+
         if (args.isEmpty()) {
             currDir = new File(currentDirectory);
         } else if (args.size() == 1) {
@@ -24,6 +24,7 @@ public class Ls implements Application {
         try {
             File[] listOfFiles = currDir.listFiles();
             boolean atLeastOnePrinted = false;
+            assert listOfFiles != null;
             for (File file : listOfFiles) {
                 if (!file.getName().startsWith(".")) {
                     writer.write(file.getName());

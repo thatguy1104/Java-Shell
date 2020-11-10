@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Sort implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
         String sortArg;
@@ -61,8 +61,8 @@ public class Sort implements Application {
                     }
                 } else {
                     // If -r is not present display array normally
-                    for (int i = 0; i < sortedLines.size(); i++) {
-                        writer.write(sortedLines.get(i));
+                    for (String sortedLine : sortedLines) {
+                        writer.write(sortedLine);
                         writer.write(System.getProperty("line.separator"));
                         writer.flush();
                     }
@@ -77,14 +77,14 @@ public class Sort implements Application {
         return currDir;
     }
 
-    // Recursive quicksort algorithm for sorting an array list of strings
-    public static ArrayList<String> stringQuicksort(ArrayList<String> lines) {
+    // Recursive quick-sort algorithm for sorting an array list of strings
+    private static ArrayList<String> stringQuicksort(ArrayList<String> lines) {
         // Base case if the file read is empty
         if (lines.isEmpty()) {
             return lines;
         }
-        ArrayList<String> beforePivot = new ArrayList<String>();
-        ArrayList<String> afterPivot = new ArrayList<String>();
+        ArrayList<String> beforePivot = new ArrayList<>();
+        ArrayList<String> afterPivot = new ArrayList<>();
 
         // Initialise the pivot to be the first element of the array (line of file)
         String pivot = lines.get(0);

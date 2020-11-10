@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface Application {
 
-    // app => cd, pwd
+    // Function signature definition for Application
     String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException;
 
 }

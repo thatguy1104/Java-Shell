@@ -10,7 +10,7 @@ public class Cd implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        
+
         if (args.isEmpty()) {
             throw new RuntimeException("cd: missing argument");
         } else if (args.size() > 1) {

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Head implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
         if (args.isEmpty()) {
@@ -42,10 +42,10 @@ public class Head implements Application {
         File headFile = new File(currentDirectory + File.separator + headArg);
         if (headFile.exists()) {
             Charset encoding = StandardCharsets.UTF_8;
-            Path filePath = Paths.get((String) currentDirectory + File.separator + headArg);
+            Path filePath = Paths.get(currentDirectory + File.separator + headArg);
             try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
                 for (int i = 0; i < headLines; i++) {
-                    String line = null;
+                    String line;
                     if ((line = reader.readLine()) != null) {
                         writer.write(line);
                         writer.write(System.getProperty("line.separator"));

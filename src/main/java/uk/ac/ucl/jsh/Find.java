@@ -14,21 +14,20 @@ public class Find implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         File cur = new File(currentDirectory);
-        
+
         if (args.isEmpty()) {
             throw new RuntimeException("find: missing arguemnts");
         }
         try {
             File[] listOfFiles = cur.listFiles();
-            Set<String> result_set = new HashSet<String>();
+            Set<String> result_set = new HashSet<>();
+            assert listOfFiles != null;
             for (File file : listOfFiles) {
                 if (!file.getName().startsWith(".")) {
                     if (args.size() == 1 && args.get(0).equals(file.getName())) {
                         result_set.add(file.getName());
                     } else if (args.size() > 1) {
-                        for (String ar : args) {
-                            result_set.add(ar);
-                        }
+                        result_set.addAll(args);
                     }
                 }
             }

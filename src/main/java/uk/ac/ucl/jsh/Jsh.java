@@ -1,30 +1,15 @@
 package uk.ac.ucl.jsh;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.management.RuntimeErrorException;
-import javax.sound.midi.SysexMessage;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -35,14 +20,13 @@ public class Jsh {
 
     private static String currentDirectory = System.getProperty("user.dir");
 
-    public static ArrayList<String> supplementary(String cmdline, OutputStream output) throws IOException{
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    private static ArrayList<String> supplementary(String cmdline) {
         CharStream parserInput = CharStreams.fromString(cmdline);
         JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         JshGrammarParser parser = new JshGrammarParser(tokenStream);
         ParseTree tree = parser.command();
-        ArrayList<String> rawCommands = new ArrayList<String>();
+        ArrayList<String> rawCommands = new ArrayList<>();
         String lastSubcommand = "";
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!tree.getChild(i).getText().equals(";")) {
@@ -59,9 +43,8 @@ public class Jsh {
     }
 
     public static void eval(String cmdline, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-        ArrayList<String> rawCommands = supplementary(cmdline, output);
-        
+        ArrayList<String> rawCommands = supplementary(cmdline);
+
         for (String rawCommand : rawCommands) {
             String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
             ArrayList<String> tokens = new ArrayList<String>();
@@ -74,7 +57,7 @@ public class Jsh {
                     tokens.add(quoted.substring(1, quoted.length() - 1));
                 } else {
                     nonQuote = regexMatcher.group().trim();
-                    ArrayList<String> globbingResult = new ArrayList<String>();
+                    ArrayList<String> globbingResult = new ArrayList<>();
                     Path dir = Paths.get(currentDirectory);
                     DirectoryStream<Path> stream = Files.newDirectoryStream(dir, nonQuote);
                     for (Path entry : stream) {
@@ -87,14 +70,14 @@ public class Jsh {
                 }
             }
             String appName = tokens.get(0);
-            ArrayList<String> appArgs = new ArrayList<String>(tokens.subList(1, tokens.size()));
+            ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
 
             Boolean unsafeMode = false;
-            if(appName.charAt(0) == '_'){
+            if (appName.charAt(0) == '_') {
                 appName = appName.substring(1);
                 unsafeMode = true;
             }
-            
+
 
             Factory factory = new Factory();
             Application app = factory.getApp(appName);
@@ -123,8 +106,7 @@ public class Jsh {
                 System.out.println("jsh: " + e.getMessage());
             }
         } else {
-            Scanner input = new Scanner(System.in);
-            try {
+            try (Scanner input = new Scanner(System.in)) {
                 while (true) {
                     String prompt = currentDirectory + "> ";
                     System.out.print(prompt);
@@ -139,8 +121,6 @@ public class Jsh {
                         System.out.println("jsh: " + e.getMessage());
                     }
                 }
-            } finally {
-                input.close();
             }
         }
     }

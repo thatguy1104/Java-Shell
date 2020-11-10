@@ -50,11 +50,11 @@ public class Tail implements Application {
                     storage.add(line);
                 }
                 int index = 0;
-                if (tailLines > storage.size()) {
-                    index = 0;
-                } else {
+
+                if (tailLines <= storage.size()) {
                     index = storage.size() - tailLines;
                 }
+
                 for (int i = index; i < storage.size(); i++) {
                     writer.write(storage.get(i) + System.getProperty("line.separator"));
                     writer.flush();

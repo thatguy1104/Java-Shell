@@ -20,7 +20,7 @@ public class Cut implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        
+
         if (args.isEmpty()) {
             throw new RuntimeException("cut: missing arguments");
         } else if (args.size() != 1 && args.size() != 3) {
@@ -76,13 +76,13 @@ public class Cut implements Application {
     }
 
     // parses cut case input
-    public static List<Integer> parse_cut_input(String str) throws IOException {
+    private static List<Integer> parse_cut_input(String str) throws IOException {
         // Num of char per line:
         int num_of_char_per_line = 1000;
 
         // SPLIT THE ARGS
         str = str.replaceAll("[^-?0-9]+", " ");
-        List<String> line_args = Arrays.asList(str.trim().split(" "));
+        String[] line_args = str.trim().split(" ");
         List<Integer> total_range = new ArrayList<Integer>();
 
         // PARSE EACH ELEM TO EXTEND ARGS IF NECESSARY
