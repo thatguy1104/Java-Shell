@@ -12,6 +12,7 @@ public class Factory {
             case "echo": return new Echo();
             case "head": return new Head();
             case "tail": return new Tail();
+            case "grep": return new Grep();
         }
         return null;
     }

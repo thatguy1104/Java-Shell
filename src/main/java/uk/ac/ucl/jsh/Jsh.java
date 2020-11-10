@@ -217,97 +217,10 @@ public class Jsh {
                 case "tail":
                     currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
-
                 case "grep":
-                    if (unsafeMode) {
-                        if (appArgs.size() < 2) {
-                            writer.write("_grep: wrong number of arguments");
-                            writer.write(System.getProperty("line.separator"));
-                            writer.flush();
-                        } else {
-                            Pattern grepPattern = Pattern.compile(appArgs.get(0));
-                            int numOfFiles = appArgs.size() - 1;
-                            Path filePath;
-                            Path[] filePathArray = new Path[numOfFiles];
-                            Path currentDir = Paths.get(currentDirectory);
-                            Boolean existingFile = true;
-                            for (int i = 0; i < numOfFiles; i++) {
-                                filePath = currentDir.resolve(appArgs.get(i + 1));
-                                if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath)
-                                        || !Files.isReadable(filePath)) {
-                                    existingFile = false;
-                                    writer.write("_grep: wrong file argument");
-                                    writer.write(System.getProperty("line.separator"));
-                                    writer.flush();
-                                    break;
-                                }
-                                filePathArray[i] = filePath;
-                            }
-                            if (existingFile) {
-                                for (int j = 0; j < filePathArray.length; j++) {
-                                    Charset encoding = StandardCharsets.UTF_8;
-                                    try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
-                                        String line = null;
-                                        while ((line = reader.readLine()) != null) {
-                                            Matcher matcher = grepPattern.matcher(line);
-                                            if (matcher.find()) {
-                                                if (numOfFiles > 1) {
-                                                    writer.write(appArgs.get(j + 1));
-                                                    writer.write(":");
-                                                }
-                                                writer.write(line);
-                                                writer.write(System.getProperty("line.separator"));
-                                                writer.flush();
-                                            }
-                                        }
-                                    } catch (IOException e) {
-                                        writer.write("_grep: cannot open " + appArgs.get(j + 1));
-                                        writer.write(System.getProperty("line.separator"));
-                                        writer.flush();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        if (appArgs.size() < 2) {
-                            throw new RuntimeException("grep: wrong number of arguments");
-                        }
-                        Pattern grepPattern = Pattern.compile(appArgs.get(0));
-                        int numOfFiles = appArgs.size() - 1;
-                        Path filePath;
-                        Path[] filePathArray = new Path[numOfFiles];
-                        Path currentDir = Paths.get(currentDirectory);
-                        for (int i = 0; i < numOfFiles; i++) {
-                            filePath = currentDir.resolve(appArgs.get(i + 1));
-                            if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath)
-                                    || !Files.isReadable(filePath)) {
-                                throw new RuntimeException("grep: wrong file argument");
-                            }
-                            filePathArray[i] = filePath;
-                        }
-                        for (int j = 0; j < filePathArray.length; j++) {
-                            Charset encoding = StandardCharsets.UTF_8;
-                            try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    Matcher matcher = grepPattern.matcher(line);
-                                    if (matcher.find()) {
-                                        if (numOfFiles > 1) {
-                                            writer.write(appArgs.get(j + 1));
-                                            writer.write(":");
-                                        }
-                                        writer.write(line);
-                                        writer.write(System.getProperty("line.separator"));
-                                        writer.flush();
-                                    }
-                                }
-                            } catch (IOException e) {
-                                throw new RuntimeException("grep: cannot open " + appArgs.get(j + 1));
-                            }
-                        }
-                    }
+                    currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
+                    
                 case "find":
                     File cur = new File(currentDirectory);
                     if (unsafeMode) {
