@@ -15,6 +15,8 @@ public class Factory {
             case "grep": return new Grep();
             case "find": return new Find();
             case "cut": return new Cut();
+            case "uniq": return new Uniq();
+            case "sort": return new Sort();
         }
         return null;
     }
