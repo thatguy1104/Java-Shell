@@ -220,67 +220,8 @@ public class Jsh {
                 case "grep":
                     currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
-                    
                 case "find":
-                    File cur = new File(currentDirectory);
-                    if (unsafeMode) {
-                        if (appArgs.isEmpty()) {
-                            writer.write("_find: missing arguments");
-                            writer.write(System.getProperty("line.separator"));
-                            writer.flush();
-                        } else {
-                            try {
-                                File[] listOfFiles = cur.listFiles();
-                                Set<String> result_set = new HashSet<String>();
-                                for (File file : listOfFiles) {
-                                    if (!file.getName().startsWith(".")) {
-                                        if (appArgs.size() == 1 && appArgs.get(0).equals(file.getName())) {
-                                            result_set.add(file.getName());
-                                        } else if (appArgs.size() > 1) {
-                                            for (String ar : appArgs) {
-                                                result_set.add(ar);
-                                            }
-                                        }
-                                    }
-                                }
-                                for (String item : result_set) {
-                                    writer.write(item);
-                                    writer.write("\n");
-                                    writer.flush();
-                                }
-                            } catch (NullPointerException e) {
-                                writer.write("_find: no such directory");
-                                writer.write(System.getProperty("line.separator"));
-                                writer.flush();
-                            }
-                        }
-                    } else {
-                        if (appArgs.isEmpty()) {
-                            throw new RuntimeException("find: missing arguemnts");
-                        }
-                        try {
-                            File[] listOfFiles = cur.listFiles();
-                            Set<String> result_set = new HashSet<String>();
-                            for (File file : listOfFiles) {
-                                if (!file.getName().startsWith(".")) {
-                                    if (appArgs.size() == 1 && appArgs.get(0).equals(file.getName())) {
-                                        result_set.add(file.getName());
-                                    } else if (appArgs.size() > 1) {
-                                        for (String ar : appArgs) {
-                                            result_set.add(ar);
-                                        }
-                                    }
-                                }
-                            }
-                            for (String item : result_set) {
-                                writer.write(item);
-                                writer.write("\n");
-                                writer.flush();
-                            }
-                        } catch (NullPointerException e) {
-                            throw new RuntimeException("find: no such directory");
-                        }
-                    }
+                    currentDirectory = app.exec(appArgs, currentDirectory, output);
                     break;
                 case "uniq":
                     String uniqFilename;

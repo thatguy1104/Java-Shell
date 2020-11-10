@@ -13,6 +13,7 @@ public class Factory {
             case "head": return new Head();
             case "tail": return new Tail();
             case "grep": return new Grep();
+            case "find": return new Find();
         }
         return null;
     }
