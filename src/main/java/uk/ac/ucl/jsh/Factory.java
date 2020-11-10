@@ -14,6 +14,7 @@ public class Factory {
             case "tail": return new Tail();
             case "grep": return new Grep();
             case "find": return new Find();
+            case "cut": return new Cut();
         }
         return null;
     }
