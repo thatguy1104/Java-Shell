@@ -13,16 +13,6 @@ import java.nio.file.Paths;
 
 public class Uniq implements Application {
 
-    private void argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            throw new RuntimeException("uniq: missing argument");
-        } else if (args.size() > 2) {
-            throw new RuntimeException("uniq: too many arguments");
-        } else if (args.size() == 2 && !args.get(0).equals("-i")) {
-            throw new RuntimeException("uniq: wrong argument" + args.get(0));
-        }
-    }
-
     @Override
     public String exec(ArrayList<String> args, String currDir, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
@@ -36,7 +26,7 @@ public class Uniq implements Application {
             uniqFilename = args.get(0);
         }
 
-        // String input = appArgs(*)
+        /* String input = appArgs(*) */
         File uniqFile = new File(currDir + File.separator + uniqFilename);
         if (uniqFile.exists()) {
             // Charset encoding = StandardCharsets.UTF_8;
@@ -46,13 +36,13 @@ public class Uniq implements Application {
                 ArrayList<String> lines = new ArrayList<>();
                 ArrayList<String> uniqLines;
 
-                // Populate array with lines of the file
+                /* Populate array with lines of the file */
                 while (line != null) {
                     lines.add(line);
                     line = reader.readLine();
                 }
 
-                // Check if the -i and if exists make comparision case insensitive
+                /* Check if the -i and if exists make comparision case insensitive */
                 if (args.size() == 2) {
                     uniqLines = new ArrayList<>();
 
@@ -69,17 +59,13 @@ public class Uniq implements Application {
                             uniqLines.add(row);
                         }
                     }
-                } else { // case sensitive
+                } else { /* Case sensitive */
                     LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
                     uniqLines = new ArrayList<>(uniqSet);
                 }
 
-                // display array of uniq lines
-                for (String uniqLine : uniqLines) {
-                    writer.write(uniqLine);
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
-                }
+                /* Display array of uniq lines */
+                writeOut(reader, uniqLines, writer);
 
             } catch (IOException e) {
                 throw new RuntimeException("uniq: cannot open " + uniqFilename);
@@ -89,5 +75,25 @@ public class Uniq implements Application {
         }
 
         return currDir;
+    }
+
+    /* Prints to specified output */
+    private void writeOut(BufferedReader reader, ArrayList<String> uniqLines, OutputStreamWriter writer) throws IOException {
+        for (String uniqLine : uniqLines) {
+            writer.write(uniqLine);
+            writer.write(System.getProperty("line.separator"));
+            writer.flush();
+        }
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) {
+        if (args.isEmpty()) {
+            throw new RuntimeException("uniq: missing argument");
+        } else if (args.size() > 2) {
+            throw new RuntimeException("uniq: too many arguments");
+        } else if (args.size() == 2 && !args.get(0).equals("-i")) {
+            throw new RuntimeException("uniq: wrong argument" + args.get(0));
+        }
     }
 }

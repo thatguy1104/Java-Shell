@@ -37,19 +37,19 @@ public class Find implements Application {
         return currentDirectory;
     }
 
-    /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) throws IOException {
-        if (args.isEmpty()) {
-            throw new RuntimeException("find: missing arguemnts");
-        }
-    }
-
     /* Prints to specified output */
     private void writeOut(Set<String> result_set, OutputStreamWriter writer) throws IOException {
         for (String item : result_set) {
             writer.write(item);
             writer.write("\n");
             writer.flush();
+        }
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) throws IOException {
+        if (args.isEmpty()) {
+            throw new RuntimeException("find: missing arguemnts");
         }
     }
 }

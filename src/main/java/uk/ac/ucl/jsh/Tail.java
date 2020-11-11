@@ -14,18 +14,6 @@ import java.util.ArrayList;
 
 public class Tail implements Application {
 
-    private void argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            throw new RuntimeException("tail: missing arguments");
-        }
-        if (args.size() != 1 && args.size() != 3) {
-            throw new RuntimeException("tail: wrong arguments");
-        }
-        if (args.size() == 3 && !args.get(0).equals("-n")) {
-            throw new RuntimeException("tail: wrong argument " + args.get(0));
-        }
-    }
-
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
@@ -44,6 +32,7 @@ public class Tail implements Application {
         } else {
             tailArg = args.get(0);
         }
+        
         File tailFile = new File(currentDirectory + File.separator + tailArg);
         if (tailFile.exists()) {
             Charset encoding = StandardCharsets.UTF_8;
@@ -72,5 +61,18 @@ public class Tail implements Application {
         }
 
         return currentDirectory;
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) {
+        if (args.isEmpty()) {
+            throw new RuntimeException("tail: missing arguments");
+        }
+        if (args.size() != 1 && args.size() != 3) {
+            throw new RuntimeException("tail: wrong arguments");
+        }
+        if (args.size() == 3 && !args.get(0).equals("-n")) {
+            throw new RuntimeException("tail: wrong argument " + args.get(0));
+        }
     }
 }

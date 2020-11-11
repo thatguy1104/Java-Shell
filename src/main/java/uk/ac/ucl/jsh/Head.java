@@ -14,18 +14,6 @@ import java.util.ArrayList;
 
 public class Head implements Application {
 
-    private void argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            throw new RuntimeException("head: missing arguments");
-        }
-        if (args.size() != 1 && args.size() != 3) {
-            throw new RuntimeException("head: wrong arguments");
-        }
-        if (args.size() == 3 && !args.get(0).equals("-n")) {
-            throw new RuntimeException("head: wrong argument " + args.get(0));
-        }
-    }
-
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
@@ -49,14 +37,7 @@ public class Head implements Application {
             Charset encoding = StandardCharsets.UTF_8;
             Path filePath = Paths.get(currentDirectory + File.separator + headArg);
             try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                for (int i = 0; i < headLines; i++) {
-                    String line;
-                    if ((line = reader.readLine()) != null) {
-                        writer.write(line);
-                        writer.write(System.getProperty("line.separator"));
-                        writer.flush();
-                    }
-                }
+                writeOut(reader, writer, headLines);
             } catch (IOException e) {
                 throw new RuntimeException("head: cannot open " + headArg);
             }
@@ -68,7 +49,27 @@ public class Head implements Application {
     }
 
     /* Prints to specified output */
-    private void writeOut(BufferedReader reader, OutputStreamWriter writer) throws IOException {
+    private void writeOut(BufferedReader reader, OutputStreamWriter writer, int headLines) throws IOException {
+        for (int i = 0; i < headLines; i++) {
+            String line;
+            if ((line = reader.readLine()) != null) {
+                writer.write(line);
+                writer.write(System.getProperty("line.separator"));
+                writer.flush();
+            }
+        }
+    }
 
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) {
+        if (args.isEmpty()) {
+            throw new RuntimeException("head: missing arguments");
+        }
+        if (args.size() != 1 && args.size() != 3) {
+            throw new RuntimeException("head: wrong arguments");
+        }
+        if (args.size() == 3 && !args.get(0).equals("-n")) {
+            throw new RuntimeException("head: wrong argument " + args.get(0));
+        }
     }
 }

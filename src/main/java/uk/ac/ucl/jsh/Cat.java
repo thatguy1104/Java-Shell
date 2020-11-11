@@ -38,13 +38,6 @@ public class Cat implements Application {
         return currentDirectory;
     }
 
-    /* Validate args input */
-    private void argCheck(ArrayList<String> args) throws IOException {
-        if (args.isEmpty()) {
-            throw new RuntimeException("cat: missing arguments");
-        }
-    }
-
     /* Prints to specified output */
     private void writeOut(BufferedReader reader, OutputStreamWriter writer) throws IOException {
         String line;
@@ -52,6 +45,13 @@ public class Cat implements Application {
             writer.write(String.valueOf(line));
             writer.write(System.getProperty("line.separator"));
             writer.flush();
+        }
+    }
+
+    /* Validate args input */
+    private void argCheck(ArrayList<String> args) throws IOException {
+        if (args.isEmpty()) {
+            throw new RuntimeException("cat: missing arguments");
         }
     }
 }

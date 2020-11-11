@@ -48,17 +48,6 @@ public class Cut implements Application {
         return currentDirectory;
     }
 
-    /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) throws IOException {
-        if (args.isEmpty()) {
-            throw new RuntimeException("cut: missing arguments");
-        } else if (args.size() != 1 && args.size() != 3) {
-            throw new RuntimeException("cut: wrong arguments");
-        } else if (args.size() == 3 && !args.get(0).equals("-b")) {
-            throw new RuntimeException("cut: wrong argument " + args.get(0));
-        }
-    }
-
     /* Prints to specified output */
     private void writeOut(BufferedReader reader, List<Integer> clean_args, OutputStreamWriter writer) throws IOException {
         String line;
@@ -79,6 +68,17 @@ public class Cut implements Application {
             writer.write(resulting_line);
             writer.write(System.getProperty("line.separator"));
             writer.flush();
+        }
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) throws IOException {
+        if (args.isEmpty()) {
+            throw new RuntimeException("cut: missing arguments");
+        } else if (args.size() != 1 && args.size() != 3) {
+            throw new RuntimeException("cut: wrong arguments");
+        } else if (args.size() == 3 && !args.get(0).equals("-b")) {
+            throw new RuntimeException("cut: wrong argument " + args.get(0));
         }
     }
 

@@ -8,20 +8,13 @@ import java.util.ArrayList;
 
 public class Ls implements Application {
 
-    private void argCheck(ArrayList<String> args) {
-        if (!args.isEmpty() && args.size() != 1) {
-            throw new RuntimeException("ls: too many arguments");
-        }
-    }
-
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-
         File currDir;
-
         argCheck(args);
 
+        /* Assign the current directory if no path is specified */
         if (args.isEmpty()) {
             currDir = new File(currentDirectory);
         } else {
@@ -32,6 +25,7 @@ public class Ls implements Application {
             File[] listOfFiles = currDir.listFiles();
             boolean atLeastOnePrinted = false;
             assert listOfFiles != null;
+
             for (File file : listOfFiles) {
                 if (!file.getName().startsWith(".")) {
                     writer.write(file.getName());
@@ -48,5 +42,12 @@ public class Ls implements Application {
             throw new RuntimeException("ls: no such directory");
         }
         return currentDirectory;
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) {
+        if (!args.isEmpty() && args.size() != 1) {
+            throw new RuntimeException("ls: too many arguments");
+        }
     }
 }
