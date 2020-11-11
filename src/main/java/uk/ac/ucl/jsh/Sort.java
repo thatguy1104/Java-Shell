@@ -14,12 +14,7 @@ import java.util.ArrayList;
 
 public class Sort implements Application {
 
-    @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-
-        String sortArg;
-
+    private void argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             throw new RuntimeException("sort: missing arguments");
         }
@@ -29,6 +24,16 @@ public class Sort implements Application {
         if (args.size() == 2 && !args.get(0).equals("-r")) {
             throw new RuntimeException("sort: wrong argument " + args.get(0));
         }
+    }
+
+    @Override
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+
+        String sortArg;
+
+        argCheck(args);
+        
         if (args.size() == 2) {
             sortArg = args.get(1);
         } else {

@@ -72,11 +72,11 @@ public class Jsh {
             String appName = tokens.get(0);
             ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
 
-            Boolean unsafeMode = false;
-            if (appName.charAt(0) == '_') {
-                appName = appName.substring(1);
-                unsafeMode = true;
-            }
+            // Boolean unsafeMode = false;
+            // if (appName.charAt(0) == '_') {
+            //     appName = appName.substring(1);
+            //     unsafeMode = true;
+            // }
 
 
             Factory factory = new Factory();

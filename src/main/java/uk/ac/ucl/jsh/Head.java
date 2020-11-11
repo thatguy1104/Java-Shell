@@ -14,10 +14,7 @@ import java.util.ArrayList;
 
 public class Head implements Application {
 
-    @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-
+    private void argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             throw new RuntimeException("head: missing arguments");
         }
@@ -27,6 +24,14 @@ public class Head implements Application {
         if (args.size() == 3 && !args.get(0).equals("-n")) {
             throw new RuntimeException("head: wrong argument " + args.get(0));
         }
+    }
+
+    @Override
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+
+        argCheck(args);
+
         int headLines = 10;
         String headArg;
         if (args.size() == 3) {
@@ -60,5 +65,10 @@ public class Head implements Application {
         }
 
         return currentDirectory;
+    }
+
+    /* Prints to specified output */
+    private void writeOut(BufferedReader reader, OutputStreamWriter writer) throws IOException {
+
     }
 }
