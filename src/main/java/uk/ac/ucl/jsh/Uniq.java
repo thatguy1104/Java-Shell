@@ -13,20 +13,23 @@ import java.nio.file.Paths;
 
 public class Uniq implements Application {
 
-    @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-
-        String uniqFilename;
-
+    private void argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             throw new RuntimeException("uniq: missing argument");
         } else if (args.size() > 2) {
             throw new RuntimeException("uniq: too many arguments");
-        }
-        if (args.size() == 2 && !args.get(0).equals("-i")) {
+        } else if (args.size() == 2 && !args.get(0).equals("-i")) {
             throw new RuntimeException("uniq: wrong argument" + args.get(0));
         }
+    }
+
+    @Override
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        String uniqFilename;
+
+        argCheck(args);
+
         if (args.size() == 2) {
             uniqFilename = args.get(1);
         } else {

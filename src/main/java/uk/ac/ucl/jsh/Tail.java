@@ -14,10 +14,7 @@ import java.util.ArrayList;
 
 public class Tail implements Application {
 
-    @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-
+    private void argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             throw new RuntimeException("tail: missing arguments");
         }
@@ -27,8 +24,16 @@ public class Tail implements Application {
         if (args.size() == 3 && !args.get(0).equals("-n")) {
             throw new RuntimeException("tail: wrong argument " + args.get(0));
         }
+    }
+
+    @Override
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         int tailLines = 10;
         String tailArg;
+
+        argCheck(args);
+
         if (args.size() == 3) {
             try {
                 tailLines = Integer.parseInt(args.get(1));
