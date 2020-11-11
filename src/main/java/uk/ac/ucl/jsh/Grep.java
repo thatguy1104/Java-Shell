@@ -18,22 +18,13 @@ public class Grep implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
+        argCheck(args);
 
-        if (args.size() < 2) {
-            throw new RuntimeException("grep: wrong number of arguments");
-        }
         Pattern grepPattern = Pattern.compile(args.get(0));
         int numOfFiles = args.size() - 1;
-        Path filePath;
-        Path[] filePathArray = new Path[numOfFiles];
-        Path currentDir = Paths.get(currentDirectory);
-        for (int i = 0; i < numOfFiles; i++) {
-            filePath = currentDir.resolve(args.get(i + 1));
-            if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath) || !Files.isReadable(filePath)) {
-                throw new RuntimeException("grep: wrong file argument");
-            }
-            filePathArray[i] = filePath;
-        }
+        
+        Path[] filePathArray = getFilePaths(currentDirectory, args, numOfFiles);
+
         for (int j = 0; j < filePathArray.length; j++) {
             Charset encoding = StandardCharsets.UTF_8;
             try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
@@ -56,5 +47,29 @@ public class Grep implements Application {
         }
 
         return currentDirectory;
+    }
+
+    /* Returns directory pathway for the specified file name arguments */
+    private Path[] getFilePaths(String currentDirectory, ArrayList<String> args, int numOfFiles) {
+        Path filePath;
+        Path[] filePathArray = new Path[numOfFiles];
+        Path currentDir = Paths.get(currentDirectory);
+
+        for (int i = 0; i < numOfFiles; i++) {
+            filePath = currentDir.resolve(args.get(i + 1));
+            if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath) || !Files.isReadable(filePath)) {
+                throw new RuntimeException("grep: wrong file argument");
+            }
+            filePathArray[i] = filePath;
+        }
+
+        return filePathArray;
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) throws IOException {
+        if (args.size() < 2) {
+            throw new RuntimeException("grep: wrong number of arguments");
+        }
     }
 }

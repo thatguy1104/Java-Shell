@@ -18,29 +18,40 @@ public class Cat implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
-        if (args.isEmpty()) {
-            throw new RuntimeException("cat: missing arguments");
-        } else {
-            for (String arg : args) {
-                Charset encoding = StandardCharsets.UTF_8;
-                File currFile = new File(currentDirectory + File.separator + arg);
-                if (currFile.exists()) {
-                    Path filePath = Paths.get(currentDirectory + File.separator + arg);
-                    try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            writer.write(String.valueOf(line));
-                            writer.write(System.getProperty("line.separator"));
-                            writer.flush();
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException("cat: cannot open " + arg);
-                    }
-                } else {
-                    throw new RuntimeException("cat: file does not exist");
+        argCheck(args);
+
+        for (String arg : args) {
+            Charset encoding = StandardCharsets.UTF_8;
+            File currFile = new File(currentDirectory + File.separator + arg);
+            if (currFile.exists()) {
+                Path filePath = Paths.get(currentDirectory + File.separator + arg);
+                try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
+                    writeOut(reader, writer);
+                } catch (IOException e) {
+                    throw new RuntimeException("cat: cannot open " + arg);
                 }
+            } else {
+                throw new RuntimeException("cat: file does not exist");
             }
         }
+        
         return currentDirectory;
+    }
+
+    /* Validate args input */
+    private void argCheck(ArrayList<String> args) throws IOException {
+        if (args.isEmpty()) {
+            throw new RuntimeException("cat: missing arguments");
+        }
+    }
+
+    /* Prints to specified output */
+    private void writeOut(BufferedReader reader, OutputStreamWriter writer) throws IOException {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            writer.write(String.valueOf(line));
+            writer.write(System.getProperty("line.separator"));
+            writer.flush();
+        }
     }
 }

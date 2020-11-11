@@ -14,10 +14,8 @@ public class Find implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         File cur = new File(currentDirectory);
-
-        if (args.isEmpty()) {
-            throw new RuntimeException("find: missing arguemnts");
-        }
+        argCheck(args);
+        
         try {
             File[] listOfFiles = cur.listFiles();
             Set<String> result_set = new HashSet<>();
@@ -31,15 +29,27 @@ public class Find implements Application {
                     }
                 }
             }
-            for (String item : result_set) {
-                writer.write(item);
-                writer.write("\n");
-                writer.flush();
-            }
+            writeOut(result_set, writer);
         } catch (NullPointerException e) {
             throw new RuntimeException("find: no such directory");
         }
 
         return currentDirectory;
+    }
+
+    /* Validates arguments input */
+    private void argCheck(ArrayList<String> args) throws IOException {
+        if (args.isEmpty()) {
+            throw new RuntimeException("find: missing arguemnts");
+        }
+    }
+
+    /* Prints to specified output */
+    private void writeOut(Set<String> result_set, OutputStreamWriter writer) throws IOException {
+        for (String item : result_set) {
+            writer.write(item);
+            writer.write("\n");
+            writer.flush();
+        }
     }
 }
