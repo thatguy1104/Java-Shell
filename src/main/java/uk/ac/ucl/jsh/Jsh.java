@@ -16,6 +16,8 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import uk.ac.ucl.jsh.Applications.Application;
+
 public class Jsh {
 
     private static String currentDirectory = System.getProperty("user.dir");

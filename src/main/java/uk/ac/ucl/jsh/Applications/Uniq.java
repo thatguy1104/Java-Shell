@@ -1,4 +1,4 @@
-package uk.ac.ucl.jsh;
+package uk.ac.ucl.jsh.Applications;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

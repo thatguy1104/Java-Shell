@@ -1,4 +1,4 @@
-package uk.ac.ucl.jsh;
+package uk.ac.ucl.jsh.Applications;
 
 import java.io.File;
 import java.io.IOException;
