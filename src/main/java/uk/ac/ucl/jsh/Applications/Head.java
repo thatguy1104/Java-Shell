@@ -15,10 +15,13 @@ import java.util.ArrayList;
 public class Head implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
-        argCheck(args);
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         int headLines = 10;
         String headArg;
@@ -61,15 +64,22 @@ public class Head implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("head: missing arguments");
+            return "head: missing arguments";
+            //throw new RuntimeException("head: missing arguments");
+        } else if (args.size() != 1 && args.size() != 3) {
+            return "head: wrong arguments";
+            //throw new RuntimeException("head: wrong arguments");
+        } else if (args.size() == 3 && !args.get(0).equals("-n")) {
+            return "head: wrong argument " + args.get(0);
+            //throw new RuntimeException("head: wrong argument " + args.get(0));
+        } else {
+            return "nothing";
         }
-        if (args.size() != 1 && args.size() != 3) {
-            throw new RuntimeException("head: wrong arguments");
-        }
-        if (args.size() == 3 && !args.get(0).equals("-n")) {
-            throw new RuntimeException("head: wrong argument " + args.get(0));
-        }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

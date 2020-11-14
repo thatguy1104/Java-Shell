@@ -20,7 +20,10 @@ public class Tail implements Application {
         int tailLines = 10;
         String tailArg;
 
-        argCheck(args);
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         if (args.size() == 3) {
             try {
@@ -64,15 +67,22 @@ public class Tail implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("tail: missing arguments");
+            return "tail: missing arguments";
+            //throw new RuntimeException("tail: missing arguments");
+        } else if (args.size() != 1 && args.size() != 3) {
+            return "tail: wrong arguments";
+            //throw new RuntimeException("tail: wrong arguments");
+        } else if (args.size() == 3 && !args.get(0).equals("-n")) {
+            return "tail: wrong argument " + args.get(0);
+            //throw new RuntimeException("tail: wrong argument " + args.get(0));
+        } else {
+            return "nothing";
         }
-        if (args.size() != 1 && args.size() != 3) {
-            throw new RuntimeException("tail: wrong arguments");
-        }
-        if (args.size() == 3 && !args.get(0).equals("-n")) {
-            throw new RuntimeException("tail: wrong argument " + args.get(0));
-        }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

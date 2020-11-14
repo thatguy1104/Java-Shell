@@ -14,7 +14,11 @@ public class Find implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         File cur = new File(currentDirectory);
-        argCheck(args);
+        
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
         
         try {
             File[] listOfFiles = cur.listFiles();
@@ -47,9 +51,16 @@ public class Find implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) throws IOException {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("find: missing arguemnts");
+            return "find: missing arguemnts";
+            //throw new RuntimeException("find: missing arguemnts");
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

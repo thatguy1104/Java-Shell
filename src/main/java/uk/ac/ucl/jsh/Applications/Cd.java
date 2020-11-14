@@ -10,7 +10,11 @@ public class Cd implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        argCheck(args);
+        
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
         
         String dirString = args.get(0);
         File dir = new File(currDir, dirString);
@@ -23,11 +27,19 @@ public class Cd implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) throws IOException {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("cd: missing argument");
+            return "cd: missing argument";
+            //throw new RuntimeException("cd: missing argument");
         } else if (args.size() > 1) {
-            throw new RuntimeException("cd: too many arguments");
+            //throw new RuntimeException("cd: too many arguments");
+            return "cd: too many arguments";
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

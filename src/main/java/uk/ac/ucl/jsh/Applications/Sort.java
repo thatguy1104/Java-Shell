@@ -15,11 +15,14 @@ import java.util.ArrayList;
 public class Sort implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         String sortArg;
 
-        argCheck(args);
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
         
         if (args.size() == 2) {
             sortArg = args.get(1);
@@ -105,15 +108,22 @@ public class Sort implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("sort: missing arguments");
+            return "sort: missing arguments";
+            //throw new RuntimeException("sort: missing arguments");
+        } else if (args.size() != 1 && args.size() != 2) {
+            return "sort: wrong number of arguments";
+            //throw new RuntimeException("sort: wrong number of arguments");
+        } else if (args.size() == 2 && !args.get(0).equals("-r")) {
+            return "sort: wrong argument " + args.get(0);
+            //throw new RuntimeException("sort: wrong argument " + args.get(0));
+        } else {
+            return "nothing";
         }
-        if (args.size() != 1 && args.size() != 2) {
-            throw new RuntimeException("sort: wrong number of arguments");
-        }
-        if (args.size() == 2 && !args.get(0).equals("-r")) {
-            throw new RuntimeException("sort: wrong argument " + args.get(0));
-        }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

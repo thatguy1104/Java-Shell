@@ -21,7 +21,10 @@ public class Cut implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
-        argCheck(args);
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         String start_end = args.get(1).replaceAll("[^-?0-9]+", " ");
         List<String> line_args = Arrays.asList(start_end.trim().split(" "));
@@ -72,14 +75,23 @@ public class Cut implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) throws IOException {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("cut: missing arguments");
+            return "cut: missing arguments";
+            //throw new RuntimeException("cut: missing arguments");
         } else if (args.size() != 1 && args.size() != 3) {
-            throw new RuntimeException("cut: wrong arguments");
+            return "cut: wrong arguments";
+            //throw new RuntimeException("cut: wrong arguments");
         } else if (args.size() == 3 && !args.get(0).equals("-b")) {
-            throw new RuntimeException("cut: wrong argument " + args.get(0));
+            return "cut: wrong argument " + args.get(0);
+            //throw new RuntimeException("cut: wrong argument " + args.get(0));
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 
     // Parses cut case input

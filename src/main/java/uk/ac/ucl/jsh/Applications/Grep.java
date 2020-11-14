@@ -18,7 +18,11 @@ public class Grep implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        argCheck(args);
+        
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         Pattern grepPattern = Pattern.compile(args.get(0));
         int numOfFiles = args.size() - 1;
@@ -67,9 +71,16 @@ public class Grep implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) throws IOException {
+    public String argCheck(ArrayList<String> args) {
         if (args.size() < 2) {
-            throw new RuntimeException("grep: wrong number of arguments");
+            return "grep: wrong number of arguments";
+            //throw new RuntimeException("grep: wrong number of arguments");
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

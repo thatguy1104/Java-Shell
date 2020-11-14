@@ -14,11 +14,14 @@ import java.nio.file.Paths;
 public class Uniq implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         String uniqFilename;
 
-        argCheck(args);
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         if (args.size() == 2) {
             uniqFilename = args.get(1);
@@ -87,13 +90,22 @@ public class Uniq implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("uniq: missing argument");
+            return "uniq: missing argument";
+            //throw new RuntimeException("uniq: missing argument");
         } else if (args.size() > 2) {
-            throw new RuntimeException("uniq: too many arguments");
+            return "uniq: too many arguments";
+            //throw new RuntimeException("uniq: too many arguments");
         } else if (args.size() == 2 && !args.get(0).equals("-i")) {
-            throw new RuntimeException("uniq: wrong argument" + args.get(0));
+            return "uniq: wrong argument" + args.get(0);
+            //throw new RuntimeException("uniq: wrong argument" + args.get(0));
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

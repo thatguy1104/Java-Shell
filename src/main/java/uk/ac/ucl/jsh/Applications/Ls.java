@@ -12,7 +12,11 @@ public class Ls implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         File currDir;
-        argCheck(args);
+        
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         /* Assign the current directory if no path is specified */
         if (args.isEmpty()) {
@@ -45,9 +49,16 @@ public class Ls implements Application {
     }
 
     /* Validates arguments input */
-    private void argCheck(ArrayList<String> args) {
+    public String argCheck(ArrayList<String> args) {
         if (!args.isEmpty() && args.size() != 1) {
-            throw new RuntimeException("ls: too many arguments");
+            return "ls: too many arguments";
+            //throw new RuntimeException("ls: too many arguments");
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

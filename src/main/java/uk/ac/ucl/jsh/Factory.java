@@ -8,8 +8,10 @@ class Factory {
 
         switch(app) {
             case "cd": return (Application) new Cd();
+            case "_cd": return (Application) new Unsafe(new Cd());
             case "pwd": return new Pwd();
             case "ls": return new Ls();
+            case "_ls": return new Unsafe(new Ls());
             case "cat": return new Cat();
             case "echo": return new Echo();
             case "head": return new Head();

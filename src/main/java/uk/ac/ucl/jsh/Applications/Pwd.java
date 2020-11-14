@@ -18,4 +18,9 @@ public class Pwd implements Application {
         return currDir;
     }
 
+    public String argCheck(ArrayList<String> args) {return "nothing";}
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
+    }
 }

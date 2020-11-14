@@ -17,8 +17,11 @@ public class Cat implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-
-        argCheck(args);
+        
+        String message = argCheck(args);
+        if (message != "nothing") {
+            throwError(message, output);
+        }
 
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
@@ -49,9 +52,16 @@ public class Cat implements Application {
     }
 
     /* Validate args input */
-    private void argCheck(ArrayList<String> args) throws IOException {
+    public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
-            throw new RuntimeException("cat: missing arguments");
+            return "cat: missing arguments";
+            //throw new RuntimeException("cat: missing arguments");
+        } else {
+            return "nothing";
         }
+    }
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
     }
 }

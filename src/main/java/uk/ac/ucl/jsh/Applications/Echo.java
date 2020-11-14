@@ -25,4 +25,9 @@ public class Echo implements Application {
 
         return currentDirectory;
     }
+    public String argCheck(ArrayList<String> args) {return "nothing";}
+
+    public void throwError(String message, OutputStream output) throws IOException {
+        throw new RuntimeException(message);
+    }
 }

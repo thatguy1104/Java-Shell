@@ -9,4 +9,6 @@ public interface Application {
     // Function signature definition for Application
     String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException;
 
+    //public String argCheck(ArrayList<String> args);
+    public void throwError(String message, OutputStream output) throws IOException;
 }
