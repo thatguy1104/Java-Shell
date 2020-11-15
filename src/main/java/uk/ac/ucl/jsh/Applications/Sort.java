@@ -15,14 +15,20 @@ import java.util.ArrayList;
 public class Sort implements Application {
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return "";
+    }
+
+    @Override
     public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         String sortArg;
-
-        String message = argCheck(args);
-        if (message != "nothing") {
-            throwError(message, output);
-        }
         
         if (args.size() == 2) {
             sortArg = args.get(1);
@@ -108,21 +114,20 @@ public class Sort implements Application {
     }
 
     /* Validates arguments input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "sort: missing arguments";
-            //throw new RuntimeException("sort: missing arguments");
         } else if (args.size() != 1 && args.size() != 2) {
             return "sort: wrong number of arguments";
-            //throw new RuntimeException("sort: wrong number of arguments");
         } else if (args.size() == 2 && !args.get(0).equals("-r")) {
             return "sort: wrong argument " + args.get(0);
-            //throw new RuntimeException("sort: wrong argument " + args.get(0));
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }

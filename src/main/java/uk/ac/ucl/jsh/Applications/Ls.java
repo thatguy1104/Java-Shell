@@ -9,22 +9,28 @@ import java.util.ArrayList;
 public class Ls implements Application {
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return "";
+    }
+
+    @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         File currDir;
         
-        String message = argCheck(args);
-        if (message != "nothing") {
-            throwError(message, output);
-        }
-
         /* Assign the current directory if no path is specified */
         if (args.isEmpty()) {
             currDir = new File(currentDirectory);
         } else {
             currDir = new File(args.get(0));
         }
-        
+
         try {
             File[] listOfFiles = currDir.listFiles();
             boolean atLeastOnePrinted = false;
@@ -49,15 +55,16 @@ public class Ls implements Application {
     }
 
     /* Validates arguments input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (!args.isEmpty() && args.size() != 1) {
             return "ls: too many arguments";
-            //throw new RuntimeException("ls: too many arguments");
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }

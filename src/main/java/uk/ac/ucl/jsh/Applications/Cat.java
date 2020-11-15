@@ -15,13 +15,19 @@ import java.util.ArrayList;
 public class Cat implements Application {
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return "";
+    }
+
+    @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        
-        String message = argCheck(args);
-        if (message != "nothing") {
-            throwError(message, output);
-        }
 
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
@@ -52,15 +58,16 @@ public class Cat implements Application {
     }
 
     /* Validate args input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "cat: missing arguments";
-            //throw new RuntimeException("cat: missing arguments");
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }

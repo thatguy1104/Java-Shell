@@ -10,16 +10,36 @@ public class Unsafe implements Application {
     private Application application;
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return currentDirectory;
+    }
+
+    @Override
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writer.write("unsafe exec");
+        writer.write(System.getProperty("line.separator"));
+        writer.flush();
+        return application.exec(args, currDir, output);
+    }
+
+    @Override
+    public String argCheck(ArrayList<String> args){
+        return application.argCheck(args);
+    }
+
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         writer.write("_" + message);
         writer.write(System.getProperty("line.separator"));
         writer.flush();
-    }
-
-    @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        return application.exec(args, currDir, output);
     }
 
     public Unsafe(Application application) {

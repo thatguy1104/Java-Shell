@@ -15,13 +15,19 @@ import java.util.ArrayList;
 public class Head implements Application {
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return "";
+    }
+
+    @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-
-        String message = argCheck(args);
-        if (message != "nothing") {
-            throwError(message, output);
-        }
 
         int headLines = 10;
         String headArg;
@@ -64,21 +70,20 @@ public class Head implements Application {
     }
 
     /* Validates arguments input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "head: missing arguments";
-            //throw new RuntimeException("head: missing arguments");
         } else if (args.size() != 1 && args.size() != 3) {
             return "head: wrong arguments";
-            //throw new RuntimeException("head: wrong arguments");
         } else if (args.size() == 3 && !args.get(0).equals("-n")) {
             return "head: wrong argument " + args.get(0);
-            //throw new RuntimeException("head: wrong argument " + args.get(0));
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }

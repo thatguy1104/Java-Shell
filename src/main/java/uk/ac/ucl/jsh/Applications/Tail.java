@@ -15,15 +15,21 @@ import java.util.ArrayList;
 public class Tail implements Application {
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return "";
+    }
+
+    @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int tailLines = 10;
         String tailArg;
-
-        String message = argCheck(args);
-        if (message != "nothing") {
-            throwError(message, output);
-        }
 
         if (args.size() == 3) {
             try {
@@ -67,21 +73,20 @@ public class Tail implements Application {
     }
 
     /* Validates arguments input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "tail: missing arguments";
-            //throw new RuntimeException("tail: missing arguments");
         } else if (args.size() != 1 && args.size() != 3) {
             return "tail: wrong arguments";
-            //throw new RuntimeException("tail: wrong arguments");
         } else if (args.size() == 3 && !args.get(0).equals("-n")) {
             return "tail: wrong argument " + args.get(0);
-            //throw new RuntimeException("tail: wrong argument " + args.get(0));
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }

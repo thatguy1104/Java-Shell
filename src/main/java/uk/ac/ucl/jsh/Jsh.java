@@ -85,7 +85,7 @@ public class Jsh {
             Application app = factory.getApp(appName);
 
             try {
-                currentDirectory = app.exec(appArgs, currentDirectory, output);
+                currentDirectory = app.mainExec(appArgs, currentDirectory, output);
             } catch (IOException e) {
                 throw new RuntimeException(appName + ": unknown application");
             }
