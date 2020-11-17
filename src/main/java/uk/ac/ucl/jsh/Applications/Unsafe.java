@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Unsafe implements Application {
 
     private Application application;
-
+    
     @Override
     public void throwError(String message, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
@@ -21,7 +21,7 @@ public class Unsafe implements Application {
     public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
         return application.exec(args, currDir, output);
     }
-
+    
     public Unsafe(Application application) {
         this.application = application;
     }
