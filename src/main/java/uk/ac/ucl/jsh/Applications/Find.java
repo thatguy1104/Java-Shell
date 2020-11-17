@@ -11,14 +11,20 @@ import java.util.Set;
 public class Find implements Application {
 
     @Override
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        String message = argCheck(args);
+        if (message != "nothing"){
+            throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
+        }
+        return "";
+    }
+
+    @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         File cur = new File(currentDirectory);
-        
-        String message = argCheck(args);
-        if (message != "nothing") {
-            throwError(message, output);
-        }
         
         try {
             File[] listOfFiles = cur.listFiles();
@@ -51,15 +57,16 @@ public class Find implements Application {
     }
 
     /* Validates arguments input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "find: missing arguemnts";
-            //throw new RuntimeException("find: missing arguemnts");
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }

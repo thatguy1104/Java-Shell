@@ -9,13 +9,19 @@ import java.io.OutputStream;
 public class Cd implements Application {
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (message != "nothing"){
             throwError(message, output);
+        } else {
+            return exec(args, currentDirectory, output);
         }
-        
+        return "";
+    }
+
+    @Override
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+
         String dirString = args.get(0);
         File dir = new File(currDir, dirString);
         if (!dir.exists() || !dir.isDirectory()) {
@@ -27,18 +33,18 @@ public class Cd implements Application {
     }
 
     /* Validates arguments input */
+    @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "cd: missing argument";
-            //throw new RuntimeException("cd: missing argument");
         } else if (args.size() > 1) {
-            //throw new RuntimeException("cd: too many arguments");
             return "cd: too many arguments";
         } else {
             return "nothing";
         }
     }
 
+    @Override
     public void throwError(String message, OutputStream output) throws IOException {
         throw new RuntimeException(message);
     }
