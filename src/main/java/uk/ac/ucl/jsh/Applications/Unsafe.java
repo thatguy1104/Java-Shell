@@ -12,7 +12,7 @@ public class Unsafe implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
             return exec(args, currentDirectory, output);
@@ -30,7 +30,7 @@ public class Unsafe implements Application {
     }
 
     @Override
-    public String argCheck(ArrayList<String> args){
+    public String argCheck(ArrayList<String> args) {
         return application.argCheck(args);
     }
 

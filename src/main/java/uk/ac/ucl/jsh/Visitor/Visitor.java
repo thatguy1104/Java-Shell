@@ -4,8 +4,8 @@ public interface Visitor {
     
     public void visit(Pipe pipe);
 
-    public void visit(Call call);
+    // public void visit(Call call);
 
-    public void visit(Seq Seq);
+    // public void visit(Seq Seq);
 
 }

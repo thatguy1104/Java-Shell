@@ -53,6 +53,7 @@ public class Jsh {
             Pattern regex = Pattern.compile(spaceRegex);
             Matcher regexMatcher = regex.matcher(rawCommand);
             String nonQuote;
+            
             while (regexMatcher.find()) {
                 if (regexMatcher.group(1) != null || regexMatcher.group(2) != null) {
                     String quoted = regexMatcher.group(0).trim();
@@ -71,15 +72,9 @@ public class Jsh {
                     tokens.addAll(globbingResult);
                 }
             }
+
             String appName = tokens.get(0);
             ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
-
-            // Boolean unsafeMode = false;
-            // if (appName.charAt(0) == '_') {
-            //     appName = appName.substring(1);
-            //     unsafeMode = true;
-            // }
-
 
             Factory factory = new Factory();
             Application app = factory.getApp(appName);
@@ -89,7 +84,7 @@ public class Jsh {
             } catch (IOException e) {
                 throw new RuntimeException(appName + ": unknown application");
             }
-
+            
         }
     }
 
