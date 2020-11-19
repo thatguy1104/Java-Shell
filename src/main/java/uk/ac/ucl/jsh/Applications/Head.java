@@ -84,7 +84,7 @@ public class Head implements Application {
     }
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 }

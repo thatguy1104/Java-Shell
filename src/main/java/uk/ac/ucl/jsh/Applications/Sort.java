@@ -26,7 +26,7 @@ public class Sort implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         String sortArg;
         
@@ -128,7 +128,7 @@ public class Sort implements Application {
     }
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 }

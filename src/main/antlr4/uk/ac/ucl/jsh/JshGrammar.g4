@@ -4,12 +4,13 @@ grammar JshGrammar;
  * Parser Rules
  */
 
-pipe: command ('|' command)*;
+
+
+pipe: command ('|' command)* | command;
 
 command : atomicCommand (';' atomicCommand)*;
 
 atomicCommand : (NONSPECIAL | DOUBLEQUOTED | SINGLEQUOTED)+;
-
 
 
 

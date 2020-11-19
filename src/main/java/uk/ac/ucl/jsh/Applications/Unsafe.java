@@ -12,7 +12,7 @@ public class Unsafe implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
             return exec(args, currentDirectory, output);

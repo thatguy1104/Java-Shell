@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 public class Uniq implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         String message = argCheck(args);
         if (message != "nothing"){
             throwError(message, output);
@@ -25,7 +25,7 @@ public class Uniq implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         String uniqFilename;
 
@@ -110,7 +110,7 @@ public class Uniq implements Application {
     }
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 }

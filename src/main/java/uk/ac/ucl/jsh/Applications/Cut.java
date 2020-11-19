@@ -20,7 +20,7 @@ public class Cut implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
             return exec(args, currentDirectory, output);
@@ -95,7 +95,7 @@ public class Cut implements Application {
     }
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 

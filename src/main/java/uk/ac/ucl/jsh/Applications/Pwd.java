@@ -33,7 +33,7 @@ public class Pwd implements Application {
     public String argCheck(ArrayList<String> args) {return "nothing";}
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 }

@@ -1,6 +1,6 @@
 package uk.ac.ucl.jsh.Visitor;
 
-public class Pipe implements Visitable {
+public class Seq implements Visitable {
 
     @Override
     public void accept(Visitor visitor) {

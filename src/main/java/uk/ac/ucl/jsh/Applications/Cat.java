@@ -26,7 +26,7 @@ public class Cat implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
         for (String arg : args) {
@@ -68,7 +68,7 @@ public class Cat implements Application {
     }
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 }

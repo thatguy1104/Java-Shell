@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class Grep implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         String message = argCheck(args);
         if (message != "nothing"){
             throwError(message, output);
@@ -27,7 +27,7 @@ public class Grep implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         
         Pattern grepPattern = Pattern.compile(args.get(0));
@@ -87,7 +87,7 @@ public class Grep implements Application {
     }
 
     @Override
-    public void throwError(String message, OutputStream output) throws IOException {
+    public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
 }
