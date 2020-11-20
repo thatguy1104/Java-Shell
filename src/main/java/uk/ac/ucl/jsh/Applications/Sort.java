@@ -14,22 +14,24 @@ import java.util.ArrayList;
 
 public class Sort implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currDir) {
         String sortArg;
-        
+
         if (args.size() == 2) {
             sortArg = args.get(1);
         } else {
@@ -38,10 +40,10 @@ public class Sort implements Application {
         File sortFile = new File(currDir + File.separator + sortArg);
         Charset encoding = StandardCharsets.UTF_8;
         if (sortFile.exists()) {
-            Path sortPath = Paths.get((String) currDir + File.separator + sortArg);
+            Path sortPath = Paths.get(currDir + File.separator + sortArg);
             try (BufferedReader reader = Files.newBufferedReader(sortPath, encoding)) {
                 String line = reader.readLine();
-                ArrayList<String> lines = new ArrayList<String>();
+                ArrayList<String> lines = new ArrayList<>();
                 ArrayList<String> sortedLines;
 
                 /* Populate array with lines of the file */
@@ -78,7 +80,6 @@ public class Sort implements Application {
         return currDir;
     }
 
-    
 
     /* Recursive quick-sort algorithm for sorting an array list of strings */
     private static ArrayList<String> stringQuicksort(ArrayList<String> lines) {

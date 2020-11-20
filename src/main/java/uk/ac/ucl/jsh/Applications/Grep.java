@@ -15,24 +15,25 @@ import java.util.regex.Pattern;
 
 public class Grep implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-        
+    public String exec(ArrayList<String> args, String currentDirectory) {
         Pattern grepPattern = Pattern.compile(args.get(0));
         int numOfFiles = args.size() - 1;
-        
+
         Path[] filePathArray = getFilePaths(currentDirectory, args, numOfFiles);
 
         for (int j = 0; j < filePathArray.length; j++) {

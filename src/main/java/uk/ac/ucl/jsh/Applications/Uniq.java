@@ -12,21 +12,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Uniq implements Application {
+    private OutputStreamWriter writer;
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currDir) {
         String uniqFilename;
 
         if (args.size() == 2) {
@@ -74,7 +75,7 @@ public class Uniq implements Application {
                 }
 
                 /* Display array of uniq lines */
-                writeOut(reader, uniqLines, writer);
+                writeOut(uniqLines, writer);
 
             } catch (IOException e) {
                 throw new RuntimeException("uniq: cannot open " + uniqFilename);
@@ -87,7 +88,7 @@ public class Uniq implements Application {
     }
 
     /* Prints to specified output */
-    private void writeOut(BufferedReader reader, ArrayList<String> uniqLines, OutputStreamWriter writer) throws IOException {
+    private void writeOut(ArrayList<String> uniqLines, OutputStreamWriter writer) throws IOException {
         for (String uniqLine : uniqLines) {
             writer.write(uniqLine);
             writer.write(System.getProperty("line.separator"));

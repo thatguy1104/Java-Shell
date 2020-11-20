@@ -6,27 +6,27 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class Unsafe implements Application {
-
+    private OutputStreamWriter writer;
     private Application application;
-    
+
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return currentDirectory;
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currDir) throws IOException {
         writer.write("unsafe exec");
         writer.write(System.getProperty("line.separator"));
         writer.flush();
-        return application.exec(args, currDir, output);
+        return application.exec(args, currDir);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Unsafe implements Application {
         writer.write(System.getProperty("line.separator"));
         writer.flush();
     }
-    
+
     public Unsafe(Application application) {
         this.application = application;
     }

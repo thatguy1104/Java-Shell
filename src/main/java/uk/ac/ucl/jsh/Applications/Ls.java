@@ -7,23 +7,24 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class Ls implements Application {
+    private OutputStreamWriter writer;
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currentDirectory) throws IOException {
         File currDir;
-        
+
         /* Assign the current directory if no path is specified */
         if (args.isEmpty()) {
             currDir = new File(currentDirectory);

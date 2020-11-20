@@ -14,20 +14,22 @@ import java.util.ArrayList;
 
 public class Tail implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currentDirectory) {
         int tailLines = 10;
         String tailArg;
 
@@ -41,11 +43,11 @@ public class Tail implements Application {
         } else {
             tailArg = args.get(0);
         }
-        
+
         File tailFile = new File(currentDirectory + File.separator + tailArg);
         if (tailFile.exists()) {
             Charset encoding = StandardCharsets.UTF_8;
-            Path filePath = Paths.get((String) currentDirectory + File.separator + tailArg);
+            Path filePath = Paths.get(currentDirectory + File.separator + tailArg);
             ArrayList<String> storage = new ArrayList<>();
             try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
                 String line = null;

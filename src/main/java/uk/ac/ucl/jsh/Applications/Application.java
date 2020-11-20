@@ -8,7 +8,10 @@ public interface Application {
 
     // Function signature definition for Application
     String mainExec(ArrayList<String> args, String currDir, OutputStream output) throws IOException;
-    String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException;
+
+    String exec(ArrayList<String> args, String currentDirectory) throws IOException;
+
     String argCheck(ArrayList<String> args);
+
     void throwError(String message, OutputStream output) throws IOException;
 }

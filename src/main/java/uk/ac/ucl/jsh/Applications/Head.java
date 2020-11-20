@@ -14,21 +14,22 @@ import java.util.ArrayList;
 
 public class Head implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-
+    public String exec(ArrayList<String> args, String currentDirectory) {
         int headLines = 10;
         String headArg;
         if (args.size() == 3) {
@@ -46,7 +47,7 @@ public class Head implements Application {
             Charset encoding = StandardCharsets.UTF_8;
             Path filePath = Paths.get(currentDirectory + File.separator + headArg);
             try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                writeOut(reader, writer, headLines);
+                writeOut(reader, headLines);
             } catch (IOException e) {
                 throw new RuntimeException("head: cannot open " + headArg);
             }
@@ -58,7 +59,7 @@ public class Head implements Application {
     }
 
     /* Prints to specified output */
-    private void writeOut(BufferedReader reader, OutputStreamWriter writer, int headLines) throws IOException {
+    private void writeOut(BufferedReader reader, int headLines) throws IOException {
         for (int i = 0; i < headLines; i++) {
             String line;
             if ((line = reader.readLine()) != null) {

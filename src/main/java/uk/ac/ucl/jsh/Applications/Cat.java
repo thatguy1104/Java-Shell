@@ -14,28 +14,29 @@ import java.util.ArrayList;
 
 public class Cat implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing"){
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-
+    public String exec(ArrayList<String> args, String currentDirectory) {
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
             File currFile = new File(currentDirectory + File.separator + arg);
             if (currFile.exists()) {
                 Path filePath = Paths.get(currentDirectory + File.separator + arg);
                 try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                    writeOut(reader, writer);
+                    writeOut(reader);
                 } catch (IOException e) {
                     throw new RuntimeException("cat: cannot open " + arg);
                 }
@@ -43,15 +44,15 @@ public class Cat implements Application {
                 throw new RuntimeException("cat: file does not exist");
             }
         }
-        
+
         return currentDirectory;
     }
 
     /* Prints to specified output */
-    private void writeOut(BufferedReader reader, OutputStreamWriter writer) throws IOException {
+    private void writeOut(BufferedReader reader) throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {
-            writer.write(String.valueOf(line));
+            writer.write(line);
             writer.write(System.getProperty("line.separator"));
             writer.flush();
         }
