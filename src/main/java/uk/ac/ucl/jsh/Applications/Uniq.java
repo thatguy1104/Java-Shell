@@ -16,18 +16,18 @@ public class Uniq implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir) {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         String uniqFilename;
 
         if (args.size() == 2) {

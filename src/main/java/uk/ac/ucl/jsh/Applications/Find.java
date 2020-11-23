@@ -9,23 +9,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Find implements Application {
-    private OutputStreamWriter writer;
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
+
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         File cur = new File(currentDirectory);
+        OutputStreamWriter writer = new OutputStreamWriter(output);
 
         try {
             File[] listOfFiles = cur.listFiles();

@@ -21,16 +21,17 @@ public class Grep implements Application {
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory) {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         Pattern grepPattern = Pattern.compile(args.get(0));
         int numOfFiles = args.size() - 1;
 

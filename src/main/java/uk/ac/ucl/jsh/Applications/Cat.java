@@ -18,18 +18,18 @@ public class Cat implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory) {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+        writer = new OutputStreamWriter(output);
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
             File currFile = new File(currentDirectory + File.separator + arg);

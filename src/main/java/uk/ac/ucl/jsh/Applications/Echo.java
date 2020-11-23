@@ -11,18 +11,18 @@ public class Echo implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        writer = new OutputStreamWriter(output);
         boolean atLeastOnePrinted = false;
         for (String arg : args) {
             writer.write(arg);

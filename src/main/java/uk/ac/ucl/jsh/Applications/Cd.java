@@ -1,6 +1,5 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
@@ -15,13 +14,13 @@ public class Cd implements Application {
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
 
         String dirString = args.get(0);
         File dir = new File(currDir, dirString);

@@ -11,22 +11,22 @@ public class Unsafe implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return currentDirectory;
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
+        writer = new OutputStreamWriter(output);
         writer.write("unsafe exec");
         writer.write(System.getProperty("line.separator"));
         writer.flush();
-        return application.exec(args, currDir);
+        return application.exec(args, currDir, output);
     }
 
     @Override

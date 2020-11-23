@@ -23,18 +23,19 @@ public class Cut implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
+
         String message = argCheck(args);
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory);
+            return exec(args, currentDirectory, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+        writer = new OutputStreamWriter(output);
 
         String start_end = args.get(1).replaceAll("[^-?0-9]+", " ");
         List<String> line_args = Arrays.asList(start_end.trim().split(" "));
