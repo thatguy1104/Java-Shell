@@ -17,10 +17,15 @@ public class Uniq implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -78,10 +83,10 @@ public class Uniq implements Application {
                 writeOut(uniqLines, writer);
 
             } catch (IOException e) {
-                throw new RuntimeException("uniq: cannot open " + uniqFilename);
+                return "ERROR uniq: cannot open " + uniqFilename;
             }
         } else {
-            throw new RuntimeException("uniq: " + uniqFilename + " does not exist");
+            return "ERROR uniq: " + uniqFilename + " does not exist";
         }
 
         return currDir;

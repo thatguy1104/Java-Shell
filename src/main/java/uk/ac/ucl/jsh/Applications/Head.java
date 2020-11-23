@@ -18,12 +18,16 @@ public class Head implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -37,7 +41,7 @@ public class Head implements Application {
             try {
                 headLines = Integer.parseInt(args.get(1));
             } catch (Exception e) {
-                throw new RuntimeException("head: wrong argument " + args.get(1));
+                return "ERROR head: wrong argument " + args.get(1);
             }
             headArg = args.get(2);
         } else {
@@ -50,10 +54,10 @@ public class Head implements Application {
             try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
                 writeOut(reader, headLines);
             } catch (IOException e) {
-                throw new RuntimeException("head: cannot open " + headArg);
+                return "ERROR head: cannot open " + headArg;
             }
         } else {
-            throw new RuntimeException("head: " + headArg + " does not exist");
+            return "ERROR head: " + headArg + " does not exist";
         }
 
         return currentDirectory;

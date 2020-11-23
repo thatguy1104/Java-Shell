@@ -17,34 +17,47 @@ public class Cat implements Application {
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
+        writer.write("first\n");
+        writer.write(System.getProperty("line.separator"));
+        writer.flush();
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
             File currFile = new File(currentDirectory + File.separator + arg);
+            // writer.write("currFile: " + currFile + "\n");
+            // writer.write(System.getProperty("line.separator"));
+            // writer.flush();
             if (currFile.exists()) {
                 Path filePath = Paths.get(currentDirectory + File.separator + arg);
                 try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
                     writeOut(reader);
                 } catch (IOException e) {
-                    throw new RuntimeException("cat: cannot open " + arg);
+                    return "ERROR cat: cannot open " + arg;
                 }
             } else {
-                throw new RuntimeException("cat: file does not exist");
+                return "ERROR cat: file does not exist";
             }
         }
-
+        // writer.write("returning current directory\n");
+        // writer.write(System.getProperty("line.separator"));
+        // writer.flush();
         return currentDirectory;
     }
 

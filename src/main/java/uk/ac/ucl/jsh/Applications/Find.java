@@ -10,14 +10,20 @@ import java.util.Set;
 
 public class Find implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -25,7 +31,7 @@ public class Find implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         File cur = new File(currentDirectory);
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writer = new OutputStreamWriter(output);
 
         try {
             File[] listOfFiles = cur.listFiles();
@@ -42,7 +48,8 @@ public class Find implements Application {
             }
             writeOut(result_set, writer);
         } catch (NullPointerException e) {
-            throw new RuntimeException("find: no such directory");
+            return "ERROR find: no such directory";
+            //throw new RuntimeException("find: no such directory");
         }
 
         return currentDirectory;

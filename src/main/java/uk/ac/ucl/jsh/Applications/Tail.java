@@ -19,10 +19,15 @@ public class Tail implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -37,7 +42,7 @@ public class Tail implements Application {
             try {
                 tailLines = Integer.parseInt(args.get(1));
             } catch (Exception e) {
-                throw new RuntimeException("tail: wrong argument " + args.get(1));
+                return "ERROR tail: wrong argument " + args.get(1);
             }
             tailArg = args.get(2);
         } else {
@@ -65,10 +70,10 @@ public class Tail implements Application {
                     writer.flush();
                 }
             } catch (IOException e) {
-                throw new RuntimeException("tail: cannot open " + tailArg);
+                return "ERROR tail: cannot open " + tailArg;
             }
         } else {
-            throw new RuntimeException("tail: " + tailArg + " does not exist");
+            return "tail: " + tailArg + " does not exist";
         }
 
         return currentDirectory;
