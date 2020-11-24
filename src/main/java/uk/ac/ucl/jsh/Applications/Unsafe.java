@@ -12,20 +12,22 @@ public class Unsafe implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
+        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            } else {
+                return appResult;
+            }
         }
         return currentDirectory;
     }
 
     @Override
     public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
-        writer.write("unsafe exec");
-        writer.write(System.getProperty("line.separator"));
-        writer.flush();
         return application.exec(args, currDir, output);
     }
 

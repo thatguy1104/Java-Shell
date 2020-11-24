@@ -23,12 +23,16 @@ public class Cut implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-
         String message = argCheck(args);
+        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -39,18 +43,19 @@ public class Cut implements Application {
 
         String start_end = args.get(1).replaceAll("[^-?0-9]+", " ");
         List<String> line_args = Arrays.asList(start_end.trim().split(" "));
+        String cutResult;
 
         // Concatenate all args into 1 string
         String concat_args = String.join(", ", line_args);
         List<Integer> clean_args = parse_cut_input(concat_args);
         String file_name = args.get(2);
 
-        process(currentDirectory, clean_args, file_name);
+        cutResult = process(currentDirectory, clean_args, file_name);
 
-        return currentDirectory;
+        return cutResult;
     }
 
-    private void process(String currentDirectory, List<Integer> clean_args, String file_name) {
+    private String process(String currentDirectory, List<Integer> clean_args, String file_name) {
         Charset encoding = StandardCharsets.UTF_8;
         File curr_File = new File(currentDirectory + File.separator + file_name);
         if (curr_File.exists()) {
@@ -58,10 +63,13 @@ public class Cut implements Application {
             try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
                 writeOut(reader, clean_args);
             } catch (IOException e) {
-                throw new RuntimeException("cut: cannot open " + file_name);
+                return "ERROR cut: cannot open " + file_name;
+                //throw new RuntimeException("cut: cannot open " + file_name);
             }
+            return currentDirectory;
         } else {
-            throw new RuntimeException("cut: file does not exist");
+            return "ERROR cut: file does not exist";
+            //throw new RuntimeException("cut: file does not exist");
         }
     }
 

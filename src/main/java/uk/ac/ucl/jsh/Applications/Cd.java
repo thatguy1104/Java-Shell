@@ -11,10 +11,15 @@ public class Cd implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
+        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -25,7 +30,7 @@ public class Cd implements Application {
         String dirString = args.get(0);
         File dir = new File(currDir, dirString);
         if (!dir.exists() || !dir.isDirectory()) {
-            throw new RuntimeException("cd: " + dirString + " is not an existing directory");
+            return "ERROR cd: " + dirString + " is not an existing directory";
         }
         currDir = dir.getCanonicalPath();
 

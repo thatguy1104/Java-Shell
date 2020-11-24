@@ -19,10 +19,15 @@ public class Sort implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -71,10 +76,10 @@ public class Sort implements Application {
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException("sort: cannot open " + sortArg);
+                return "ERROR sort: cannot open " + sortArg;
             }
         } else {
-            throw new RuntimeException("sort: " + sortArg + " does not exist");
+            return "ERROR sort: " + sortArg + " does not exist";
         }
 
         return currDir;

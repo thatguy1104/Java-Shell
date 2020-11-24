@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class Pwd implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
@@ -20,7 +22,7 @@ public class Pwd implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writer = new OutputStreamWriter(output);
         writer.write(currDir);
         writer.write(System.getProperty("line.separator"));
         writer.flush();

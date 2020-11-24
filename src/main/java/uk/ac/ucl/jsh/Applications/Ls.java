@@ -12,18 +12,23 @@ public class Ls implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        File currDir;
         writer = new OutputStreamWriter(output);
+        File currDir;
 
         /* Assign the current directory if no path is specified */
         if (args.isEmpty()) {
@@ -50,7 +55,7 @@ public class Ls implements Application {
                 writer.flush();
             }
         } catch (NullPointerException e) {
-            throw new RuntimeException("ls: no such directory");
+            return "ERROR ls: no such directory";
         }
         return currentDirectory;
     }

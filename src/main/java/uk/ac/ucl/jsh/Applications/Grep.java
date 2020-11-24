@@ -19,12 +19,16 @@ public class Grep implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        writer = new OutputStreamWriter(output);
         String message = argCheck(args);
-        if (!message.equals("nothing")) {
+        String appResult;
+        if (message != "nothing") {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, output);
+            if (appResult.startsWith("ERROR")) {
+                throwError(appResult.substring(6), output);
+            }
+            return appResult;
         }
         return "";
     }
@@ -36,6 +40,9 @@ public class Grep implements Application {
         int numOfFiles = args.size() - 1;
 
         Path[] filePathArray = getFilePaths(currentDirectory, args, numOfFiles);
+        if (filePathArray == null) {
+            return "ERROR grep: wrong file argument";
+        }
 
         for (int j = 0; j < filePathArray.length; j++) {
             Charset encoding = StandardCharsets.UTF_8;
@@ -54,7 +61,7 @@ public class Grep implements Application {
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException("grep: cannot open " + args.get(j + 1));
+                return "ERROR grep: cannot open " + args.get(j + 1);
             }
         }
 
@@ -70,7 +77,8 @@ public class Grep implements Application {
         for (int i = 0; i < numOfFiles; i++) {
             filePath = currentDir.resolve(args.get(i + 1));
             if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath) || !Files.isReadable(filePath)) {
-                throw new RuntimeException("grep: wrong file argument");
+                return null;
+                //throw new RuntimeException("grep: wrong file argument");
             }
             filePathArray[i] = filePath;
         }
