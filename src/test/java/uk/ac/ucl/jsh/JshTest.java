@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import java.io.PipedInputStream;
@@ -18,11 +19,33 @@ public class JshTest {
         out = new PipedOutputStream(in);
         Jsh.eval("echo foo", out);
         Scanner scn = new Scanner(in);
-        assertEquals(scn.next(),"foo");
+        assertEquals(scn.next(), "foo");
     }
 
+    @Test
+    public void testCat() throws Exception {
+        PipedInputStream in = new PipedInputStream();
+        PipedOutputStream out;
+        out = new PipedOutputStream(in);
+        Jsh.eval("cat text1.txt", out);
+
+        int num_of_lines = 2, i = 0;
+        String[] desired_output = {"abcdefghi", "ofeijnwio"};
+        Scanner scn = new Scanner(in);
+        while (i != num_of_lines) {
+            assertEquals(scn.nextLine(), desired_output[i]);
+            i++;
+        }
+    }
+
+    @Test
+    public void testCd() throws Exception {
+        // TODO
+    }
+
+
     //@Test
-    // public void test_cut() throws Exception {
+    // public void testCut() throws Exception {
     //     PipedInputStream in = new PipedInputStream();
     //     PipedOutputStream out;
     //     out = new PipedOutputStream(in);
@@ -36,7 +59,7 @@ public class JshTest {
     // }
 
     // @Test
-    // public void test_find() throws Exception {
+    // public void testFind() throws Exception {
     //     PipedInputStream in = new PipedInputStream();
     //     PipedOutputStream out;
     //     out = new PipedOutputStream(in);
@@ -52,4 +75,45 @@ public class JshTest {
     //         }
     //     }
     //}
+
+    @Test
+    public void testGrep() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testHead() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testLs() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testPwd() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testSort() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testTail() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testUniq() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testUnsafe() throws Exception {
+        // TODO
+    }
+
 }
