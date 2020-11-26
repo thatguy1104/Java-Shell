@@ -35,9 +35,9 @@ public class Cat implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-        writer.write("first\n");
-        writer.write(System.getProperty("line.separator"));
-        writer.flush();
+        // writer.write("first\n");
+        // writer.write(System.getProperty("line.separator"));
+        // writer.flush();
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
             File currFile = new File(currentDirectory + File.separator + arg);
