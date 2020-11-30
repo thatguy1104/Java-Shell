@@ -15,15 +15,27 @@ grammar JshGrammar;
 
 // atomicCommand : (NONSPECIAL | DOUBLEQUOTED | SINGLEQUOTED)+;
 
-quoted : (singleQuoted | doubleQuoted | backQuoted)+;
+/* Command line parsing */
 
-call : (singleQuoted | doubleQuoted | NON_KEYWORD)* ;
+command : pipe | call;
+
+pipe : call '|' call | pipe '|' call;
+
+seq : command ';' command | seq ';' command;
+
+call : (quoted | NON_KEYWORD)* ;
+
+/* Quoting */
+
+quoted : (singleQuoted | doubleQuoted | backQuoted)+;
 
 singleQuoted : SINGLEQUOTE (NONNEWLINE | NONSINGLEQUOTE)* SINGLEQUOTE;
 
 backQuoted : BACKQUOTE (NONNEWLINE | NONBACKQUOTE)* BACKQUOTE;
 
 doubleQuoted : DOUBLEQUOTE (BACKQUOTE | DOUBLEQUOTECONTENT)* DOUBLEQUOTE;
+
+
 
 
 
