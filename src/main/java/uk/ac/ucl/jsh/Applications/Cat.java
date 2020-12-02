@@ -20,7 +20,7 @@ public class Cat implements Application {
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
             appResult = exec(args, currentDirectory, output);
@@ -35,7 +35,6 @@ public class Cat implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-        writer.write("first\n");
         writer.write(System.getProperty("line.separator"));
         writer.flush();
         for (String arg : args) {

@@ -53,7 +53,7 @@ public class Jsh {
             Pattern regex = Pattern.compile(spaceRegex);
             Matcher regexMatcher = regex.matcher(rawCommand);
             String nonQuote;
-            
+
             while (regexMatcher.find()) {
                 if (regexMatcher.group(1) != null || regexMatcher.group(2) != null) {
                     String quoted = regexMatcher.group(0).trim();
@@ -84,7 +84,7 @@ public class Jsh {
             } catch (IOException e) {
                 throw new RuntimeException(appName + ": unknown application");
             }
-            
+
         }
     }
 

@@ -7,8 +7,8 @@ class Factory {
     Application getApp(String app) {
 
         switch(app) {
-            case "cd": return (Application) new Cd();
-            case "_cd": return (Application) new Unsafe(new Cd());
+            case "cd": return new Cd();
+            case "_cd": return new Unsafe(new Cd());
             case "pwd": return new Pwd();
             case "_pwd": return new Unsafe(new Pwd());
             case "ls": return new Ls();
