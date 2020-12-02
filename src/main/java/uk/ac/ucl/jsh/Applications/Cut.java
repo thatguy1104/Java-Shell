@@ -48,6 +48,11 @@ public class Cut implements Application {
         // Concatenate all args into 1 string
         String concat_args = String.join(", ", line_args);
         List<Integer> clean_args = parse_cut_input(concat_args);
+        if (clean_args.get(0) == -2) {
+            return "ERROR cut: incorrect list ranges";
+        } else if (clean_args.get(0) == -1) {
+            return "ERROR cut: could not convert arguments";
+        }
         String file_name = args.get(2);
 
         cutResult = process(currentDirectory, clean_args, file_name);
@@ -61,7 +66,9 @@ public class Cut implements Application {
         if (curr_File.exists()) {
             Path file_Path = Paths.get(currentDirectory + File.separator + file_name);
             try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
-                writeOut(reader, clean_args);
+                if (writeOut(reader, clean_args) == false) {
+                    return "ERROR cut: byte index specified does not exist";
+                }
             } catch (IOException e) {
                 return "ERROR cut: cannot open " + file_name;
                 //throw new RuntimeException("cut: cannot open " + file_name);
@@ -74,7 +81,7 @@ public class Cut implements Application {
     }
 
     /* Prints to specified output */
-    private void writeOut(BufferedReader reader, List<Integer> clean_args) throws IOException {
+    private Boolean writeOut(BufferedReader reader, List<Integer> clean_args) throws IOException {
         String line;
         ArrayList<Character> separated_bytes;
 
@@ -82,7 +89,8 @@ public class Cut implements Application {
             separated_bytes = new ArrayList<>();
             for (int i : clean_args) {
                 if (i < 0) {
-                    throw new RuntimeException("cut: byte index specified does not exist");
+                    return false;
+                    //throw new RuntimeException("cut: byte index specified does not exist");
                 } else if (i < line.length()) {
                     separated_bytes.add(line.charAt(i));
                 }
@@ -90,6 +98,7 @@ public class Cut implements Application {
             String resulting_line = separated_bytes.stream().map(String::valueOf).collect(Collectors.joining());
             outputToConsole(resulting_line);
         }
+        return true;
     }
 
     private void outputToConsole(String line) throws IOException {
@@ -128,7 +137,8 @@ public class Cut implements Application {
                 }
             }
         } catch (Exception f) {
-            throw new IOException("cut: could not convert arguments");
+            return null;
+            //throw new IOException("cut: could not convert arguments");
         }
         return final_lst;
     }
@@ -143,7 +153,8 @@ public class Cut implements Application {
                 }
             }
         } catch (Exception f) {
-            throw new IOException("cut: could not convert args");
+            return null;
+            //throw new IOException("cut: could not convert arguments");
         }
         return final_lst;
     }
@@ -167,6 +178,8 @@ public class Cut implements Application {
         str = str.replaceAll("[^-?0-9]+", " ");
         String[] line_args = str.trim().split(" ");
         List<Integer> total_range = new ArrayList<>();
+        List<Integer> case_one = new ArrayList<>();
+        List<Integer> case_two = new ArrayList<>();
 
         // Parse each element to extend arguments where necessary
         for (String elem : line_args) {
@@ -180,17 +193,29 @@ public class Cut implements Application {
 
                 switch (inner_range.size()) {
                     case 1: // For: X- (e.g.: 1-)
-                        total_range = Stream.of(total_range, parse_caseOne(inner_range, total_range))
+                        case_one = parse_caseOne(inner_range, total_range);
+                        if (case_one == null) {
+                            total_range.set(0, -1);
+                            return total_range;
+                        }
+                        total_range = Stream.of(total_range, case_one)
                                 .flatMap(Collection::stream)
                                 .collect(Collectors.toList());
                         break;
                     case 2: // For: X-Y, where X < Y (e.g.: 1-3)
-                        total_range = Stream.of(total_range, parse_caseTwo(inner_range, total_range))
+                        case_two = parse_caseTwo(inner_range, total_range);
+                        if (case_two == null) {
+                            total_range.set(0, -1);
+                            return total_range;
+                        }
+                        total_range = Stream.of(total_range, case_two)
                                 .flatMap(Collection::stream)
                                 .collect(Collectors.toList());
                         break;
                     default:
-                        throw new IOException("cut: incorrect list ranges");
+                        total_range.set(0, -2);
+                        return total_range;
+                        //throw new IOException("cut: incorrect list ranges");
                 }
             }
         }
