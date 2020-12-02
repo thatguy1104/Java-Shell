@@ -12,7 +12,7 @@ pipe : call '|' call | pipe '|' call;
 
 seq : command ';' command | seq ';' command;
 
-call : (quoted | NON_KEYWORD)* ;
+call : (quoted | NON_KEYWORD)* ;    
 
 /* Quoting */
 
@@ -43,7 +43,7 @@ redirection : '<' WHITESPACE argument
  * Lexer Rules
  */
 
-NONSPECIAL : ~['";|]+;
+//NONSPECIAL : ~['";|]+;
 WHITESPACE : ('\t' | ' ' | '\r' | '\n')+; //WHITESPACE : ('\t' | ' ' | '\r' | '\n' | '\u000C')+;
 NON_KEYWORD : ~['";|\n`];
 SINGLEQUOTE : '\'';
