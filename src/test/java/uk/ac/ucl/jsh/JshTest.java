@@ -33,6 +33,10 @@ public class JshTest {
     }
 
     private String full_line(String file_contents) {
+        if (file_contents.equals("")) {
+            return "";
+        }
+
         StringBuilder line = new StringBuilder(this.scn.next());
         if (file_contents.contains("\n")) {
             while (this.scn.hasNextLine()) {
@@ -117,7 +121,15 @@ public class JshTest {
 
     @Test
     public void testHead() throws Exception {
-        // TODO
+        int test_cases = 3;
+        String[] cases = {"head text1.txt", "head -n 3 text3.txt", "head -n 0 text1.txt"};
+        String[] expected_out = {readFile("text1.txt"), "bab\nbbb\nBBB", ""};
+
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
     }
 
     @Test
