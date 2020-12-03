@@ -34,12 +34,15 @@ public class JshTest {
 
     private String full_line(String file_contents) {
         StringBuilder line = new StringBuilder(this.scn.next());
-        while (this.scn.hasNextLine()) {
-            String temp = this.scn.next();
-            line.append("\n").append(temp);
-            if (temp.equals(last_string(file_contents))) break;
+        if (file_contents.contains("\n")) {
+            while (this.scn.hasNextLine()) {
+                String temp = this.scn.next();
+                line.append("\n").append(temp);
+                if (temp.equals(last_string(file_contents))) break;
+            }
+            return line.toString();
         }
-        return line.toString();
+        return file_contents;
     }
 
 
@@ -101,7 +104,15 @@ public class JshTest {
 
     @Test
     public void testGrep() throws Exception {
-        // TODO
+        int test_cases = 3;
+        String[] cases = {"grep \"d\" text1.txt", "grep \"d\" text2.txt", "grep \"aa\" text3.txt"};
+        String[] expected_out = {"abcdefghi", "d\nd", "aaa\naaa"};
+
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
     }
 
     @Test
