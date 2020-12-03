@@ -32,6 +32,16 @@ public class JshTest {
         return lines[lines.length - 1];
     }
 
+    private String full_line(String file_contents) {
+        StringBuilder line = new StringBuilder(this.scn.next());
+        while (this.scn.hasNextLine()) {
+            String temp = this.scn.next();
+            line.append("\n").append(temp);
+            if (temp.equals(last_string(file_contents))) break;
+        }
+        return line.toString();
+    }
+
 
     @Test
     public void testJsh() throws Exception {
@@ -44,35 +54,32 @@ public class JshTest {
         String file_name = "text1.txt";
         Jsh.eval("cat " + file_name, this.out);
         String file_contents = readFile(file_name);
-
-        StringBuilder line = new StringBuilder(this.scn.next());
-        while (this.scn.hasNextLine()) {
-            String temp = this.scn.next();
-            line.append("\n").append(temp);
-            if (temp.equals(last_string(file_contents))) break;
-        }
-        assertEquals(line.toString(), file_contents);
+        String full_string = full_line(file_contents);
+        assertEquals(full_string, file_contents);
     }
+
+//    @Test
+//    public void testCd() throws Exception {
+//        // TODO
+//        Jsh.eval("cd src", this.out);
+//        String cd_directory = System.getProperty("user.dir");
+//        System.out.println(cd_directory);
+//        assertEquals(this.scn.next(), "foo");
+//    }
+
 
     @Test
-    public void testCd() throws Exception {
-        // TODO
+    public void testCut() throws Exception {
+        int test_cases = 4;
+        String[] cases = {"cut -b 1 text1.txt", "cut -b 1,2 text1.txt", "cut -b 1- text1.txt", "cut -b 1,3-4 text1.txt"};
+        String[] expected_out = {"a\no", "ab\nof", "bcdefghi\nfeijnwio", "ad\noi"};
+
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
     }
-
-
-    //@Test
-    // public void testCut() throws Exception {
-    //     PipedInputStream in = new PipedInputStream();
-    //     PipedOutputStream out;
-    //     out = new PipedOutputStream(in);
-    //     String[] cases = {"cut -b 1 text1.txt", "cut -b 1,2 text1.txt", "cut -b 1- text1.txt", "cut -b 1,3-4 text1.txt"};
-    //     String[] expected_out = {"a", "ab", "abcdef", "acd"};
-    //     for (int i = 0; i < cases.length; i++) {
-    //         Jsh.eval(cases[i], out);
-    //         Scanner scn = new Scanner(in);
-    //         assertEquals(scn.next(), expected_out[i]);
-    //     }
-    // }
 
     // @Test
     // public void testFind() throws Exception {
