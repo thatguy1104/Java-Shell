@@ -4,45 +4,54 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class JshTest {
 
-    public JshTest() {
+    private PipedInputStream in = new PipedInputStream();
+    private PipedOutputStream out = new PipedOutputStream(in);
+    private Scanner scn = new Scanner(in);
+
+    public JshTest() throws IOException {
     }
+
+    private String readFile(String file_name) throws IOException {
+        List<String> contents = Files.readAllLines(Paths.get(file_name));
+        return contents.stream().map(String::valueOf).collect(Collectors.joining("\n"));
+    }
+
+    private String last_string(String line) {
+        String[] lines = line.split("\\n");
+        return lines[lines.length - 1];
+    }
+
 
     @Test
     public void testJsh() throws Exception {
-        PipedInputStream in = new PipedInputStream();
-        PipedOutputStream out;
-        out = new PipedOutputStream(in);
-        Jsh.eval("echo foo", out);
-        Scanner scn = new Scanner(in);
-        assertEquals(scn.next(), "foo");
+        Jsh.eval("echo foo", this.out);
+        assertEquals(this.scn.next(), "foo");
     }
 
     @Test
     public void testCat() throws Exception {
-        PipedInputStream in = new PipedInputStream();
-        PipedOutputStream out;
-        out = new PipedOutputStream(in);
-        Jsh.eval("cat text1.txt", out);
+        String file_name = "text1.txt";
+        Jsh.eval("cat " + file_name, this.out);
+        String file_contents = readFile(file_name);
 
-        Scanner scn = new Scanner(in);
-
-        String line;
-        while(scn.hasNextLine()) {
-            line = scn.next();
-            if (!line.equals("")) {
-                System.out.println("OUT: " + line);
-            }
+        StringBuilder line = new StringBuilder(this.scn.next());
+        while (this.scn.hasNextLine()) {
+            String temp = this.scn.next();
+            line.append("\n").append(temp);
+            if (temp.equals(last_string(file_contents))) break;
         }
+        assertEquals(line.toString(), file_contents);
     }
 
     @Test
