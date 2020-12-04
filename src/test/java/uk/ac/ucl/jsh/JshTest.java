@@ -31,6 +31,8 @@ public class JshTest {
     }
 
     private String full_line(String file_contents) {
+        int limit = 50, i = 0;
+
         if (file_contents.equals("")) {
             return "";
         }
@@ -41,17 +43,26 @@ public class JshTest {
                 String temp = this.scn.next();
                 line.append("\n").append(temp);
                 if (temp.equals(last_string(file_contents))) break;
+                i++;
+                if (i > limit) break;
             }
             return line.toString();
         }
         return file_contents;
     }
 
+    private String eval_result(String case_, String expected) throws IOException {
+        Jsh.eval(case_, this.out);
+        return full_line(expected);
+    }
 
     @Test
-    public void testJsh() throws Exception {
-        Jsh.eval("echo foo", this.out);
-        assertEquals(this.scn.next(), "foo");
+    public void testEcho() throws Exception {
+        String[][] cases = {{"echo foo", "foo"}, {"echo hello world", "hello world"}, {"echo \"hello    world\"", "hello    world"}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
+        }
     }
 
     @Test
@@ -63,64 +74,45 @@ public class JshTest {
         assertEquals(full_string, file_contents);
     }
 
-//    @Test
-//    public void testCd() throws Exception {
-//        // TODO
-//        Jsh.eval("cd src", this.out);
-//        String cd_directory = System.getProperty("user.dir");
-//        System.out.println(cd_directory);
-//        assertEquals(this.scn.next(), "foo");
-//    }
+    @Test
+    public void testCd() throws Exception {
+        // TODO
 
+    }
 
     @Test
     public void testCut() throws Exception {
-        int test_cases = 4;
-        String[] cases = {"cut -b 1 text1.txt", "cut -b 1,2 text1.txt", "cut -b 1- text1.txt", "cut -b 1,3-4 text1.txt"};
-        String[] expected_out = {"a\no", "ab\nof", "bcdefghi\nfeijnwio", "ad\noi"};
-
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"cut -b 1 text1.txt", "a\no"}, {"cut -b 1,2 text1.txt", "ab\nof"}, {"cut -b 1- text1.txt", "bcdefghi\nfeijnwio"}, {"cut -b 1,3-4 text1.txt", "ad\noi"}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
     @Test
     public void testFind() throws Exception {
-        int test_cases = 4;
-        String[] cases = {"find *.txt", "find run.txt", "find text1.txt", "find text2.txt"};
-        String[] expected_out = {"text1.txt", "run.txt", "text1.txt", "text2.txt"};
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"find *.txt", "text1.txt"}, {"find run.txt", "run.txt"}, {"find text1.txt", "text1.txt"}, {"find text2.txt", "text2.txt"}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
     @Test
     public void testGrep() throws Exception {
-        int test_cases = 3;
-        String[] cases = {"grep \"d\" text1.txt", "grep \"d\" text2.txt", "grep \"aa\" text3.txt"};
-        String[] expected_out = {"abcdefghi", "d\nd", "aaa\naaa"};
-
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"grep \"d\" text1.txt", "abcdefghi"}, {"grep \"d\" text2.txt", "d\nd"}, {"grep \"aa\" text3.txt", "aaa\naaa"}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
     @Test
     public void testHead() throws Exception {
-        int test_cases = 3;
-        String[] cases = {"head text1.txt", "head -n 3 text3.txt", "head -n 0 text1.txt"};
-        String[] expected_out = {readFile("text1.txt"), "bab\nbbb\nBBB", ""};
-
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"head text1.txt", readFile("text1.txt")}, {"head -n 3 text3.txt", "bab\nbbb\nBBB"}, {"head -n 0 text1.txt", ""}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
@@ -136,40 +128,28 @@ public class JshTest {
 
     @Test
     public void testSort() throws Exception {
-        int test_cases = 2;
-        String[] cases = {"sort -r text1.txt", "sort -r text3.txt"};
-        String[] expected_out = {"ofeijnwio\nabcdefghi", "lol\nloL\nbbb\nbbb\nbab\naaa\naaa\nLoL\nBBB\nAAA"};
-
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"sort -r text1.txt", "ofeijnwio\nabcdefghi"}, {"sort -r text3.txt", "lol\nloL\nbbb\nbbb\nbab\naaa\naaa\nLoL\nBBB\nAAA"}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
     @Test
     public void testTail() throws Exception {
-        int test_cases = 3;
-        String[] cases = {"tail -n 3 text2.txt", "tail -n 3 text3.txt", "tail -n 0 text1.txt"};
-        String[] expected_out = {"o\nw\nj", "LoL\nlol\nloL", ""};
-
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"tail -n 3 text2.txt", "o\nw\nj"}, {"tail -n 3 text3.txt", "LoL\nlol\nloL"}, {"tail -n 0 text1.txt", ""}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
     @Test
     public void testUniq() throws Exception {
-        int test_cases = 2;
-        String[] cases = {"uniq text3.txt", "uniq -i text3.txt"};
-        String[] expected_out = {"bab\nbbb\nBBB\naaa\nAAA\nLoL\nlol\nloL", "bab\nAAA\nbbb\nloL"};
-
-        for (int i = 0; i < test_cases; i++) {
-            Jsh.eval(cases[i], this.out);
-            String full_string = full_line(expected_out[i]);
-            assertEquals(full_string, expected_out[i]);
+        String[][] cases = {{"uniq text3.txt", "bab\nbbb\nBBB\naaa\nAAA\nLoL\nlol\nloL"}, {"uniq -i text3.txt", "bab\nAAA\nbbb\nloL"}};
+        for (String[] aCase : cases) {
+            String full_string = eval_result(aCase[0], aCase[1]);
+            assertEquals(full_string, aCase[1]);
         }
     }
 
