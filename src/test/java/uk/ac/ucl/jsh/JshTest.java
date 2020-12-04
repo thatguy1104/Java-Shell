@@ -7,8 +7,6 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -132,29 +130,53 @@ public class JshTest {
         }
     }
 
-    @Test
-    public void testLs() throws Exception {
-        // TODO
-    }
+//    @Test
+//    public void testLs() throws Exception {
+//        // TODO
+//    }
 
-    @Test
-    public void testPwd() throws Exception {
-        // TODO
-    }
+//    @Test
+//    public void testPwd() throws Exception {
+//        // TODO
+//    }
 
     @Test
     public void testSort() throws Exception {
-        // TODO
+        int test_cases = 2;
+        String[] cases = {"sort -r text1.txt", "sort -r text3.txt"};
+        String[] expected_out = {"ofeijnwio\nabcdefghi", "lol\nloL\nbbb\nbbb\nbab\naaa\naaa\nLoL\nBBB\nAAA"};
+
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
     }
 
     @Test
     public void testTail() throws Exception {
-        // TODO
+        int test_cases = 3;
+        String[] cases = {"tail -n 3 text2.txt", "tail -n 3 text3.txt", "tail -n 0 text1.txt"};
+        String[] expected_out = {"o\nw\nj", "LoL\nlol\nloL", ""};
+
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
     }
 
     @Test
     public void testUniq() throws Exception {
-        // TODO
+        int test_cases = 2;
+        String[] cases = {"uniq text3.txt", "uniq -i text3.txt"};
+        String[] expected_out = {"bab\nbbb\nBBB\naaa\nAAA\nLoL\nlol\nloL", "bab\nAAA\nbbb\nloL"};
+
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
     }
 
     @Test
