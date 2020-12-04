@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -77,13 +78,17 @@ public class JshTest {
 
     @Test
     public void testCd() throws Exception {
-        String aCase = "cd src";
-        String curr_dir = System.getProperty("user.dir/src");
+        String toFolder = "src";
 
-        System.out.println(curr_dir);
+        ArrayList<String> aCase = new ArrayList<>();
+        aCase.add(0, toFolder);
 
-//        String full_string = eval_result(aCase, curr_dir);
-//        assertEquals(full_string, curr_dir);
+        String curr_dir = System.getProperty("user.dir");
+        String result_dir = System.getProperty("user.dir") + "/" + toFolder;
+
+        String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, this.out);
+
+        assertEquals(new_dir, result_dir);
 
     }
 
@@ -171,18 +176,16 @@ public class JshTest {
     }
 
     @Test
-    public void testUnsafe() throws Exception {
-        // TODO
-    }
-
-    @Test
     public void testFactory() {
         String[] allApps = {"cd", "cat", "cut", "pwd", "echo", "find", "grep", "head", "sort", "tail", "uniq", "ls"};
         for (String appName : allApps) {
             Application application = new Factory().getApp(appName);
             assertNotNull(application);
         }
-
     }
 
+    @Test
+    public void testUnsafe() throws Exception {
+        // TODO
+    }
 }
