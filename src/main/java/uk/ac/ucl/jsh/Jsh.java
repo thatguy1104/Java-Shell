@@ -33,8 +33,6 @@ public class Jsh {
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!tree.getChild(i).getText().equals(";")) {
                 lastSubcommand += tree.getChild(i).getText();
-            } else if (!tree.getChild(i).getText().equals("|")) {
-                lastSubcommand += tree.getChild(i).getText();
             } else {
                 rawCommands.add(lastSubcommand);
                 lastSubcommand = "";

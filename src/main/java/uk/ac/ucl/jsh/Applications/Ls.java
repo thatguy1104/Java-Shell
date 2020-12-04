@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class Ls implements Application {
-    private OutputStreamWriter writer;
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
@@ -27,7 +26,7 @@ public class Ls implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         File currDir;
 
         /* Assign the current directory if no path is specified */

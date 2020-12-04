@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh;
 
 import org.junit.Test;
+import uk.ac.ucl.jsh.Applications.Application;
 
 import static org.junit.Assert.*;
 
@@ -76,7 +77,13 @@ public class JshTest {
 
     @Test
     public void testCd() throws Exception {
-        // TODO
+        String aCase = "cd src";
+        String curr_dir = System.getProperty("user.dir/src");
+
+        System.out.println(curr_dir);
+
+//        String full_string = eval_result(aCase, curr_dir);
+//        assertEquals(full_string, curr_dir);
 
     }
 
@@ -118,12 +125,22 @@ public class JshTest {
 
     @Test
     public void testLs() throws Exception {
-        // TODO
+        File f = new File(System.getProperty("user.dir"));
+        String[] path_names = f.list();
+        assert path_names != null;
+
+        for (String file_name : path_names) {
+            String full_string = eval_result("ls", file_name);
+            assertEquals(full_string, file_name);
+        }
     }
 
     @Test
     public void testPwd() throws Exception {
-        // TODO
+        String aCase = "pwd";
+        String curr_dir = System.getProperty("user.dir");
+        String full_string = eval_result(aCase, curr_dir);
+        assertEquals(full_string, curr_dir);
     }
 
     @Test
@@ -156,6 +173,16 @@ public class JshTest {
     @Test
     public void testUnsafe() throws Exception {
         // TODO
+    }
+
+    @Test
+    public void testFactory() {
+        String[] allApps = {"cd", "cat", "cut", "pwd", "echo", "find", "grep", "head", "sort", "tail", "uniq", "ls"};
+        for (String appName : allApps) {
+            Application application = new Factory().getApp(appName);
+            assertNotNull(application);
+        }
+
     }
 
 }
