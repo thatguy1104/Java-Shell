@@ -86,23 +86,17 @@ public class JshTest {
         }
     }
 
-    // @Test
-    // public void testFind() throws Exception {
-    //     PipedInputStream in = new PipedInputStream();
-    //     PipedOutputStream out;
-    //     out = new PipedOutputStream(in);
-    //     String[] cases = { "find *.txt", "find run.txt", "find text1.txt", "find text2.txt"};
-    //     String[][] expected_out = {{"text1.txt"}, {"run.txt"}, {"text1.txt"}, {"text2.txt"}};
-    //     for (int i = 0; i < cases.length; i++) {
-    //         Jsh.eval(cases[i], out);
-    //         Scanner scn = new Scanner(in);
-    //         while(scn.hasNext()) {
-    //             for (int j = 0; j < expected_out[i].length; j++) {
-    //                 assertEquals(scn.next(), expected_out[j]);
-    //             } 
-    //         }
-    //     }
-    //}
+    @Test
+    public void testFind() throws Exception {
+        int test_cases = 4;
+        String[] cases = {"find *.txt", "find run.txt", "find text1.txt", "find text2.txt"};
+        String[] expected_out = {"text1.txt", "run.txt", "text1.txt", "text2.txt"};
+        for (int i = 0; i < test_cases; i++) {
+            Jsh.eval(cases[i], this.out);
+            String full_string = full_line(expected_out[i]);
+            assertEquals(full_string, expected_out[i]);
+        }
+    }
 
     @Test
     public void testGrep() throws Exception {
@@ -130,15 +124,15 @@ public class JshTest {
         }
     }
 
-//    @Test
-//    public void testLs() throws Exception {
-//        // TODO
-//    }
+    @Test
+    public void testLs() throws Exception {
+        // TODO
+    }
 
-//    @Test
-//    public void testPwd() throws Exception {
-//        // TODO
-//    }
+    @Test
+    public void testPwd() throws Exception {
+        // TODO
+    }
 
     @Test
     public void testSort() throws Exception {
