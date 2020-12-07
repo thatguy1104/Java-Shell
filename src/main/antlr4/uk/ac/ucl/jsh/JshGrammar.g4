@@ -4,53 +4,83 @@ grammar JshGrammar;
  * Parser Rules
  */
 
-/* Command line parsing */
+/*
+ * Command line parsing
+ */
 
-command : pipe | call;
+start: command EOF | seq EOF;
 
-pipe : call '|' call | pipe '|' call;
+command: pipe | call;
 
-seq : command ';' command | seq ';' command;
+pipe: call '|' call | pipe '|' call;
 
-call : (quoted | NON_KEYWORD)* ;    
+seq: command ';' command | seq ';' command;
 
-/* Quoting */
+//call : (quoted | NON_KEYWORD)* ; //THIS IS THE OLD CALL AS MENTIONED IN THE SPEC
 
-quoted : (singleQuoted | doubleQuoted | backQuoted)+;
+/*
+ * Quoting
+ */
 
-singleQuoted : SINGLEQUOTE (NONNEWLINE | NONSINGLEQUOTE)* SINGLEQUOTE;
+quoted: (singleQuoted | doubleQuoted | backQuoted)+;
 
-backQuoted : BACKQUOTE (NONNEWLINE | NONBACKQUOTE)* BACKQUOTE;
+singleQuoted:
+	SINGLEQUOTE (~NEWLINE | ~SINGLEQUOTE)* SINGLEQUOTE;
 
-doubleQuoted : DOUBLEQUOTE (BACKQUOTE | DOUBLEQUOTECONTENT)* DOUBLEQUOTE;
+backQuoted: BACKQUOTE (~NEWLINE | ~BACKQUOTE)* BACKQUOTE;
 
-/* Call command */
+doubleQuoted:
+	DOUBLEQUOTE (
+		BACKQUOTE
+		| ~NEWLINE
+		| ~BACKQUOTE
+		| ~DOUBLEQUOTE
+	)* DOUBLEQUOTE;
+// previously doubleQuoted : DOUBLEQUOTE (BACKQUOTE | DOUBLEQUOTECONTENT)* DOUBLEQUOTE;
 
-callcommand : WHITESPACE (redirection WHITESPACE)* argument (WHITESPACE atom)* WHITESPACE;
+/*
+ * Call command
+ */
 
-atom : redirection | argument;
+call:
+	WHITESPACE* (redirection WHITESPACE)* argument (
+		WHITESPACE atom
+	)* WHITESPACE*;
 
-argument : (quoted | UNQUOTED)+;
+atom: redirection | argument;
 
-redirection : '<' WHITESPACE argument 
-            | '>' WHITESPACE argument;
+argument: (quoted | UNQUOTED)+;
 
-
-
-
+redirection: '<' WHITESPACE argument | '>' WHITESPACE argument;
 
 /*
  * Lexer Rules
  */
 
 //NONSPECIAL : ~['";|]+;
-WHITESPACE : ('\t' | ' ' | '\r' | '\n')+; //WHITESPACE : ('\t' | ' ' | '\r' | '\n' | '\u000C')+;
-NON_KEYWORD : ~['";|\n`];
-SINGLEQUOTE : '\'';
-DOUBLEQUOTE : '"';
-BACKQUOTE : '`';
-NONNEWLINE : ~('\n')+;
-NONSINGLEQUOTE : ~('\'')+;
-NONBACKQUOTE : ~('`')+;
-DOUBLEQUOTECONTENT : ~[\n"`]+;
-UNQUOTED : ~([\n\t\r'`´";|<>] | ' ')+; // forward quote included or not?
+WHITESPACE: ('\t' | ' ' | '\r' | '\n')+; //WHITESPACE : ('\t' | ' ' | '\r' | '\n' | '\u000C')+;
+UNQUOTED: (
+		~(
+			'\r'
+			| '\n'
+			| ' '
+			| '\''
+			| '\t'
+			| '"'
+			| '`'
+			| ';'
+			| '|'
+			| '<'
+			| '>'
+		)
+	)+;
+//NON_KEYWORD : ~['";|\n`]+;
+SINGLEQUOTE: '\'';
+DOUBLEQUOTE: '"';
+BACKQUOTE: '`';
+//NONNEWLINE : ~('\n')+;
+NEWLINE: '\n';
+//NONSINGLEQUOTE : ~('\'')+; NONBACKQUOTE : ~('`')+; DOUBLEQUOTECONTENT : ~[\n"`]+; UNQUOTED :
+// ~([\n\t\r'`´";|<>] | ' ')+; // forward quote included or not?
+
+// MAIN Q: forward quote to be included in unquoted or not?
