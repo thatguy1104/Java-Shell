@@ -2,9 +2,9 @@ package uk.ac.ucl.jsh;
 
 import uk.ac.ucl.jsh.Applications.*;
 
-class Factory {
+public class Factory {
     
-    Application getApp(String app) {
+    public Application getApp(String app) {
 
         switch(app) {
             case "cd": return new Cd();
