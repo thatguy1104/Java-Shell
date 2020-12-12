@@ -67,7 +67,6 @@ public class JshTest {
         }
     }
 
-
     @Test
     public void testEcho() throws Exception {
         new EchoTest().runAllTests();
@@ -130,7 +129,7 @@ public class JshTest {
 
     @Test
     public void testFactory() throws IOException {
-        new FactoryTest().test();
+        new testFactory().test();
     }
 
     @Test // TODO

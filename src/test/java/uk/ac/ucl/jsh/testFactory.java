@@ -7,9 +7,9 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
 
-public class FactoryTest extends JshTest {
+public class testFactory extends JshTest {
 
-    public FactoryTest() throws IOException {
+    public testFactory() throws IOException {
     }
 
     @Test
