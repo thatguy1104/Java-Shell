@@ -1,6 +1,6 @@
 package uk.ac.ucl.jsh.Visitor;
 
-public interface Visitor {
+public interface Visitor<T> {
     
     void visit(Pipe pipe);
 

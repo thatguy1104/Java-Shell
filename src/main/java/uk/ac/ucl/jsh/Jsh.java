@@ -29,16 +29,16 @@ public class Jsh {
         JshGrammarParser parser = new JshGrammarParser(tokenStream);
         ParseTree tree = parser.command();
         ArrayList<String> rawCommands = new ArrayList<>();
-        String lastSubcommand = "";
+        String lastSubCommand = "";
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!tree.getChild(i).getText().equals(";")) {
-                lastSubcommand += tree.getChild(i).getText();
+                lastSubCommand += tree.getChild(i).getText();
             } else {
-                rawCommands.add(lastSubcommand);
-                lastSubcommand = "";
+                rawCommands.add(lastSubCommand);
+                lastSubCommand = "";
             }
         }
-        rawCommands.add(lastSubcommand);
+        rawCommands.add(lastSubCommand);
         return rawCommands;
     }
 

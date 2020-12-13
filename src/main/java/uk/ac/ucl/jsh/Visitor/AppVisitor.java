@@ -1,6 +1,6 @@
 package uk.ac.ucl.jsh.Visitor;
 
-public class AppVisitor implements Visitor {
+public class AppVisitor<T> implements Visitor<T> {
 
     @Override
     public void visit(Pipe pipe) {

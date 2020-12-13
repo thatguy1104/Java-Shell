@@ -19,26 +19,6 @@ seq: command ';' command | seq ';' command;
 //call : (quoted | NON_KEYWORD)* ; //THIS IS THE OLD CALL AS MENTIONED IN THE SPEC
 
 /*
- * Quoting
- */
-
-quoted: (singleQuoted | doubleQuoted | backQuoted)+;
-
-singleQuoted:
-	SINGLEQUOTE (~NEWLINE | ~SINGLEQUOTE)* SINGLEQUOTE;
-
-backQuoted: BACKQUOTE (~NEWLINE | ~BACKQUOTE)* BACKQUOTE;
-
-doubleQuoted:
-	DOUBLEQUOTE (
-		BACKQUOTE
-		| ~NEWLINE
-		| ~BACKQUOTE
-		| ~DOUBLEQUOTE
-	)* DOUBLEQUOTE;
-// previously doubleQuoted : DOUBLEQUOTE (BACKQUOTE | DOUBLEQUOTECONTENT)* DOUBLEQUOTE;
-
-/*
  * Call command
  */
 
@@ -52,6 +32,27 @@ atom: redirection | argument;
 argument: (quoted | UNQUOTED)+;
 
 redirection: '<' WHITESPACE argument | '>' WHITESPACE argument;
+
+/*
+ * Quoting
+ */
+
+quoted: (singleQuoted | doubleQuoted | backQuoted)+;
+
+singleQuoted: SINGLEQUOTE (~NEWLINE | ~SINGLEQUOTE)* SINGLEQUOTE;
+
+backQuoted: BACKQUOTE (~NEWLINE | ~BACKQUOTE)* BACKQUOTE;
+
+doubleQuoted:
+	DOUBLEQUOTE (
+		BACKQUOTE
+		| ~NEWLINE
+		| ~BACKQUOTE
+		| ~DOUBLEQUOTE
+	)* DOUBLEQUOTE;
+// previously doubleQuoted : DOUBLEQUOTE (BACKQUOTE | DOUBLEQUOTECONTENT)* DOUBLEQUOTE;
+
+
 
 /*
  * Lexer Rules
