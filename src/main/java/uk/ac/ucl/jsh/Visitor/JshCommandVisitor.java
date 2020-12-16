@@ -2,20 +2,23 @@ package uk.ac.ucl.jsh.Visitor;
 //import JshGrammarParser;
 import uk.ac.ucl.jsh.Parser.antlr2.*;
 
+import java.util.ArrayList;
+
 public class JshCommandVisitor extends JshGrammarBaseVisitor<Visitable> {
+
     @Override
     public Visitable visitStart(JshGrammarParser.StartContext ctx) {
-        if (!(ctx.command() == null)) {
-            return visit(ctx.command());
-        } else {
+        if (ctx.seq() != null) {
             return visit(ctx.seq());
+        } else {
+            return visit(ctx.command());
         }
         //return super.visitStart(ctx);
     }
 
     @Override
     public Visitable visitCommand(JshGrammarParser.CommandContext ctx) {
-        if (!(ctx.pipe() == null)) {
+        if (ctx.pipe() != null) {
             return visit(ctx.pipe());
         } else {
             return visit(ctx.call());
@@ -24,37 +27,41 @@ public class JshCommandVisitor extends JshGrammarBaseVisitor<Visitable> {
     }
 
     @Override
-    public Visitable visitPipe(JshGrammarParser.PipeContext ctx) {
-        if (!(ctx.call(1) == null) && !(ctx.call(2) == null)) {
-            return new Pipe(visit(ctx.call(1)), visit(ctx.call(2)));
-        }
-        if (!(ctx.pipe() == null) && !(ctx.call(2) == null)){
-            return new Pipe(visit(ctx.pipe()), visit(ctx.call(2)));
-        }
-        return null;
-        //return super.visitPipe(ctx);
+    public Visitable visitPipeBaseCase(JshGrammarParser.PipeBaseCaseContext ctx) {
+        return new Pipe(visit(ctx.call1), visit(ctx.call2));
+        //return super.visitPipeBaseCase(ctx);
     }
 
     @Override
-    public Visitable visitSeq(JshGrammarParser.SeqContext ctx) {
-        if (!(ctx.command(1) == null) && !(ctx.command(3) == null)) {
-            return new Seq(visit(ctx.command(1)), visit(ctx.command(2)));
-        }
-        if (!(ctx.seq() == null) && !(ctx.command(2) == null)) {
-            return new Seq(visit(ctx.seq()), visit(ctx.command(2)));
-        }
-        return null;
-        //return super.visitSeq(ctx);
+    public Visitable visitPipeRecursiveCase(JshGrammarParser.PipeRecursiveCaseContext ctx) {
+        return new Pipe(visit(ctx.pipe()), visit(ctx.call()));
+        //return super.visitPipeRecursiveCase(ctx);
     }
 
+    @Override
+    public Visitable visitSeqBaseCase(JshGrammarParser.SeqBaseCaseContext ctx) {
+        return new Seq(visit(ctx.command1), visit(ctx.command2));
+        //return super.visitSeqBaseCase(ctx);
+    }
+
+    @Override
+    public Visitable visitSeqRecursiveCase(JshGrammarParser.SeqRecursiveCaseContext ctx) {
+        return new Seq(visit(ctx.seq()), visit(ctx.command()));
+        //return super.visitSeqRecursiveCase(ctx);
+    }
+
+    //STUCK ON THIS
     @Override
     public Visitable visitCall(JshGrammarParser.CallContext ctx) {
+        if (ctx.redirection() == null) {
+            return new Call(ctx.getText());
+        }
         return super.visitCall(ctx);
     }
 
     @Override
     public Visitable visitAtom(JshGrammarParser.AtomContext ctx) {
-        if (!(ctx.redirection() == null)) {
+        if (ctx.redirection() != null) {
             return visit(ctx.redirection());
         } else {
             return visit(ctx.argument());
@@ -63,8 +70,7 @@ public class JshCommandVisitor extends JshGrammarBaseVisitor<Visitable> {
     }
 
     @Override
-    public Visitable visitArgument(JshGrammarParser.ArgumentContext ctx) {
-
+    public ArrayList<String> visitArgument(JshGrammarParser.ArgumentContext ctx) {
         return super.visitArgument(ctx);
     }
 

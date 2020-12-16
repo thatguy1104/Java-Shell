@@ -1,4 +1,6 @@
-package uk.ac.ucl.jsh.Parser.antlr2;// Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh\JshGrammar.g4 by ANTLR 4.9
+// Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh\JshGrammar.g4 by ANTLR 4.9
+package uk.ac.ucl.jsh.Parser.antlr2;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -27,25 +29,53 @@ public interface JshGrammarListener extends ParseTreeListener {
 	 */
 	void exitCommand(JshGrammarParser.CommandContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link JshGrammarParser#pipe}.
+	 * Enter a parse tree produced by the {@code pipeBaseCase}
+	 * labeled alternative in {@link JshGrammarParser#pipe}.
 	 * @param ctx the parse tree
 	 */
-	void enterPipe(JshGrammarParser.PipeContext ctx);
+	void enterPipeBaseCase(JshGrammarParser.PipeBaseCaseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link JshGrammarParser#pipe}.
+	 * Exit a parse tree produced by the {@code pipeBaseCase}
+	 * labeled alternative in {@link JshGrammarParser#pipe}.
 	 * @param ctx the parse tree
 	 */
-	void exitPipe(JshGrammarParser.PipeContext ctx);
+	void exitPipeBaseCase(JshGrammarParser.PipeBaseCaseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link JshGrammarParser#seq}.
+	 * Enter a parse tree produced by the {@code pipeRecursiveCase}
+	 * labeled alternative in {@link JshGrammarParser#pipe}.
 	 * @param ctx the parse tree
 	 */
-	void enterSeq(JshGrammarParser.SeqContext ctx);
+	void enterPipeRecursiveCase(JshGrammarParser.PipeRecursiveCaseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link JshGrammarParser#seq}.
+	 * Exit a parse tree produced by the {@code pipeRecursiveCase}
+	 * labeled alternative in {@link JshGrammarParser#pipe}.
 	 * @param ctx the parse tree
 	 */
-	void exitSeq(JshGrammarParser.SeqContext ctx);
+	void exitPipeRecursiveCase(JshGrammarParser.PipeRecursiveCaseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code seqBaseCase}
+	 * labeled alternative in {@link JshGrammarParser#seq}.
+	 * @param ctx the parse tree
+	 */
+	void enterSeqBaseCase(JshGrammarParser.SeqBaseCaseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code seqBaseCase}
+	 * labeled alternative in {@link JshGrammarParser#seq}.
+	 * @param ctx the parse tree
+	 */
+	void exitSeqBaseCase(JshGrammarParser.SeqBaseCaseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code seqRecursiveCase}
+	 * labeled alternative in {@link JshGrammarParser#seq}.
+	 * @param ctx the parse tree
+	 */
+	void enterSeqRecursiveCase(JshGrammarParser.SeqRecursiveCaseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code seqRecursiveCase}
+	 * labeled alternative in {@link JshGrammarParser#seq}.
+	 * @param ctx the parse tree
+	 */
+	void exitSeqRecursiveCase(JshGrammarParser.SeqRecursiveCaseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JshGrammarParser#call}.
 	 * @param ctx the parse tree

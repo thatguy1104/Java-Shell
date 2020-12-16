@@ -12,9 +12,11 @@ start: command EOF | seq EOF;
 
 command: pipe | call;
 
-pipe: call '|' call | pipe '|' call;
+pipe: call1 = call '|' call2 = call #pipeBaseCase
+    | pipe '|' call #pipeRecursiveCase;
 
-seq: command ';' command | seq ';' command;
+seq: command1 = command ';' command2 = command #seqBaseCase
+    | seq ';' command #seqRecursiveCase;
 
 //call : (quoted | NON_KEYWORD)* ; //THIS IS THE OLD CALL AS MENTIONED IN THE SPEC
 
@@ -22,10 +24,7 @@ seq: command ';' command | seq ';' command;
  * Call command
  */
 
-call:
-	WHITESPACE* (redirection WHITESPACE)* argument (
-		WHITESPACE atom
-	)* WHITESPACE*;
+call: WHITESPACE* (redirection WHITESPACE)* argument (WHITESPACE atom)* WHITESPACE*;
 
 atom: redirection | argument;
 

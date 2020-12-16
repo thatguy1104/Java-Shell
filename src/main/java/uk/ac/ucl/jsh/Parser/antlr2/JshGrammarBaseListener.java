@@ -1,4 +1,5 @@
-package uk.ac.ucl.jsh.Parser.antlr2;// Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh\JshGrammar.g4 by ANTLR 4.9
+// Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh\JshGrammar.g4 by ANTLR 4.9
+package uk.ac.ucl.jsh.Parser.antlr2;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -39,25 +40,49 @@ public class JshGrammarBaseListener implements JshGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPipe(JshGrammarParser.PipeContext ctx) { }
+	@Override public void enterPipeBaseCase(JshGrammarParser.PipeBaseCaseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPipe(JshGrammarParser.PipeContext ctx) { }
+	@Override public void exitPipeBaseCase(JshGrammarParser.PipeBaseCaseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSeq(JshGrammarParser.SeqContext ctx) { }
+	@Override public void enterPipeRecursiveCase(JshGrammarParser.PipeRecursiveCaseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSeq(JshGrammarParser.SeqContext ctx) { }
+	@Override public void exitPipeRecursiveCase(JshGrammarParser.PipeRecursiveCaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSeqBaseCase(JshGrammarParser.SeqBaseCaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSeqBaseCase(JshGrammarParser.SeqBaseCaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSeqRecursiveCase(JshGrammarParser.SeqRecursiveCaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSeqRecursiveCase(JshGrammarParser.SeqRecursiveCaseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

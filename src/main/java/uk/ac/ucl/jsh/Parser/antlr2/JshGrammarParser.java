@@ -1,12 +1,11 @@
 // Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh\JshGrammar.g4 by ANTLR 4.9
+package uk.ac.ucl.jsh.Parser.antlr2;
+
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarListener;
-import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarVisitor;
-
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -110,7 +109,7 @@ public class JshGrammarParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_start; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof JshGrammarListener) ((JshGrammarListener)listener).enterStart(this);
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterStart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
@@ -118,7 +117,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor) return ((JshGrammarVisitor<? extends T>)visitor).visitStart(this);
+			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitStart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -222,30 +221,59 @@ public class JshGrammarParser extends Parser {
 	}
 
 	public static class PipeContext extends ParserRuleContext {
+		public PipeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_pipe; }
+	 
+		public PipeContext() { }
+		public void copyFrom(PipeContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class PipeBaseCaseContext extends PipeContext {
+		public CallContext call1;
+		public CallContext call2;
 		public List<CallContext> call() {
 			return getRuleContexts(CallContext.class);
 		}
 		public CallContext call(int i) {
 			return getRuleContext(CallContext.class,i);
 		}
-		public PipeContext pipe() {
-			return getRuleContext(PipeContext.class,0);
-		}
-		public PipeContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_pipe; }
+		public PipeBaseCaseContext(PipeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterPipe(this);
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterPipeBaseCase(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).exitPipe(this);
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).exitPipeBaseCase(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitPipe(this);
+			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitPipeBaseCase(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class PipeRecursiveCaseContext extends PipeContext {
+		public PipeContext pipe() {
+			return getRuleContext(PipeContext.class,0);
+		}
+		public CallContext call() {
+			return getRuleContext(CallContext.class,0);
+		}
+		public PipeRecursiveCaseContext(PipeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterPipeRecursiveCase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).exitPipeRecursiveCase(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitPipeRecursiveCase(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -266,12 +294,16 @@ public class JshGrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
+			_localctx = new PipeBaseCaseContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
 			setState(37);
-			call();
+			((PipeBaseCaseContext)_localctx).call1 = call();
 			setState(38);
 			match(T__0);
 			setState(39);
-			call();
+			((PipeBaseCaseContext)_localctx).call2 = call();
 			}
 			_ctx.stop = _input.LT(-1);
 			setState(46);
@@ -283,7 +315,7 @@ public class JshGrammarParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new PipeContext(_parentctx, _parentState);
+					_localctx = new PipeRecursiveCaseContext(new PipeContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_pipe);
 					setState(41);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
@@ -312,30 +344,59 @@ public class JshGrammarParser extends Parser {
 	}
 
 	public static class SeqContext extends ParserRuleContext {
+		public SeqContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_seq; }
+	 
+		public SeqContext() { }
+		public void copyFrom(SeqContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class SeqBaseCaseContext extends SeqContext {
+		public CommandContext command1;
+		public CommandContext command2;
 		public List<CommandContext> command() {
 			return getRuleContexts(CommandContext.class);
 		}
 		public CommandContext command(int i) {
 			return getRuleContext(CommandContext.class,i);
 		}
-		public SeqContext seq() {
-			return getRuleContext(SeqContext.class,0);
-		}
-		public SeqContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_seq; }
+		public SeqBaseCaseContext(SeqContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterSeq(this);
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterSeqBaseCase(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).exitSeq(this);
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).exitSeqBaseCase(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitSeq(this);
+			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitSeqBaseCase(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SeqRecursiveCaseContext extends SeqContext {
+		public SeqContext seq() {
+			return getRuleContext(SeqContext.class,0);
+		}
+		public CommandContext command() {
+			return getRuleContext(CommandContext.class,0);
+		}
+		public SeqRecursiveCaseContext(SeqContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).enterSeqRecursiveCase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JshGrammarListener ) ((JshGrammarListener)listener).exitSeqRecursiveCase(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitSeqRecursiveCase(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -356,12 +417,16 @@ public class JshGrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
+			_localctx = new SeqBaseCaseContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
 			setState(50);
-			command();
+			((SeqBaseCaseContext)_localctx).command1 = command();
 			setState(51);
 			match(T__1);
 			setState(52);
-			command();
+			((SeqBaseCaseContext)_localctx).command2 = command();
 			}
 			_ctx.stop = _input.LT(-1);
 			setState(59);
@@ -373,7 +438,7 @@ public class JshGrammarParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new SeqContext(_parentctx, _parentState);
+					_localctx = new SeqRecursiveCaseContext(new SeqContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_seq);
 					setState(54);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
