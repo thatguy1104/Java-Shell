@@ -613,7 +613,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitAtom(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitAtom(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -683,7 +683,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitArgument(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitArgument(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -763,7 +763,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitRedirection(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitRedirection(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -845,7 +845,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitQuoted(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitQuoted(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -933,7 +933,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitSingleQuoted(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitSingleQuoted(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1030,7 +1030,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitBackQuoted(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitBackQuoted(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1131,7 +1131,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitDoubleQuoted(this);
+			if ( visitor instanceof JshGrammarCallVisitor ) return ((JshGrammarCallVisitor<? extends T>)visitor).visitDoubleQuoted(this);
 			else return visitor.visitChildren(this);
 		}
 	}

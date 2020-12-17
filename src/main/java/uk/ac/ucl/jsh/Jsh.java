@@ -11,12 +11,15 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.ac.ucl.jsh.Parser.antlr2.*;
+
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import uk.ac.ucl.jsh.Applications.Application;
+import uk.ac.ucl.jsh.Visitor.JshCommandVisitor;
 import uk.ac.ucl.jsh.Visitor.Visitable;
 
 public class Jsh {
@@ -44,11 +47,12 @@ public class Jsh {
     }
 
     public static void eval(String cmdline, OutputStream output) throws IOException {
-        CharStream parserInput = CharStreams.fromString(cmdline);
-        JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        JshGrammarParser parser = new JshGrammarParser(tokenStream);
 
+        JshGrammarLexer lexer = new JshGrammarLexer(CharStreams.fromString(cmdline));
+        JshGrammarParser parser = new JshGrammarParser(new CommonTokenStream(lexer));
+        JshGrammarParser.StartContext compile_unit = parser.start();
+
+        Visitable m = new JshCommandVisitor().visitStart(compile_unit);
 
 
 
