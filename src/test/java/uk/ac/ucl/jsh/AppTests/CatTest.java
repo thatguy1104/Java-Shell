@@ -11,7 +11,7 @@ public class CatTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
+    public void test_file() throws IOException {
         String file_name = "text1.txt";
         Jsh.eval("cat " + file_name, out);
         String file_contents = readFile(file_name);
@@ -19,7 +19,43 @@ public class CatTest extends JshTest {
         assertEquals(full_string, file_contents);
     }
 
+    @Test
+    public void test_pipe() throws IOException {
+        // TODO
+    }
+
+    @Test
+    public void test_pipe_grep() throws IOException {
+        // TODO
+    }
+
+    @Test
+    public void test_nested() throws IOException {
+        // TODO
+    }
+
+    @Test
+    public void test_pipe_cat() throws IOException {
+        // TODO
+    }
+
+    @Test
+    public void test_redir_cat() throws IOException {
+        // TODO
+    }
+
+    @Test
+    public void test_two_redir() throws IOException {
+        // TODO
+    }
+
     public void runAllTests() throws IOException {
-        test_1();
+        test_file();
+//        test_pipe();
+//        test_pipe_grep();
+//        test_nested();
+//        test_pipe_cat();
+//        test_redir_cat();
+//        test_two_redir();
     }
 }

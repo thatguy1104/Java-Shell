@@ -17,6 +17,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import uk.ac.ucl.jsh.Applications.Application;
+import uk.ac.ucl.jsh.Visitor.Visitable;
 
 public class Jsh {
 
@@ -43,6 +44,14 @@ public class Jsh {
     }
 
     public static void eval(String cmdline, OutputStream output) throws IOException {
+        CharStream parserInput = CharStreams.fromString(cmdline);
+        JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        JshGrammarParser parser = new JshGrammarParser(tokenStream);
+
+
+
+
         ArrayList<String> rawCommands = supplementary(cmdline);
 
         for (String rawCommand : rawCommands) {
