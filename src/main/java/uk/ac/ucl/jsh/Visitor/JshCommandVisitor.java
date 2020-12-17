@@ -2,6 +2,7 @@ package uk.ac.ucl.jsh.Visitor;
 //import JshGrammarParser;
 import uk.ac.ucl.jsh.Parser.antlr2.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class JshCommandVisitor extends JshGrammarBaseVisitor<Visitable> {
@@ -53,49 +54,6 @@ public class JshCommandVisitor extends JshGrammarBaseVisitor<Visitable> {
     //STUCK ON THIS
     @Override
     public Visitable visitCall(JshGrammarParser.CallContext ctx) {
-        if (ctx.redirection() == null) {
             return new Call(ctx.getText());
-        }
-        return super.visitCall(ctx);
-    }
-
-    @Override
-    public Visitable visitAtom(JshGrammarParser.AtomContext ctx) {
-        if (ctx.redirection() != null) {
-            return visit(ctx.redirection());
-        } else {
-            return visit(ctx.argument());
-        }
-        //return super.visitAtom(ctx);
-    }
-
-    @Override
-    public ArrayList<String> visitArgument(JshGrammarParser.ArgumentContext ctx) {
-        return super.visitArgument(ctx);
-    }
-
-    @Override
-    public Visitable visitRedirection(JshGrammarParser.RedirectionContext ctx) {
-        return super.visitRedirection(ctx);
-    }
-
-    @Override
-    public Visitable visitQuoted(JshGrammarParser.QuotedContext ctx) {
-        return super.visitQuoted(ctx);
-    }
-
-    @Override
-    public Visitable visitSingleQuoted(JshGrammarParser.SingleQuotedContext ctx) {
-        return super.visitSingleQuoted(ctx);
-    }
-
-    @Override
-    public Visitable visitBackQuoted(JshGrammarParser.BackQuotedContext ctx) {
-        return super.visitBackQuoted(ctx);
-    }
-
-    @Override
-    public Visitable visitDoubleQuoted(JshGrammarParser.DoubleQuotedContext ctx) {
-        return super.visitDoubleQuoted(ctx);
     }
 }
