@@ -1,12 +1,6 @@
 package uk.ac.ucl.jsh.Visitor;
-import uk.ac.ucl.jsh.Parser.antlr2.*;
-import uk.ac.ucl.jsh.Visitor.Call;
-import uk.ac.ucl.jsh.Visitor.Pipe;
-import uk.ac.ucl.jsh.Visitor.Seq;
-import uk.ac.ucl.jsh.Visitor.Visitable;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarBaseVisitor;
+import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarParser;
 
 public class JshCommandVisitor extends JshGrammarBaseVisitor<Visitable> {
 

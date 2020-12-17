@@ -1,6 +1,5 @@
 package uk.ac.ucl.jsh.Visitor;
 
-import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarBaseVisitor;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarCallBaseVisitor;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarParser;
 
