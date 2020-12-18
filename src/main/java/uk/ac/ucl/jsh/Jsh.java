@@ -19,6 +19,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import uk.ac.ucl.jsh.Applications.Application;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarLexer;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarParser;
+import uk.ac.ucl.jsh.Visitor.AppVisitor;
 import uk.ac.ucl.jsh.Visitor.JshCommandVisitor;
 import uk.ac.ucl.jsh.Visitor.Visitable;
 import uk.ac.ucl.jsh.Parser.Parser;
@@ -51,7 +52,7 @@ public class Jsh {
         Visitable parseTree = Parser.parseCMD(cmdline);
 
         try {
-            parseTree.accept(new JshCommandVisitor().,null, output);
+            parseTree.accept(new AppVisitor(),null, output, currentDirectory);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
