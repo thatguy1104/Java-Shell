@@ -21,6 +21,7 @@ import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarLexer;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarParser;
 import uk.ac.ucl.jsh.Visitor.JshCommandVisitor;
 import uk.ac.ucl.jsh.Visitor.Visitable;
+import uk.ac.ucl.jsh.Parser.Parser;
 
 public class Jsh {
 
@@ -47,11 +48,13 @@ public class Jsh {
     }
 
     public static void eval(String cmdline, OutputStream output) throws IOException {
-        JshGrammarLexer lexer = new JshGrammarLexer(CharStreams.fromString(cmdline));
-        JshGrammarParser parser = new JshGrammarParser(new CommonTokenStream(lexer));
-        JshGrammarParser.StartContext compile_unit = parser.start();
-        Visitable m = new JshCommandVisitor().visitStart(compile_unit);
+        Visitable parseTree = Parser.parseCMD(cmdline);
 
+        try {
+            parseTree.accept(new JshCommandVisitor().,null, output);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
 
         ArrayList<String> rawCommands = supplementary(cmdline);
