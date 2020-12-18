@@ -57,4 +57,9 @@ public interface JshGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCall(JshGrammarParser.CallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JshGrammarParser#atom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
 }

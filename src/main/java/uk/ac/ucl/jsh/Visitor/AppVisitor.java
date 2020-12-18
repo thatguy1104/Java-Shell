@@ -1,23 +1,21 @@
 package uk.ac.ucl.jsh.Visitor;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class AppVisitor<T> implements Visitor<T> {
-
     @Override
-    public void visit(Pipe pipe) {
-        System.out.println("Pipe");
-
+    public T visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) {
+        return null;
     }
 
-     @Override
-     public void visit(Call call) {
-         System.out.println("Call");
+    @Override
+    public T visit(Call call, InputStream is, OutputStream os, String currentDirectory) {
+        return null;
+    }
 
-     }
-
-     @Override
-     public void visit(Seq Seq) {
-         System.out.println("Seq");
-
-     }
-    
+    @Override
+    public T visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) {
+        return null;
+    }
 }
