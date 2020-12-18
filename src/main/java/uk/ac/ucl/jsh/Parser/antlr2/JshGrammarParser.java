@@ -4,10 +4,13 @@ package uk.ac.ucl.jsh.Parser.antlr2;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
-import uk.ac.ucl.jsh.Parser.Parser;
+//import uk.ac.ucl.jsh.JshGrammarVisitor;
 
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class JshGrammarParser extends Parser {
@@ -116,7 +119,7 @@ public class JshGrammarParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JshGrammarVisitor ) return ((JshGrammarVisitor<? extends T>)visitor).visitStart(this);
+			if ( visitor instanceof JshGrammarVisitor) return ((JshGrammarVisitor<? extends T>)visitor).visitStart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
