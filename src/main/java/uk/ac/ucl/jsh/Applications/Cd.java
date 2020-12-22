@@ -1,5 +1,6 @@
 package uk.ac.ucl.jsh.Applications;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.io.OutputStream;
 public class Cd implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream is, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {

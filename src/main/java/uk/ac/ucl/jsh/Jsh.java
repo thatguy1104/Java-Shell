@@ -20,7 +20,6 @@ import uk.ac.ucl.jsh.Applications.Application;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarLexer;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarParser;
 import uk.ac.ucl.jsh.Visitor.AppVisitor;
-import uk.ac.ucl.jsh.Visitor.JshCommandVisitor;
 import uk.ac.ucl.jsh.Visitor.Visitable;
 import uk.ac.ucl.jsh.Parser.Parser;
 
@@ -57,12 +56,11 @@ public class Jsh {
             System.err.println(e.getMessage());
         }
 
-
         ArrayList<String> rawCommands = supplementary(cmdline);
 
         for (String rawCommand : rawCommands) {
             String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
-            ArrayList<String> tokens = new ArrayList<String>();
+            ArrayList<String> tokens = new ArrayList<>();
             Pattern regex = Pattern.compile(spaceRegex);
             Matcher regexMatcher = regex.matcher(rawCommand);
             String nonQuote;
@@ -92,12 +90,11 @@ public class Jsh {
             Factory factory = new Factory();
             Application app = factory.getApp(appName);
 
-            try {
-                currentDirectory = app.mainExec(appArgs, currentDirectory, output);
-            } catch (IOException e) {
-                throw new RuntimeException(appName + ": unknown application");
-            }
-
+//            try {
+//                currentDirectory = app.mainExec(appArgs, currentDirectory, is, output);
+//            } catch (IOException e) {
+//                throw new RuntimeException(appName + ": unknown application");
+//            }
         }
     }
 

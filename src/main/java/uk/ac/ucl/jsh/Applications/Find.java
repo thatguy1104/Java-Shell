@@ -1,9 +1,6 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +10,7 @@ public class Find implements Application {
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream is, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (message != "nothing") {

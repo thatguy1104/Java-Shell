@@ -1,12 +1,8 @@
 package uk.ac.ucl.jsh.Applications;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +11,7 @@ public class Uniq implements Application {
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream is, OutputStream output) {
         String message = argCheck(args);
         String appResult;
         if (message != "nothing") {

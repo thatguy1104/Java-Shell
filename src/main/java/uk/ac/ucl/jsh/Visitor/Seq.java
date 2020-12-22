@@ -21,7 +21,7 @@ public class Seq implements Visitable {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor, InputStream is, OutputStream os, String currentDirectory) throws Exception {
-        return visitor.visit(this, is, os , currentDirectory);
+    public <T> void accept(Visitor<T> visitor, InputStream is, OutputStream os, String currentDirectory) throws Exception {
+        visitor.visit(this, is, os, currentDirectory);
     }
 }

@@ -1,10 +1,6 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -17,7 +13,7 @@ public class Cat implements Application {
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream is, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
@@ -41,9 +37,6 @@ public class Cat implements Application {
         for (String arg : args) {
             Charset encoding = StandardCharsets.UTF_8;
             File currFile = new File(currentDirectory + File.separator + arg);
-            // writer.write("currFile: " + currFile + "\n");
-            // writer.write(System.getProperty("line.separator"));
-            // writer.flush();
             if (currFile.exists()) {
                 Path filePath = Paths.get(currentDirectory + File.separator + arg);
                 try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
@@ -55,9 +48,6 @@ public class Cat implements Application {
                 return "ERROR cat: file does not exist";
             }
         }
-        // writer.write("returning current directory\n");
-        // writer.write(System.getProperty("line.separator"));
-        // writer.flush();
         return currentDirectory;
     }
 

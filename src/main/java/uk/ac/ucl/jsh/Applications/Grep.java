@@ -1,9 +1,6 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -18,7 +15,7 @@ public class Grep implements Application {
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream is, OutputStream output) {
         String message = argCheck(args);
         String appResult;
         if (message != "nothing") {

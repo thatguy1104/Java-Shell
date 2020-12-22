@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.Applications;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class Echo implements Application {
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream is, OutputStream output) throws IOException {
         String message = argCheck(args);
         if (!message.equals("nothing")) {
             throwError(message, output);
