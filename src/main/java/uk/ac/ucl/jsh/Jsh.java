@@ -39,7 +39,7 @@ public class Jsh {
         return rawCommands;
     }
 
-    public void eval(String cmdline, OutputStream output) throws IOException {
+    public static void eval(String cmdline, OutputStream output) throws IOException {
         Visitable parseTree = Parser.parseCMD(cmdline);
 
         try {
