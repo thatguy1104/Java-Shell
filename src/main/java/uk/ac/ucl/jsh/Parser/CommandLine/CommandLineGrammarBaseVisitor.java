@@ -1,4 +1,6 @@
 // Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh/.antlr\CommandLineGrammar.g4 by ANTLR 4.9
+package uk.ac.ucl.jsh.Parser.CommandLine;
+
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
