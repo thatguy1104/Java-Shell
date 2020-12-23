@@ -14,11 +14,7 @@ public class Cat implements Application {
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         if (!message.equals("nothing")) {
-            throwError(message, output);
         } else {
-            String appResult;
-            appResult = exec(args, currentDirectory, input, output);
-            if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
             return appResult;

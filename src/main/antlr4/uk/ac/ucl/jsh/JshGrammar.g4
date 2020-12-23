@@ -12,11 +12,25 @@ start: command EOF | seq EOF;
 
 command: pipe | call;
 
-pipe: call '|' call | pipe '|' call;
+pipe: call1 = call '|' call2 = call #pipeBaseCase
+    | pipe '|' call #pipeRecursiveCase;
 
-seq: command ';' command | seq ';' command;
+seq: command1 = command ';' command2 = command #seqBaseCase
+    | seq ';' command #seqRecursiveCase;
 
 //call : (quoted | NON_KEYWORD)* ; //THIS IS THE OLD CALL AS MENTIONED IN THE SPEC
+
+/*
+ * Call command
+ */
+
+call: WHITESPACE* (redirection WHITESPACE)* argument (WHITESPACE atom)* WHITESPACE*;
+
+atom: redirection | argument;
+
+argument: (quoted | UNQUOTED)+;
+
+redirection: '<' WHITESPACE argument | '>' WHITESPACE argument;
 
 /*
  * Quoting
@@ -24,8 +38,7 @@ seq: command ';' command | seq ';' command;
 
 quoted: (singleQuoted | doubleQuoted | backQuoted)+;
 
-singleQuoted:
-	SINGLEQUOTE (~NEWLINE | ~SINGLEQUOTE)* SINGLEQUOTE;
+singleQuoted: SINGLEQUOTE (~NEWLINE | ~SINGLEQUOTE)* SINGLEQUOTE;
 
 backQuoted: BACKQUOTE (~NEWLINE | ~BACKQUOTE)* BACKQUOTE;
 
@@ -38,20 +51,7 @@ doubleQuoted:
 	)* DOUBLEQUOTE;
 // previously doubleQuoted : DOUBLEQUOTE (BACKQUOTE | DOUBLEQUOTECONTENT)* DOUBLEQUOTE;
 
-/*
- * Call command
- */
 
-call:
-	WHITESPACE* (redirection WHITESPACE)* argument (
-		WHITESPACE atom
-	)* WHITESPACE*;
-
-atom: redirection | argument;
-
-argument: (quoted | UNQUOTED)+;
-
-redirection: '<' WHITESPACE argument | '>' WHITESPACE argument;
 
 /*
  * Lexer Rules
@@ -59,21 +59,7 @@ redirection: '<' WHITESPACE argument | '>' WHITESPACE argument;
 
 //NONSPECIAL : ~['";|]+;
 WHITESPACE: ('\t' | ' ' | '\r' | '\n')+; //WHITESPACE : ('\t' | ' ' | '\r' | '\n' | '\u000C')+;
-UNQUOTED: (
-		~(
-			'\r'
-			| '\n'
-			| ' '
-			| '\''
-			| '\t'
-			| '"'
-			| '`'
-			| ';'
-			| '|'
-			| '<'
-			| '>'
-		)
-	)+;
+UNQUOTED: (~('\r' | '\n' | ' ' | '\'' | '\t' | '"' | '`' | ';' | '|' | '<' | '>'))+;
 //NON_KEYWORD : ~['";|\n`]+;
 SINGLEQUOTE: '\'';
 DOUBLEQUOTE: '"';
