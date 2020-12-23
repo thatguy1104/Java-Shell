@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.AppTests;
 
 import org.junit.Test;
+import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
@@ -20,7 +21,8 @@ public class LsTest extends JshTest {
         assert path_names != null;
 
         for (String file_name : path_names) {
-            String full_string = eval_result("ls", file_name);
+            Jsh.eval("ls", this.out);
+            String full_string = full_line(file_name);
             assertEquals(full_string, file_name);
         }
     }

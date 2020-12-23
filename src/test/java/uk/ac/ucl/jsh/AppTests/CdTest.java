@@ -24,7 +24,7 @@ public class CdTest extends JshTest {
         String curr_dir = System.getProperty("user.dir");
         String result_dir = System.getProperty("user.dir") + "/" + toFolder;
 
-        String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, this.out);
+        String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, null, this.out);
 
         assertEquals(new_dir, result_dir);
     }

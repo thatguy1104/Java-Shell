@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.AppTests;
 
 import org.junit.Test;
+import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.IOException;
@@ -16,7 +17,8 @@ public class TailTest extends JshTest {
     public void test_1() throws IOException {
         String[][] cases = {{"tail -n 3 text2.txt", "o\nw\nj"}, {"tail -n 3 text3.txt", "LoL\nlol\nloL"}, {"tail -n 0 text1.txt", ""}};
         for (String[] aCase : cases) {
-            String full_string = eval_result(aCase[0], aCase[1]);
+            Jsh.eval(aCase[0], this.out);
+            String full_string = full_line(aCase[1]);
             assertEquals(full_string, aCase[1]);
         }
     }

@@ -1,9 +1,8 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import uk.ac.ucl.jsh.Jsh;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,18 +12,18 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Grep implements Application {
+public abstract class Grep implements Application {
 
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
         String message = argCheck(args);
         String appResult;
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -34,7 +33,7 @@ public class Grep implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
         writer = new OutputStreamWriter(output);
         Pattern grepPattern = Pattern.compile(args.get(0));
         int numOfFiles = args.size() - 1;
@@ -56,7 +55,7 @@ public class Grep implements Application {
                             writer.write(":");
                         }
                         writer.write(line);
-                        writer.write(System.getProperty("line.separator"));
+                        writer.write(Jsh.lineSeparator);
                         writer.flush();
                     }
                 }

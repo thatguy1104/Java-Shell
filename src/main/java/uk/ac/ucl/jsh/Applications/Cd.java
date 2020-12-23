@@ -1,21 +1,21 @@
 package uk.ac.ucl.jsh.Applications;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
 
-public class Cd implements Application {
+public abstract class Cd implements Application {
 
-    @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -25,8 +25,7 @@ public class Cd implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-
+    public String exec(ArrayList<String> args, String currDir) throws IOException {
         String dirString = args.get(0);
         File dir = new File(currDir, dirString);
         if (!dir.exists() || !dir.isDirectory()) {

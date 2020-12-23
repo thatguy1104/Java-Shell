@@ -1,25 +1,24 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import uk.ac.ucl.jsh.Jsh;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Find implements Application {
+public abstract class Find implements Application {
 
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (message != "nothing") {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -29,7 +28,7 @@ public class Find implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         File cur = new File(currentDirectory);
         writer = new OutputStreamWriter(output);
 
@@ -59,7 +58,7 @@ public class Find implements Application {
     private void writeOut(Set<String> result_set, OutputStreamWriter writer) throws IOException {
         for (String item : result_set) {
             writer.write(item);
-            writer.write("\n");
+            writer.write(Jsh.lineSeparator);
             writer.flush();
         }
     }

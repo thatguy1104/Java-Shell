@@ -1,28 +1,34 @@
 package uk.ac.ucl.jsh.Applications;
 
+import uk.ac.ucl.jsh.Jsh;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public class Echo implements Application {
-
-    private OutputStreamWriter writer;
+public abstract class Echo implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            return exec(args, currentDirectory, output);
+            return exec(args, currentDirectory, input, output);
         }
         return "";
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writeOut(args, writer);
+        return currentDirectory;
+    }
+
+    private void writeOut(ArrayList<String> args, OutputStreamWriter writer) throws IOException {
         boolean atLeastOnePrinted = false;
         for (String arg : args) {
             writer.write(arg);
@@ -31,11 +37,9 @@ public class Echo implements Application {
             atLeastOnePrinted = true;
         }
         if (atLeastOnePrinted) {
-            writer.write(System.getProperty("line.separator"));
+            writer.write(Jsh.lineSeparator);
             writer.flush();
         }
-
-        return currentDirectory;
     }
 
     @Override

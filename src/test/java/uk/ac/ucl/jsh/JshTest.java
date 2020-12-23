@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class JshTest {
 
     private PipedInputStream in = new PipedInputStream();
-    protected PipedOutputStream out = new PipedOutputStream(in);
+    protected OutputStream out = new PipedOutputStream(in);
     private Scanner scn = new Scanner(in);
 
     public JshTest() throws IOException {
@@ -32,14 +32,12 @@ public class JshTest {
     protected String full_line(String file_contents) {
         int limit = 50, i = 0;
 
-        if (file_contents.equals("")) {
-            return "";
-        }
+        if (file_contents.equals("")) return "";
 
-        StringBuilder line = new StringBuilder(this.scn.next());
+        StringBuilder line = new StringBuilder(scn.next());
         if (file_contents.contains("\n")) {
-            while (this.scn.hasNextLine()) {
-                String temp = this.scn.next();
+            while (scn.hasNextLine()) {
+                String temp = scn.next();
                 line.append("\n").append(temp);
                 if (temp.equals(last_string(file_contents))) break;
                 i++;
@@ -50,21 +48,25 @@ public class JshTest {
         return file_contents;
     }
 
-    protected String eval_result(String case_, String expected) throws IOException {
-        Jsh.eval(case_, this.out);
-        return full_line(expected);
+    protected String getActualResult(String file_name) throws IOException {
+        StringBuilder result = new StringBuilder();
+        int file_lines = countFileLines(file_name);
+        for (int i = 0; i < file_lines; i++) {
+            String line = scn.next();
+            result.append(line);
+            if (i != file_lines - 1) {
+                result.append("\n");
+            }
+        }
+        return result.toString();
     }
 
-    private void writeFile(String filename, String content) {
-        try {
-            File newTextFile = new File(filename);
-            FileWriter fw = new FileWriter(newTextFile);
-            fw.write(content);
-            fw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private int countFileLines(String fileName) throws IOException {
+        int lines = 0;
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        while (reader.readLine() != null) lines++;
+        reader.close();
+        return lines;
     }
 
     @Test

@@ -1,10 +1,8 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import uk.ac.ucl.jsh.Jsh;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -17,18 +15,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Cut implements Application {
+public abstract class Cut implements Application {
 
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -38,7 +36,7 @@ public class Cut implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
 
         String start_end = args.get(1).replaceAll("[^-?0-9]+", " ");
@@ -66,7 +64,7 @@ public class Cut implements Application {
         if (curr_File.exists()) {
             Path file_Path = Paths.get(currentDirectory + File.separator + file_name);
             try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
-                if (writeOut(reader, clean_args) == false) {
+                if (!writeOut(reader, clean_args)) {
                     return "ERROR cut: byte index specified does not exist";
                 }
             } catch (IOException e) {
@@ -103,7 +101,7 @@ public class Cut implements Application {
 
     private void outputToConsole(String line) throws IOException {
         writer.write(line);
-        writer.write(System.getProperty("line.separator"));
+        writer.write(Jsh.lineSeparator);
         writer.flush();
     }
 

@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.AppTests;
 
 import org.junit.Test;
+import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.IOException;
@@ -16,8 +17,10 @@ public class CutTest extends JshTest {
     public void test_1() throws IOException {
         String[][] cases = {{"cut -b 1 text1.txt", "a\no"}, {"cut -b 1,2 text1.txt", "ab\nof"}, {"cut -b 1- text1.txt", "bcdefghi\nfeijnwio"}, {"cut -b 1,3-4 text1.txt", "ad\noi"}};
         for (String[] aCase : cases) {
-            String full_string = eval_result(aCase[0], aCase[1]);
-            assertEquals(full_string, aCase[1]);
+            Jsh.eval(aCase[0], out);
+            String expected = aCase[1];
+            String result = getActualResult("text1.txt");
+            assertEquals(expected, result);
         }
     }
 

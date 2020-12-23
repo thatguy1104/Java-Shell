@@ -1,10 +1,8 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import uk.ac.ucl.jsh.Jsh;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,18 +10,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Head implements Application {
+public abstract class Head implements Application {
 
     private OutputStreamWriter writer;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
         String message = argCheck(args);
         String appResult;
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -33,7 +31,7 @@ public class Head implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
         writer = new OutputStreamWriter(output);
         int headLines = 10;
         String headArg;
@@ -69,7 +67,7 @@ public class Head implements Application {
             String line;
             if ((line = reader.readLine()) != null) {
                 writer.write(line);
-                writer.write(System.getProperty("line.separator"));
+                writer.write(Jsh.lineSeparator);
                 writer.flush();
             }
         }

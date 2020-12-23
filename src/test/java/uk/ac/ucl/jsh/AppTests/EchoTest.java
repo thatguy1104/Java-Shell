@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.AppTests;
 
 import org.junit.Test;
+import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.IOException;
@@ -16,8 +17,10 @@ public class EchoTest extends JshTest {
     public void test_1() throws IOException {
         String[][] cases = {{"echo foo", "foo"}, {"echo hello world", "hello world"}, {"echo \"hello    world\"", "hello    world"}};
         for (String[] aCase : cases) {
-            String full_string = eval_result(aCase[0], aCase[1]);
-            assertEquals(full_string, aCase[1]);
+            String expected = aCase[1];
+            Jsh.eval(aCase[0], this.out);
+            String result = full_line(aCase[1]);
+            assertEquals(expected, result);
         }
     }
 

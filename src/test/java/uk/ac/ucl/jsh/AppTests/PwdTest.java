@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.AppTests;
 
 import org.junit.Test;
+import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.IOException;
@@ -16,7 +17,8 @@ public class PwdTest extends JshTest {
     public void test_1() throws IOException {
         String aCase = "pwd";
         String curr_dir = System.getProperty("user.dir");
-        String full_string = eval_result(aCase, curr_dir);
+        Jsh.eval(aCase, this.out);
+        String full_string = full_line(curr_dir);
         assertEquals(full_string, curr_dir);
     }
 

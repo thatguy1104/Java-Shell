@@ -2,7 +2,12 @@ package uk.ac.ucl.jsh.AppTests;
 import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
+
 import static org.junit.Assert.assertEquals;
 
 public class CatTest extends JshTest {
@@ -14,9 +19,9 @@ public class CatTest extends JshTest {
     public void test_1() throws IOException {
         String file_name = "text1.txt";
         Jsh.eval("cat " + file_name, out);
-        String file_contents = readFile(file_name);
-        String full_string = full_line(file_contents);
-        assertEquals(full_string, file_contents);
+        String result = getActualResult(file_name);
+        String expected = readFile(file_name);
+        assertEquals(expected, result);
     }
 
     public void runAllTests() throws IOException {

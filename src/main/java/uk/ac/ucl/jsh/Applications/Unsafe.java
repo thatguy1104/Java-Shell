@@ -1,22 +1,25 @@
 package uk.ac.ucl.jsh.Applications;
 
+import uk.ac.ucl.jsh.Jsh;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public class Unsafe implements Application {
+public abstract class Unsafe implements Application {
     private OutputStreamWriter writer;
     private Application application;
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) throws IOException {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             } else {
@@ -27,8 +30,8 @@ public class Unsafe implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) throws IOException {
-        return application.exec(args, currDir, output);
+    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
+        return application.exec(args, currDir, input, output);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class Unsafe implements Application {
     public void throwError(String message, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         writer.write("_" + message);
-        writer.write(System.getProperty("line.separator"));
+        writer.write(Jsh.lineSeparator);
         writer.flush();
     }
 

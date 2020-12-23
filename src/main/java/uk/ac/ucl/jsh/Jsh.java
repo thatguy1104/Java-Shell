@@ -21,6 +21,7 @@ import uk.ac.ucl.jsh.Applications.Application;
 public class Jsh {
 
     private static String currentDirectory = System.getProperty("user.dir");
+    public static String lineSeparator = System.getProperty("line.separator");
 
     private static ArrayList<String> supplementary(String cmdline) {
         CharStream parserInput = CharStreams.fromString(cmdline);
@@ -29,16 +30,16 @@ public class Jsh {
         JshGrammarParser parser = new JshGrammarParser(tokenStream);
         ParseTree tree = parser.command();
         ArrayList<String> rawCommands = new ArrayList<>();
-        String lastSubcommand = "";
+        StringBuilder lastSubcommand = new StringBuilder();
         for (int i = 0; i < tree.getChildCount(); i++) {
             if (!tree.getChild(i).getText().equals(";")) {
-                lastSubcommand += tree.getChild(i).getText();
+                lastSubcommand.append(tree.getChild(i).getText());
             } else {
-                rawCommands.add(lastSubcommand);
-                lastSubcommand = "";
+                rawCommands.add(lastSubcommand.toString());
+                lastSubcommand = new StringBuilder();
             }
         }
-        rawCommands.add(lastSubcommand);
+        rawCommands.add(lastSubcommand.toString());
         return rawCommands;
     }
 
@@ -78,7 +79,7 @@ public class Jsh {
             Application app = factory.getApp(appName);
 
             try {
-                currentDirectory = app.mainExec(appArgs, currentDirectory, output);
+                currentDirectory = app.mainExec(appArgs, currentDirectory, null, output);
             } catch (IOException e) {
                 throw new RuntimeException(appName + ": unknown application");
             }

@@ -1,10 +1,8 @@
 package uk.ac.ucl.jsh.Applications;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import uk.ac.ucl.jsh.Jsh;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,18 +10,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Tail implements Application {
-
-    private OutputStreamWriter writer;
+public abstract class Tail implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
         String message = argCheck(args);
         String appResult;
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -33,8 +29,8 @@ public class Tail implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, OutputStream output) {
-        writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         int tailLines = 10;
         String tailArg;
 
@@ -66,7 +62,7 @@ public class Tail implements Application {
                 }
 
                 for (int i = index; i < storage.size(); i++) {
-                    writer.write(storage.get(i) + System.getProperty("line.separator"));
+                    writer.write(storage.get(i) + Jsh.lineSeparator);
                     writer.flush();
                 }
             } catch (IOException e) {

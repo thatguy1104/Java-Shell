@@ -1,27 +1,24 @@
 package uk.ac.ucl.jsh.Applications;
 
+import uk.ac.ucl.jsh.Jsh;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Uniq implements Application {
-    private OutputStreamWriter writer;
+public abstract class Uniq implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
         String message = argCheck(args);
         String appResult;
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, output);
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -31,8 +28,8 @@ public class Uniq implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, OutputStream output) {
-        writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         String uniqFilename;
 
         if (args.size() == 2) {
@@ -68,6 +65,7 @@ public class Uniq implements Application {
                             String row2 = lines.get(j);
                             if (row.equalsIgnoreCase(row2)) {
                                 equals = true;
+                                break;
                             }
                         }
                         if (!equals && !uniqLines.contains(row)) {
@@ -96,7 +94,7 @@ public class Uniq implements Application {
     private void writeOut(ArrayList<String> uniqLines, OutputStreamWriter writer) throws IOException {
         for (String uniqLine : uniqLines) {
             writer.write(uniqLine);
-            writer.write(System.getProperty("line.separator"));
+            writer.write(Jsh.lineSeparator);
             writer.flush();
         }
     }
