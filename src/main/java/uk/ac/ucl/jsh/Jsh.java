@@ -2,21 +2,17 @@ package uk.ac.ucl.jsh;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uk.ac.ucl.jsh.Applications.Application;
+import uk.ac.ucl.jsh.Visitor.AppVisitor;
+import uk.ac.ucl.jsh.Visitor.Visitable;
+import uk.ac.ucl.jsh.Parser.Parser;
 
 public class Jsh {
 
@@ -43,46 +39,54 @@ public class Jsh {
         return rawCommands;
     }
 
-    public static void eval(String cmdline, OutputStream output) throws IOException {
-        ArrayList<String> rawCommands = supplementary(cmdline);
+    public void eval(String cmdline, OutputStream output) throws IOException {
+        Visitable parseTree = Parser.parseCMD(cmdline);
 
-        for (String rawCommand : rawCommands) {
-            String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
-            ArrayList<String> tokens = new ArrayList<String>();
-            Pattern regex = Pattern.compile(spaceRegex);
-            Matcher regexMatcher = regex.matcher(rawCommand);
-            String nonQuote;
+        try {
+            parseTree.accept(new AppVisitor<>(), null, output, currentDirectory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            while (regexMatcher.find()) {
-                if (regexMatcher.group(1) != null || regexMatcher.group(2) != null) {
-                    String quoted = regexMatcher.group(0).trim();
-                    tokens.add(quoted.substring(1, quoted.length() - 1));
-                } else {
-                    nonQuote = regexMatcher.group().trim();
-                    ArrayList<String> globbingResult = new ArrayList<>();
-                    Path dir = Paths.get(currentDirectory);
-                    DirectoryStream<Path> stream = Files.newDirectoryStream(dir, nonQuote);
-                    for (Path entry : stream) {
-                        globbingResult.add(entry.getFileName().toString());
-                    }
-                    if (globbingResult.isEmpty()) {
-                        globbingResult.add(nonQuote);
-                    }
-                    tokens.addAll(globbingResult);
-                }
-            }
-
-            String appName = tokens.get(0);
-            ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
-
-            Factory factory = new Factory();
-            Application app = factory.getApp(appName);
-
-            try {
-                currentDirectory = app.mainExec(appArgs, currentDirectory, null, output);
-            } catch (IOException e) {
-                throw new RuntimeException(appName + ": unknown application");
-            }
+//        ArrayList<String> rawCommands = supplementary(cmdline);
+//
+//        for (String rawCommand : rawCommands) {
+//            String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
+//            ArrayList<String> tokens = new ArrayList<String>();
+//            Pattern regex = Pattern.compile(spaceRegex);
+//            Matcher regexMatcher = regex.matcher(rawCommand);
+//            String nonQuote;
+//
+//            while (regexMatcher.find()) {
+//                if (regexMatcher.group(1) != null || regexMatcher.group(2) != null) {
+//                    String quoted = regexMatcher.group(0).trim();
+//                    tokens.add(quoted.substring(1, quoted.length() - 1));
+//                } else {
+//                    nonQuote = regexMatcher.group().trim();
+//                    ArrayList<String> globbingResult = new ArrayList<>();
+//                    Path dir = Paths.get(currentDirectory);
+//                    DirectoryStream<Path> stream = Files.newDirectoryStream(dir, nonQuote);
+//                    for (Path entry : stream) {
+//                        globbingResult.add(entry.getFileName().toString());
+//                    }
+//                    if (globbingResult.isEmpty()) {
+//                        globbingResult.add(nonQuote);
+//                    }
+//                    tokens.addAll(globbingResult);
+//                }
+//            }
+//
+//            String appName = tokens.get(0);
+//            ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
+//
+//            Factory factory = new Factory();
+//            Application app = factory.getApp(appName);
+//
+//            try {
+//                currentDirectory = app.mainExec(appArgs, currentDirectory, null, output);
+//            } catch (IOException e) {
+//                throw new RuntimeException(appName + ": unknown application");
+//            }
 
         }
     }
