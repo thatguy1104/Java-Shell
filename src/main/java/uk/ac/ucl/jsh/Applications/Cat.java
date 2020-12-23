@@ -46,13 +46,14 @@ public class Cat implements Application {
     }
 
     /* Prints to specified output */
-    private void writeOut(Scanner reader, OutputStream output) throws IOException {
+    private void writeOut(Scanner scn, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        while (reader.hasNextLine()) {
-            writer.write(reader.nextLine());
+        while (scn.hasNextLine()) {
+            writer.write(scn.nextLine());
             writer.write(Jsh.lineSeparator);
             writer.flush();
         }
+        scn.close();
     }
 
     /* Validate args input */

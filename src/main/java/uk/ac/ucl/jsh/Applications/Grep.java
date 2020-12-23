@@ -9,13 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Grep implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
@@ -31,38 +32,42 @@ public class Grep implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         Pattern grepPattern = Pattern.compile(args.get(0));
-        int numOfFiles = args.size() - 1;
 
-        Path[] filePathArray = getFilePaths(currentDirectory, args, numOfFiles);
+        Path[] filePathArray = getFilePaths(currentDirectory, args, args.size() - 1);
         if (filePathArray == null) {
             return "ERROR grep: wrong file argument";
         }
 
-        for (int j = 0; j < filePathArray.length; j++) {
-            Charset encoding = StandardCharsets.UTF_8;
-            try (BufferedReader reader = Files.newBufferedReader(filePathArray[j], encoding)) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    Matcher matcher = grepPattern.matcher(line);
-                    if (matcher.find()) {
-                        if (numOfFiles > 1) {
-                            writer.write(args.get(j + 1));
-                            writer.write(":");
-                        }
-                        writer.write(line);
-                        writer.write(Jsh.lineSeparator);
-                        writer.flush();
-                    }
+        if (args.size() > 1) {
+            for (int i = 1; i < args.size(); i++) {
+                Scanner scn;
+                try {
+                    Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
+                    scn = new Scanner(filePath);
+                } catch (FileNotFoundException e) {
+                    throw new IOException("ERROR cat: " + e.getMessage());
                 }
-            } catch (IOException e) {
-                return "ERROR grep: cannot open " + args.get(j + 1);
+                writeOut(scn, writer, grepPattern);
             }
+        } else {
+            writeOut(new Scanner(input), writer, grepPattern);
         }
-
         return currentDirectory;
+    }
+
+    private void writeOut(Scanner scn, OutputStreamWriter writer, Pattern pattern) throws IOException {
+        while (scn.hasNextLine()) {
+            String line = scn.nextLine();
+            Matcher match = pattern.matcher(line);
+            if (match.find()) {
+                writer.write(line + Jsh.lineSeparator);
+                writer.flush();
+            }
+            writer.flush();
+        }
     }
 
     /* Returns directory pathway for the specified file name arguments */
