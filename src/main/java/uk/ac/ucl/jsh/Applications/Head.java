@@ -33,15 +33,15 @@ public class Head implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int headLines = 10;
-        if (args.size() == 3) {
+        if (args.size() == 4) {
             try {
-                headLines = Integer.parseInt(args.get(1));
+                headLines = Integer.parseInt(args.get(2));
             } catch (Exception e) {
-                return "ERROR head: wrong argument " + args.get(1);
+                return "ERROR head: wrong argument " + args.get(2);
             }
         }
 
-        if (args.size() == 1 || args.size() == 3) {
+        if (args.size() == 2 || args.size() == 4) {
             Path filePath = Paths.get(currentDirectory + File.separator + args.get(args.size() - 1));
             Scanner scn = new Scanner(filePath);
             writeOut(scn, writer, headLines);
@@ -67,10 +67,10 @@ public class Head implements Application {
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "head: missing arguments";
-        } else if (args.size() != 1 && args.size() != 3) {
+        } else if (args.size() != 2 && args.size() != 4) {
             return "head: wrong arguments";
-        } else if (args.size() == 3 && !args.get(0).equals("-n")) {
-            return "head: wrong argument " + args.get(0);
+        } else if (args.size() == 4 && !args.get(1).equals("-n")) {
+            return "head: wrong argument " + args.get(1);
         } else {
             return "nothing";
         }

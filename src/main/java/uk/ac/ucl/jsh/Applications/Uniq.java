@@ -32,7 +32,14 @@ public class Uniq implements Application {
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
-        String uniqFilename = ((args.size() == 2) ? args.get(1) : args.get(0));
+        String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
+        ArrayList<String> new_args = new ArrayList<>();
+        new_args.add(0, "uniq");
+
+        if (args.size() == 1) {
+            new_args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
+        }
+        args = new_args;
 
         /* String input = appArgs(*) */
         File uniqFile = new File(currDir + File.separator + uniqFilename);
@@ -43,7 +50,7 @@ public class Uniq implements Application {
                 ArrayList<String> uniqLines;
 
                 /* Check if the -i and if exists make comparision case insensitive */
-                if (args.size() == 2) {
+                if (args.size() == 3) {
                     uniqLines = new ArrayList<>();
 
                     for (int i = 0; i < lines.size(); i++) {
@@ -89,10 +96,10 @@ public class Uniq implements Application {
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "uniq: missing argument";
-        } else if (args.size() > 2) {
+        } else if (args.size() > 3) {
             return "uniq: too many arguments";
-        } else if (args.size() == 2 && !args.get(0).equals("-i")) {
-            return "uniq: wrong argument" + args.get(0);
+        } else if (args.size() == 3 && !args.get(1).equals("-i")) {
+            return "uniq: wrong argument" + args.get(1);
         } else {
             return "nothing";
         }

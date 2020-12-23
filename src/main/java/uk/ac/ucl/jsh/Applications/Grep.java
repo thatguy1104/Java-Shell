@@ -34,7 +34,7 @@ public class Grep implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        Pattern grepPattern = Pattern.compile(args.get(0));
+        Pattern grepPattern = Pattern.compile(args.get(1));
 
         Path[] filePathArray = getFilePaths(currentDirectory, args, args.size() - 1);
         if (filePathArray == null) {
@@ -42,7 +42,7 @@ public class Grep implements Application {
         }
 
         if (args.size() > 1) {
-            for (int i = 1; i < args.size(); i++) {
+            for (int i = 2; i < args.size(); i++) {
                 Scanner scn;
                 try {
                     Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
@@ -75,7 +75,7 @@ public class Grep implements Application {
         Path[] filePathArray = new Path[numOfFiles];
         Path currentDir = Paths.get(currentDirectory);
 
-        for (int i = 0; i < numOfFiles; i++) {
+        for (int i = 1; i < numOfFiles; i++) {
             Path filePath = currentDir.resolve(args.get(i + 1));
             if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath) || !Files.isReadable(filePath)) {
                 return null;
@@ -90,7 +90,7 @@ public class Grep implements Application {
     /* Validates arguments input */
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.size() < 2) {
+        if (args.size() < 3) {
             return "grep: wrong number of arguments";
         } else {
             return "nothing";

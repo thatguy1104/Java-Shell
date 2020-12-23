@@ -35,7 +35,7 @@ public class Sort implements Application {
             args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
         }
 
-        String sortArg = ((args.size() == 2) ? args.get(1) : args.get(0));
+        String sortArg = ((args.size() == 3) ? args.get(2) : args.get(1));
         File filePath = new File(currDir + File.separator + sortArg);
 
         if (filePath.exists()) {
@@ -47,7 +47,7 @@ public class Sort implements Application {
                 List<String> sortedLines;
 
                 /* Check if the -r is present then display array in reverse order */
-                if (args.size() == 2) {
+                if (args.size() == 3) {
                     sortedLines = lines.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
                     for (String sortedLine : sortedLines) {
                         writeOut(sortedLine);
@@ -78,10 +78,10 @@ public class Sort implements Application {
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "sort: missing arguments";
-        } else if (args.size() != 1 && args.size() != 2) {
+        } else if (args.size() != 2 && args.size() != 3) {
             return "sort: wrong number of arguments";
-        } else if (args.size() == 2 && !args.get(0).equals("-r")) {
-            return "sort: wrong argument " + args.get(0);
+        } else if (args.size() == 3 && !args.get(1).equals("-r")) {
+            return "sort: wrong argument " + args.get(1);
         } else {
             return "nothing";
         }

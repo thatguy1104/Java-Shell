@@ -8,16 +8,16 @@ public class Pipe implements Visitable {
     private Visitable left;
     private Visitable right;
 
-    public Pipe(Visitable left, Visitable right) {
+    Pipe(Visitable left, Visitable right) {
         this.left = left;
         this.right = right;
     }
 
-    public Visitable getLeft() {
+    Visitable getLeft() {
         return this.left;
     }
 
-    public Visitable getRight() {
+    Visitable getRight() {
         return this.right;
     }
 

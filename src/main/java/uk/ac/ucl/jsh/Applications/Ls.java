@@ -27,14 +27,9 @@ public class Ls implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        File currDir;
 
         /* Assign the current directory if no path is specified */
-        if (args.size() == 1) {
-            currDir = new File(currentDirectory);
-        } else {
-            currDir = new File(args.get(0));
-        }
+        File currDir = ((args.size() == 1) ? new File(currentDirectory) : new File(args.get(0)));
 
         try {
             File[] listOfFiles = currDir.listFiles();

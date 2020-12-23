@@ -25,7 +25,7 @@ public class Cd implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
-        String dirString = args.get(0);
+        String dirString = args.get(1);
         File dir = new File(currDir, dirString);
         if (!dir.exists() || !dir.isDirectory()) {
             return "ERROR cd: " + dirString + " is not an existing directory";
@@ -40,7 +40,7 @@ public class Cd implements Application {
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "cd: missing argument";
-        } else if (args.size() > 1) {
+        } else if (args.size() > 2) {
             return "cd: too many arguments";
         } else {
             return "nothing";

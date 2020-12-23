@@ -2,11 +2,12 @@ package uk.ac.ucl.jsh.Visitor;
 
 import uk.ac.ucl.jsh.Factory;
 import uk.ac.ucl.jsh.Parser.Parser;
+import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
 import java.util.ArrayList;
 
-public class AppVisitor implements Visitor<Void> {
+public class AppVisitor extends Jsh implements Visitor<Void> {
 
     @Override
     public Void visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) throws IOException {
@@ -25,7 +26,7 @@ public class AppVisitor implements Visitor<Void> {
 //        os = getOutputStream(tokens, os);
         Factory factory = new Factory();
         assert tokens != null;
-        factory.getApp(tokens.get(0)).mainExec(tokens, currentDirectory, is, os);
+        Jsh.currentDirectory = factory.getApp(tokens.get(0)).mainExec(tokens, currentDirectory, is, os);
         return null;
     }
 

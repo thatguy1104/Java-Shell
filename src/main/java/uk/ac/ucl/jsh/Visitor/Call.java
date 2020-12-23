@@ -11,7 +11,7 @@ public class Call implements Visitable {
         this.visitable = visitable;
     }
 
-    public String getVisitable(){
+    String getVisitable(){
         return this.visitable;
     }
 

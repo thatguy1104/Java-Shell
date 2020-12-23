@@ -3,6 +3,7 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -31,15 +32,20 @@ public class Cat implements Application {
         if (args.isEmpty()) {
             writeOut(new Scanner(input), output);
         } else {
-            for (String arg : args) {
+            for (int i = 1; i < args.size(); i++) {
                 Scanner scn;
-                try {
-                    Path filePath = Paths.get(currentDirectory + File.separator + arg);
-                    scn = new Scanner(filePath);
-                } catch (FileNotFoundException e) {
-                    throw new IOException("ERROR cat: " + e.getMessage());
+                File currFile = new File(currentDirectory + File.separator + args.get(i));
+                if (currFile.exists()) {
+                    Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
+                    try {
+                        scn = new Scanner(filePath);
+                        writeOut(scn, output);
+                    } catch (FileNotFoundException e) {
+                        throw new IOException("ERROR cat: " + e.getMessage());
+                    }
+                } else {
+                    throw new IOException("ERROR cat: file does not exist");
                 }
-                writeOut(scn, output);
             }
         }
         return currentDirectory;

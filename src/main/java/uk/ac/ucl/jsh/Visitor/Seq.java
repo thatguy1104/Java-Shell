@@ -8,16 +8,16 @@ public class Seq implements Visitable {
     private Visitable left;
     private Visitable right;
 
-    public Seq(Visitable left, Visitable right) {
+    Seq(Visitable left, Visitable right) {
         this.left = left;
         this.right = right;
     }
 
-    public Visitable getLeft() {
+    Visitable getLeft() {
         return this.left;
     }
 
-    public Visitable getRight() {
+    Visitable getRight() {
         return this.right;
     }
 

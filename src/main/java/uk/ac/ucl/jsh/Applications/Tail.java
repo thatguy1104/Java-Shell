@@ -34,15 +34,15 @@ public class Tail implements Application {
         int tailLines = 10;
         String tailArg;
 
-        if (args.size() == 3) {
+        if (args.size() == 4) {
             try {
-                tailLines = Integer.parseInt(args.get(1));
+                tailLines = Integer.parseInt(args.get(2));
             } catch (Exception e) {
-                return "ERROR tail: wrong argument " + args.get(1);
+                return "ERROR tail: wrong argument " + args.get(2);
             }
-            tailArg = args.get(2);
+            tailArg = args.get(3);
         } else {
-            tailArg = args.get(0);
+            tailArg = args.get(1);
         }
 
         File tailFile = new File(currentDirectory + File.separator + tailArg);
@@ -68,10 +68,10 @@ public class Tail implements Application {
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
             return "tail: missing arguments";
-        } else if (args.size() != 1 && args.size() != 3) {
+        } else if (args.size() != 2 && args.size() != 4) {
             return "tail: wrong arguments";
-        } else if (args.size() == 3 && !args.get(0).equals("-n")) {
-            return "tail: wrong argument " + args.get(0);
+        } else if (args.size() == 4 && !args.get(1).equals("-n")) {
+            return "tail: wrong argument " + args.get(1);
         } else {
             return "nothing";
         }

@@ -33,13 +33,12 @@ public class Cut implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-        String cutResult;
 
-        if (args.isEmpty()) {
+        if (args.size() == 0) {
             args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
         }
 
-        String concat_args = Stream.of(args.get(1)
+        String concat_args = Stream.of(args.get(2)
                 .replaceAll("[^-?0-9]+", " ")
                 .split(" "))
                 .map (String::new)
@@ -53,10 +52,9 @@ public class Cut implements Application {
             return "ERROR cut: could not convert arguments";
         }
 
-        String file_name = args.get(2);
-        cutResult = process(currentDirectory, clean_args, file_name);
+        String file_name = args.get(3);
 
-        return cutResult;
+        return process(currentDirectory, clean_args, file_name);
     }
 
     private String process(String currentDirectory, List<Integer> clean_args, String file_name) throws IOException {
@@ -108,12 +106,12 @@ public class Cut implements Application {
     /* Validates arguments input */
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
+        if (args.size() == 1) {
             return "cut: missing arguments";
-        } else if (args.size() != 1 && args.size() != 3) {
+        } else if (args.size() != 2 && args.size() != 4) {
             return "cut: wrong arguments";
-        } else if (args.size() == 3 && !args.get(0).equals("-b")) {
-            return "cut: wrong argument " + args.get(0);
+        } else if (args.size() == 4 && !args.get(1).equals("-b")) {
+            return "cut: wrong argument " + args.get(1);
         } else {
             return "nothing";
         }
