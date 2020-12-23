@@ -3,6 +3,7 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 
 public class Ls implements Application {
@@ -37,25 +38,28 @@ public class Ls implements Application {
 
         try {
             File[] listOfFiles = currDir.listFiles();
-            boolean atLeastOnePrinted = false;
             assert listOfFiles != null;
+            writeOut(listOfFiles, writer);
 
-            for (File file : listOfFiles) {
-                if (!file.getName().startsWith(".")) {
-                    writer.write(file.getName());
-                    writer.write("\t");
-                    writer.flush();
-                    atLeastOnePrinted = true;
-                }
-            }
-            if (atLeastOnePrinted) {
-                writer.write(Jsh.lineSeparator);
-                writer.flush();
-            }
-        } catch (NullPointerException e) {
-            return "ERROR ls: no such directory";
+        } catch (NoSuchFileException e) {
+            return "ERROR ls: " + e.getMessage();
         }
         return currentDirectory;
+    }
+
+    private void writeOut(File[] listOfFiles, OutputStreamWriter writer) throws IOException {
+        boolean atLeastOnePrinted = false;
+        for (File file : listOfFiles) {
+            if (!file.getName().startsWith(".")) {
+                writer.write(file.getName() + "\t");
+                writer.flush();
+                atLeastOnePrinted = true;
+            }
+        }
+        if (atLeastOnePrinted) {
+            writer.write(Jsh.lineSeparator);
+            writer.flush();
+        }
     }
 
     /* Validates arguments input */

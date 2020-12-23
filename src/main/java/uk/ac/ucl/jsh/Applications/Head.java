@@ -9,13 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Head implements Application {
 
-    private OutputStreamWriter writer;
-
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
@@ -31,45 +30,35 @@ public class Head implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
-        writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         int headLines = 10;
-        String headArg;
         if (args.size() == 3) {
             try {
                 headLines = Integer.parseInt(args.get(1));
             } catch (Exception e) {
                 return "ERROR head: wrong argument " + args.get(1);
             }
-            headArg = args.get(2);
-        } else {
-            headArg = args.get(0);
-        }
-        File headFile = new File(currentDirectory + File.separator + headArg);
-        if (headFile.exists()) {
-            Charset encoding = StandardCharsets.UTF_8;
-            Path filePath = Paths.get(currentDirectory + File.separator + headArg);
-            try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                writeOut(reader, headLines);
-            } catch (IOException e) {
-                return "ERROR head: cannot open " + headArg;
-            }
-        } else {
-            return "ERROR head: " + headArg + " does not exist";
         }
 
+        if (args.size() == 1 || args.size() == 3) {
+            Path filePath = Paths.get(currentDirectory + File.separator + args.get(args.size() - 1));
+            Scanner scn = new Scanner(filePath);
+            writeOut(scn, writer, headLines);
+
+        } else {
+            writeOut(new Scanner(input), writer, headLines);
+        }
         return currentDirectory;
     }
 
     /* Prints to specified output */
-    private void writeOut(BufferedReader reader, int headLines) throws IOException {
-        for (int i = 0; i < headLines; i++) {
-            String line;
-            if ((line = reader.readLine()) != null) {
-                writer.write(line);
-                writer.write(Jsh.lineSeparator);
-                writer.flush();
-            }
+    private void writeOut(Scanner scn, OutputStreamWriter writer, int headLines) throws IOException {
+        int counter = 0;
+        while (counter < headLines && scn.hasNextLine()) {
+            writer.write(scn.nextLine() + Jsh.lineSeparator);
+            writer.flush();
+            counter++;
         }
     }
 
