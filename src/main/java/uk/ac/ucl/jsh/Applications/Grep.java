@@ -72,12 +72,11 @@ public class Grep implements Application {
 
     /* Returns directory pathway for the specified file name arguments */
     private Path[] getFilePaths(String currentDirectory, ArrayList<String> args, int numOfFiles) {
-        Path filePath;
         Path[] filePathArray = new Path[numOfFiles];
         Path currentDir = Paths.get(currentDirectory);
 
         for (int i = 0; i < numOfFiles; i++) {
-            filePath = currentDir.resolve(args.get(i + 1));
+            Path filePath = currentDir.resolve(args.get(i + 1));
             if (Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.exists(filePath) || !Files.isReadable(filePath)) {
                 return null;
                 //throw new RuntimeException("grep: wrong file argument");

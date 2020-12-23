@@ -9,17 +9,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Tail implements Application {
 
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, input, output);
+            String appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -29,7 +29,7 @@ public class Tail implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int tailLines = 10;
         String tailArg;
@@ -47,20 +47,9 @@ public class Tail implements Application {
 
         File tailFile = new File(currentDirectory + File.separator + tailArg);
         if (tailFile.exists()) {
-            Charset encoding = StandardCharsets.UTF_8;
-            Path filePath = Paths.get(currentDirectory + File.separator + tailArg);
-            ArrayList<String> storage = new ArrayList<>();
-            try (BufferedReader reader = Files.newBufferedReader(filePath, encoding)) {
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    storage.add(line);
-                }
-                int index = 0;
-
-                if (tailLines <= storage.size()) {
-                    index = storage.size() - tailLines;
-                }
-
+            ArrayList<String> storage = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(tailFile))));
+            try {
+                int index = ((tailLines <= storage.size()) ? storage.size() - tailLines : 0);
                 for (int i = index; i < storage.size(); i++) {
                     writer.write(storage.get(i) + Jsh.lineSeparator);
                     writer.flush();
@@ -71,7 +60,6 @@ public class Tail implements Application {
         } else {
             return "tail: " + tailArg + " does not exist";
         }
-
         return currentDirectory;
     }
 

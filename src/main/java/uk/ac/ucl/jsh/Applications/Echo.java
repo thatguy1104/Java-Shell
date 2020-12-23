@@ -31,8 +31,7 @@ public class Echo implements Application {
     private void writeOut(ArrayList<String> args, OutputStreamWriter writer) throws IOException {
         boolean atLeastOnePrinted = false;
         for (String arg : args) {
-            writer.write(arg);
-            writer.write(" ");
+            writer.write(arg + " ");
             writer.flush();
             atLeastOnePrinted = true;
         }

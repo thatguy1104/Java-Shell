@@ -8,17 +8,19 @@ import java.util.LinkedHashSet;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class Uniq implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, input, output);
+            String appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -28,31 +30,17 @@ public class Uniq implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-        String uniqFilename;
-
-        if (args.size() == 2) {
-            uniqFilename = args.get(1);
-        } else {
-            uniqFilename = args.get(0);
-        }
+    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
+        this.writer = new OutputStreamWriter(output);
+        String uniqFilename = ((args.size() == 2) ? args.get(1) : args.get(0));
 
         /* String input = appArgs(*) */
         File uniqFile = new File(currDir + File.separator + uniqFilename);
         if (uniqFile.exists()) {
-            // Charset encoding = StandardCharsets.UTF_8;
-            Path sortPath = Paths.get(currDir + File.separator + uniqFilename);
-            try (BufferedReader reader = Files.newBufferedReader(sortPath /* , encoding */)) {
-                String line = reader.readLine();
-                ArrayList<String> lines = new ArrayList<>();
-                ArrayList<String> uniqLines;
-
+            try {
                 /* Populate array with lines of the file */
-                while (line != null) {
-                    lines.add(line);
-                    line = reader.readLine();
-                }
+                ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(uniqFile))));
+                ArrayList<String> uniqLines;
 
                 /* Check if the -i and if exists make comparision case insensitive */
                 if (args.size() == 2) {
@@ -62,8 +50,7 @@ public class Uniq implements Application {
                         boolean equals = false;
                         String row = lines.get(i);
                         for (int j = i + 1; j < lines.size(); j++) {
-                            String row2 = lines.get(j);
-                            if (row.equalsIgnoreCase(row2)) {
+                            if (row.equalsIgnoreCase(lines.get(j))) {
                                 equals = true;
                                 break;
                             }
@@ -76,9 +63,8 @@ public class Uniq implements Application {
                     LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
                     uniqLines = new ArrayList<>(uniqSet);
                 }
-
                 /* Display array of uniq lines */
-                writeOut(uniqLines, writer);
+                writeOut(uniqLines);
 
             } catch (IOException e) {
                 return "ERROR uniq: cannot open " + uniqFilename;
@@ -91,11 +77,10 @@ public class Uniq implements Application {
     }
 
     /* Prints to specified output */
-    private void writeOut(ArrayList<String> uniqLines, OutputStreamWriter writer) throws IOException {
+    private void writeOut(ArrayList<String> uniqLines) throws IOException {
         for (String uniqLine : uniqLines) {
-            writer.write(uniqLine);
-            writer.write(Jsh.lineSeparator);
-            writer.flush();
+            this.writer.write(uniqLine + Jsh.lineSeparator);
+            this.writer.flush();
         }
     }
 

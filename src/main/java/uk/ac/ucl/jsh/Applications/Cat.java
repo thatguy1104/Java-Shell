@@ -49,11 +49,9 @@ public class Cat implements Application {
     private void writeOut(Scanner scn, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         while (scn.hasNextLine()) {
-            writer.write(scn.nextLine());
-            writer.write(Jsh.lineSeparator);
+            writer.write(scn.nextLine() + Jsh.lineSeparator);
             writer.flush();
         }
-        scn.close();
     }
 
     /* Validate args input */

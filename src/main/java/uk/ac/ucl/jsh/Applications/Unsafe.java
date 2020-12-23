@@ -15,11 +15,10 @@ public class Unsafe implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, input, output);
+            String appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             } else {
@@ -42,8 +41,7 @@ public class Unsafe implements Application {
     @Override
     public void throwError(String message, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        writer.write("_" + message);
-        writer.write(Jsh.lineSeparator);
+        writer.write("_" + message + Jsh.lineSeparator);
         writer.flush();
     }
 

@@ -3,6 +3,7 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -29,21 +30,13 @@ public class Cut implements Application {
         return "";
     }
 
-    private ArrayList<String> preProcess(Scanner scn) {
-        ArrayList<String> args = new ArrayList<>();
-        while (scn.hasNextLine()) {
-            args.add(scn.nextLine());
-        }
-        return args;
-    }
-
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
         String cutResult;
 
         if (args.isEmpty()) {
-            args = preProcess(new Scanner(input));
+            args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
         }
 
         String concat_args = Stream.of(args.get(1)

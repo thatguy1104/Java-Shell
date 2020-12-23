@@ -12,11 +12,10 @@ public class Find implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, input, output);
+            String appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -55,8 +54,7 @@ public class Find implements Application {
     /* Prints to specified output */
     private void writeOut(Set<String> result_set, OutputStreamWriter writer) throws IOException {
         for (String item : result_set) {
-            writer.write(item);
-            writer.write(Jsh.lineSeparator);
+            writer.write(item + Jsh.lineSeparator);
             writer.flush();
         }
     }
