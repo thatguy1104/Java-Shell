@@ -39,13 +39,13 @@ public class Jsh {
         return rawCommands;
     }
 
-    public static void eval(String cmdline, OutputStream output) throws IOException {
+    public static void eval(String cmdline, OutputStream output) {
         Visitable parseTree = Parser.parseCMD(cmdline);
 
         try {
             parseTree.accept(new AppVisitor<>(), null, output, currentDirectory);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
 
 //        ArrayList<String> rawCommands = supplementary(cmdline);
