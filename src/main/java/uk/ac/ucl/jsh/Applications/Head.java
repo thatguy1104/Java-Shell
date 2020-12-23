@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public abstract class Head implements Application {
+public class Head implements Application {
 
     private OutputStreamWriter writer;
 

@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public abstract class Unsafe implements Application {
+public class Unsafe implements Application {
     private OutputStreamWriter writer;
     private Application application;
 

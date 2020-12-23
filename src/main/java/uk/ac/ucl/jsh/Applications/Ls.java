@@ -5,7 +5,7 @@ import uk.ac.ucl.jsh.Jsh;
 import java.io.*;
 import java.util.ArrayList;
 
-public abstract class Ls implements Application {
+public class Ls implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {

@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Find implements Application {
-
-    private OutputStreamWriter writer;
+public class Find implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
-        if (message != "nothing") {
+        if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
             appResult = exec(args, currentDirectory, input, output);
@@ -30,7 +28,7 @@ public abstract class Find implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         File cur = new File(currentDirectory);
-        writer = new OutputStreamWriter(output);
+        OutputStreamWriter writer = new OutputStreamWriter(output);
 
         try {
             File[] listOfFiles = cur.listFiles();

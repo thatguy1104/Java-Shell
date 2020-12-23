@@ -12,8 +12,6 @@ public interface Application {
 
     String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException;
 
-    String exec(ArrayList<String> args, String currDir) throws IOException;
-
     String argCheck(ArrayList<String> args);
 
     void throwError(String message, OutputStream output) throws IOException;

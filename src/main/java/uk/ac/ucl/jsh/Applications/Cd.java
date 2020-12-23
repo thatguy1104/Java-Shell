@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 
-public abstract class Cd implements Application {
+public class Cd implements Application {
 
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
@@ -25,7 +25,7 @@ public abstract class Cd implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir) throws IOException {
+    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         String dirString = args.get(0);
         File dir = new File(currDir, dirString);
         if (!dir.exists() || !dir.isDirectory()) {

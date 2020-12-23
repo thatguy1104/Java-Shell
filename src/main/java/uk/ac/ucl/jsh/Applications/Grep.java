@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Grep implements Application {
-
-    private OutputStreamWriter writer;
+public class Grep implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
@@ -34,7 +32,7 @@ public abstract class Grep implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
-        writer = new OutputStreamWriter(output);
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         Pattern grepPattern = Pattern.compile(args.get(0));
         int numOfFiles = args.size() - 1;
 

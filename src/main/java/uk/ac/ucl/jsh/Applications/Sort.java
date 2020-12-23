@@ -10,9 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public abstract class Sort implements Application {
-
-    private OutputStreamWriter writer;
+public class Sort implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
@@ -32,7 +30,7 @@ public abstract class Sort implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) {
-        writer = new OutputStreamWriter(output);
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         String sortArg;
 
         if (args.size() == 2) {

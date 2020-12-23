@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class Cut implements Application {
+public class Cut implements Application {
 
     private OutputStreamWriter writer;
 

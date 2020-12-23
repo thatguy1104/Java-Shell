@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public abstract class Pwd implements Application {
+public class Pwd implements Application {
 
     private OutputStreamWriter writer;
 
