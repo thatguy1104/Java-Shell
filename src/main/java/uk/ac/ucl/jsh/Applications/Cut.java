@@ -8,10 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,36 +32,50 @@ public class Cut implements Application {
         return "";
     }
 
+    private ArrayList<String> preProcess(Scanner scn) {
+        ArrayList<String> args = new ArrayList<>();
+        while (scn.hasNextLine()) {
+            args.add(scn.nextLine());
+        }
+        return args;
+    }
+
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-
-        String start_end = args.get(1).replaceAll("[^-?0-9]+", " ");
-        List<String> line_args = Arrays.asList(start_end.trim().split(" "));
         String cutResult;
 
-        // Concatenate all args into 1 string
-        String concat_args = String.join(", ", line_args);
+        if (args.isEmpty()) {
+            args = preProcess(new Scanner(input));
+        }
+
+        String concat_args = Stream.of(args.get(1)
+                .replaceAll("[^-?0-9]+", " ")
+                .split(" "))
+                .map (String::new)
+                .collect(Collectors.joining(", "));
+
         List<Integer> clean_args = parse_cut_input(concat_args);
+
         if (clean_args.get(0) == -2) {
             return "ERROR cut: incorrect list ranges";
         } else if (clean_args.get(0) == -1) {
             return "ERROR cut: could not convert arguments";
         }
-        String file_name = args.get(2);
 
+        String file_name = args.get(2);
         cutResult = process(currentDirectory, clean_args, file_name);
 
         return cutResult;
     }
 
-    private String process(String currentDirectory, List<Integer> clean_args, String file_name) {
-        Charset encoding = StandardCharsets.UTF_8;
+    private String process(String currentDirectory, List<Integer> clean_args, String file_name) throws IOException {
         File curr_File = new File(currentDirectory + File.separator + file_name);
         if (curr_File.exists()) {
-            Path file_Path = Paths.get(currentDirectory + File.separator + file_name);
-            try (BufferedReader reader = Files.newBufferedReader(file_Path, encoding)) {
-                if (!writeOut(reader, clean_args)) {
+            Path filePath = Paths.get(currentDirectory + File.separator + file_name);
+            Scanner scn = new Scanner(filePath);
+            try {
+                if (!writeOut(scn, clean_args)) {
                     return "ERROR cut: byte index specified does not exist";
                 }
             } catch (IOException e) {
@@ -79,11 +90,11 @@ public class Cut implements Application {
     }
 
     /* Prints to specified output */
-    private Boolean writeOut(BufferedReader reader, List<Integer> clean_args) throws IOException {
-        String line;
+    private Boolean writeOut(Scanner scn, List<Integer> clean_args) throws IOException {
         ArrayList<Character> separated_bytes;
 
-        while ((line = reader.readLine()) != null) {
+        while (scn.hasNextLine()) {
+            String line = scn.nextLine();
             separated_bytes = new ArrayList<>();
             for (int i : clean_args) {
                 if (i < 0) {
@@ -100,8 +111,7 @@ public class Cut implements Application {
     }
 
     private void outputToConsole(String line) throws IOException {
-        writer.write(line);
-        writer.write(Jsh.lineSeparator);
+        writer.write(line + Jsh.lineSeparator);
         writer.flush();
     }
 
@@ -124,7 +134,7 @@ public class Cut implements Application {
         throw new RuntimeException(message);
     }
 
-    private List<Integer> parse_caseOne(List<String> inner_range, List<Integer> total_range) throws IOException {
+    private List<Integer> parse_caseOne(List<String> inner_range, List<Integer> total_range) {
         List<Integer> final_lst = new ArrayList<>();
         try {
             int converted_elem = Integer.parseInt(inner_range.get(0));
@@ -141,10 +151,11 @@ public class Cut implements Application {
         return final_lst;
     }
 
-    private List<Integer> parse_caseTwo(List<String> inner_range, List<Integer> total_range) throws IOException {
+    private List<Integer> parse_caseTwo(List<String> inner_range, List<Integer> total_range) {
         List<Integer> final_lst = new ArrayList<>();
         try {
-            int converted_start = Integer.parseInt(inner_range.get(0)), converted_end = Integer.parseInt(inner_range.get(1));
+            int converted_start = Integer.parseInt(inner_range.get(0));
+            int converted_end = Integer.parseInt(inner_range.get(1));
             for (int j = converted_start + 1; j <= converted_end; j++) {
                 if (!total_range.contains(j)) {
                     final_lst.add(j - 1);
@@ -171,13 +182,17 @@ public class Cut implements Application {
     }
 
     // Parses cut case input
-    private List<Integer> parse_cut_input(String str) throws IOException {
+    private List<Integer> parse_cut_input(String str) {
         // Split the arguments into a List
-        str = str.replaceAll("[^-?0-9]+", " ");
-        String[] line_args = str.trim().split(" ");
+        List<String> line_args  = Stream.of(str
+                .replaceAll("[^-?0-9]+", " ")
+                .split(" "))
+                .map (String::new)
+                .collect(Collectors.toList());
+
         List<Integer> total_range = new ArrayList<>();
-        List<Integer> case_one = new ArrayList<>();
-        List<Integer> case_two = new ArrayList<>();
+        List<Integer> case_one;
+        List<Integer> case_two;
 
         // Parse each element to extend arguments where necessary
         for (String elem : line_args) {

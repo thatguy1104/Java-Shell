@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 public class Pwd implements Application {
 
-    private OutputStreamWriter writer;
-
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
@@ -25,11 +23,9 @@ public class Pwd implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
-        writer = new OutputStreamWriter(output);
-        writer.write(currDir);
-        writer.write(Jsh.lineSeparator);
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        writer.write(currDir + Jsh.lineSeparator);
         writer.flush();
-
         return currDir;
     }
 
