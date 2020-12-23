@@ -88,7 +88,7 @@ public class Jsh {
 //                throw new RuntimeException(appName + ": unknown application");
 //            }
 
-        }
+//        }
     }
 
     public static void main(String[] args) {
