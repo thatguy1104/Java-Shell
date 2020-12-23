@@ -37,7 +37,7 @@ UNQUOTED: (~('|' | ';' | '<' | '>' | '\'' | '"' | '`' | ' ' | '\n' | '\r' | '\t'
 PIPE: '|';
 SEMICOLON: ';';
 INPUTREDIRECTION: '<';
-OUTPUTREDIRECTION: '<';
+OUTPUTREDIRECTION: '>';
 SINGLEQUOTE: '\'';
 DOUBLEQUOTE: '"';
 BACKQUOTE: '`';
