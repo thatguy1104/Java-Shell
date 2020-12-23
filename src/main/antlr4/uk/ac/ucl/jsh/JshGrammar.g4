@@ -59,21 +59,7 @@ doubleQuoted:
 
 //NONSPECIAL : ~['";|]+;
 WHITESPACE: ('\t' | ' ' | '\r' | '\n')+; //WHITESPACE : ('\t' | ' ' | '\r' | '\n' | '\u000C')+;
-UNQUOTED: (
-		~(
-			'\r'
-			| '\n'
-			| ' '
-			| '\''
-			| '\t'
-			| '"'
-			| '`'
-			| ';'
-			| '|'
-			| '<'
-			| '>'
-		)
-	)+;
+UNQUOTED: (~('\r' | '\n' | ' ' | '\'' | '\t' | '"' | '`' | ';' | '|' | '<' | '>'))+;
 //NON_KEYWORD : ~['";|\n`]+;
 SINGLEQUOTE: '\'';
 DOUBLEQUOTE: '"';
