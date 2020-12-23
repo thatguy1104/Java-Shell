@@ -19,33 +19,34 @@ public class Jsh {
     private static String currentDirectory = System.getProperty("user.dir");
     public static String lineSeparator = System.getProperty("line.separator");
 
-    private static ArrayList<String> supplementary(String cmdline) {
-        CharStream parserInput = CharStreams.fromString(cmdline);
-        JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        JshGrammarParser parser = new JshGrammarParser(tokenStream);
-        ParseTree tree = parser.command();
-        ArrayList<String> rawCommands = new ArrayList<>();
-        StringBuilder lastSubcommand = new StringBuilder();
-        for (int i = 0; i < tree.getChildCount(); i++) {
-            if (!tree.getChild(i).getText().equals(";")) {
-                lastSubcommand.append(tree.getChild(i).getText());
-            } else {
-                rawCommands.add(lastSubcommand.toString());
-                lastSubcommand = new StringBuilder();
-            }
-        }
-        rawCommands.add(lastSubcommand.toString());
-        return rawCommands;
-    }
+//    private static ArrayList<String> supplementary(String cmdline) {
+//        CharStream parserInput = CharStreams.fromString(cmdline);
+//        JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
+//        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+//        JshGrammarParser parser = new JshGrammarParser(tokenStream);
+//        ParseTree tree = parser.command();
+//        ArrayList<String> rawCommands = new ArrayList<>();
+//        StringBuilder lastSubcommand = new StringBuilder();
+//        for (int i = 0; i < tree.getChildCount(); i++) {
+//            if (!tree.getChild(i).getText().equals(";")) {
+//                lastSubcommand.append(tree.getChild(i).getText());
+//            } else {
+//                rawCommands.add(lastSubcommand.toString());
+//                lastSubcommand = new StringBuilder();
+//            }
+//        }
+//        rawCommands.add(lastSubcommand.toString());
+//        return rawCommands;
+//    }
 
-    public static void eval(String cmdline, OutputStream output) throws IOException {
+    public static void eval(String cmdline, OutputStream output) {
         Visitable parseTree = Parser.parseCMD(cmdline);
 
         try {
             parseTree.accept(new AppVisitor<>(), null, output, currentDirectory);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
+            //e.printStackTrace();
         }
 
 //        ArrayList<String> rawCommands = supplementary(cmdline);

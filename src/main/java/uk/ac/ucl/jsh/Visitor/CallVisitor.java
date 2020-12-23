@@ -5,7 +5,6 @@ import uk.ac.ucl.jsh.Parser.Call.CallGrammarBaseVisitor;
 import uk.ac.ucl.jsh.Parser.Call.CallGrammarParser;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -155,7 +154,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      Visits the back quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
-    public ArrayList<String> visitBack_quote(CallGrammarParser.Back_quoteContext ctx) throws IOException {
+    public ArrayList<String> visitBack_quote(CallGrammarParser.Back_quoteContext ctx) {
         String backQuoteString = ctx.contents.getText();
         if (backQuoteString == "" ) {
             return new ArrayList<>(List.of(""));
