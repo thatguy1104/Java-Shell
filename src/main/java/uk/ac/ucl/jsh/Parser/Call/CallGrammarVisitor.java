@@ -3,8 +3,6 @@ package uk.ac.ucl.jsh.Parser.Call;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
-import java.io.IOException;
-
 /**
  * This interface defines a complete generic visitor for a parse tree produced
  * by {@link CallGrammarParser}.
@@ -66,5 +64,5 @@ public interface CallGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBack_quote(CallGrammarParser.Back_quoteContext ctx) throws IOException;
+	T visitBack_quote(CallGrammarParser.Back_quoteContext ctx);
 }
