@@ -9,11 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Sort implements Application {
 
+    private OutputStreamWriter writer;
+
     @Override
-    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) {
+    public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         String appResult;
         if (!message.equals("nothing")) {
@@ -29,8 +32,8 @@ public class Sort implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
+        this.writer = new OutputStreamWriter(output);
         String sortArg;
 
         if (args.size() == 2) {
@@ -38,37 +41,30 @@ public class Sort implements Application {
         } else {
             sortArg = args.get(0);
         }
-        File sortFile = new File(currDir + File.separator + sortArg);
-        Charset encoding = StandardCharsets.UTF_8;
-        if (sortFile.exists()) {
-            Path sortPath = Paths.get(currDir + File.separator + sortArg);
-            try (BufferedReader reader = Files.newBufferedReader(sortPath, encoding)) {
-                String line = reader.readLine();
-                ArrayList<String> lines = new ArrayList<>();
-                ArrayList<String> sortedLines;
+        File filePath = new File(currDir + File.separator + sortArg);
 
+        if (filePath.exists()) {
+            Scanner scn = new Scanner(filePath);
+
+            try {
+                ArrayList<String> lines = new ArrayList<>();
                 /* Populate array with lines of the file */
-                while (line != null) {
-                    lines.add(line);
-                    line = reader.readLine();
+                while (scn.hasNextLine()) {
+                    lines.add(scn.nextLine());
                 }
 
                 /* Use the quicksort on the array list of strings */
-                sortedLines = stringQuicksort(lines);
+                ArrayList<String> sortedLines = stringQuicksort(lines);
 
                 /* Check if the -r is present then display array in reverse order */
                 if (args.size() == 2) {
                     for (int i = sortedLines.size() - 1; i >= 0; i--) {
-                        writer.write(sortedLines.get(i));
-                        writer.write(Jsh.lineSeparator);
-                        writer.flush();
+                        writeOut(sortedLines.get(i));
                     }
                 } else {
                     /* If -r is not present display array normally */
                     for (String sortedLine : sortedLines) {
-                        writer.write(sortedLine);
-                        writer.write(Jsh.lineSeparator);
-                        writer.flush();
+                        writeOut(sortedLine);
                     }
                 }
             } catch (IOException e) {
@@ -77,10 +73,13 @@ public class Sort implements Application {
         } else {
             return "ERROR sort: " + sortArg + " does not exist";
         }
-
         return currDir;
     }
 
+    private void writeOut(String s) throws IOException {
+        this.writer.write(s + Jsh.lineSeparator);
+        this.writer.flush();
+    }
 
     /* Recursive quick-sort algorithm for sorting an array list of strings */
     private static ArrayList<String> stringQuicksort(ArrayList<String> lines) {
