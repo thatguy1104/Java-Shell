@@ -3,6 +3,8 @@ package uk.ac.ucl.jsh.Parser.Call;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
+import java.io.IOException;
+
 /**
  * This class provides an empty implementation of {@link CallGrammarVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
@@ -74,5 +76,5 @@ public class CallGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBack_quote(CallGrammarParser.Back_quoteContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBack_quote(CallGrammarParser.Back_quoteContext ctx) throws IOException { return visitChildren(ctx); }
 }

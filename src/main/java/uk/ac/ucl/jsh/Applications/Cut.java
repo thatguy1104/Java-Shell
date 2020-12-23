@@ -17,7 +17,11 @@ public class Cut implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
+        String appResult;
         if (!message.equals("nothing")) {
+            throwError(message, output);
+        } else {
+            appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }

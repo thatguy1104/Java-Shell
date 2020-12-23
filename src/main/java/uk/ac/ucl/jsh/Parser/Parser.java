@@ -2,8 +2,11 @@ package uk.ac.ucl.jsh.Parser;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import uk.ac.ucl.jsh.Parser.Call.CallGrammarLexer;
+import uk.ac.ucl.jsh.Parser.Call.CallGrammarParser;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarLexer;
 import uk.ac.ucl.jsh.Parser.antlr2.JshGrammarParser;
+import uk.ac.ucl.jsh.Visitor.CallVisitor;
 import uk.ac.ucl.jsh.Visitor.JshCallVisitor;
 import uk.ac.ucl.jsh.Visitor.JshCommandVisitor;
 import uk.ac.ucl.jsh.Visitor.Visitable;
@@ -20,10 +23,10 @@ public class Parser {
     }
 
     public static ArrayList<String> parseCallCommand(String callCommand) {
-        JshGrammarLexer lexer = new JshGrammarLexer(CharStreams.fromString(callCommand));
-        JshGrammarParser parser = new JshGrammarParser(new CommonTokenStream(lexer));
-        JshGrammarParser.ArgumentContext compile_unit = parser.argument();
+        CallGrammarLexer lexer = new CallGrammarLexer(CharStreams.fromString(callCommand));
+        CallGrammarParser parser = new CallGrammarParser(new CommonTokenStream(lexer));
+        CallGrammarParser.ArgumentContext compile_unit = parser.argument();
 
-        return new JshCallVisitor().visitArgument(compile_unit);
+        return new CallVisitor().visitArgument(compile_unit);
     }
 }
