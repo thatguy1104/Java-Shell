@@ -30,7 +30,7 @@ public class Ls implements Application {
         File currDir;
 
         /* Assign the current directory if no path is specified */
-        if (args.isEmpty()) {
+        if (args.size() == 1) {
             currDir = new File(currentDirectory);
         } else {
             currDir = new File(args.get(0));

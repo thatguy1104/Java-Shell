@@ -6,44 +6,47 @@ import uk.ac.ucl.jsh.Parser.Parser;
 import java.io.*;
 import java.util.ArrayList;
 
-public class AppVisitor<T> implements Visitor<T> {
+public class AppVisitor implements Visitor<Void> {
 
     @Override
-    public void visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) throws Exception {
+    public Void visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) throws IOException {
         ByteArrayOutputStream newOutputStream = new ByteArrayOutputStream();
         pipe.getLeft().accept(this, is, newOutputStream, currentDirectory);
         ByteArrayInputStream newInputStream = new ByteArrayInputStream(newOutputStream.toByteArray());
         pipe.getRight().accept(this, newInputStream, os, currentDirectory);
+        return null;
     }
 
     @Override
-    public void visit(Call call, InputStream is, OutputStream os, String currentDirectory) throws Exception {
+    public Void visit(Call call, InputStream is, OutputStream os, String currentDirectory) throws IOException {
         ArrayList<String> tokens = Parser.parseCallCommand(call.getVisitable());
 
-        is = getInputStream(tokens, is);
-        os = getOutputStream(tokens, os);
+//        is = getInputStream(tokens, is);
+//        os = getOutputStream(tokens, os);
         Factory factory = new Factory();
         assert tokens != null;
         factory.getApp(tokens.get(0)).mainExec(tokens, currentDirectory, is, os);
+        return null;
     }
 
     @Override
-    public void visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) throws Exception {
+    public Void visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) throws IOException {
         seq.getLeft().accept(this, is, os, currentDirectory);
         seq.getRight().accept(this, is,  os, currentDirectory);
+        return null;
     }
 
-    private InputStream getInputStream(ArrayList<String> tokens, InputStream is) throws Exception {
+    private InputStream getInputStream(ArrayList<String> tokens, InputStream is) throws IOException {
         if (countChars(tokens, '<') > 1) {
-            throw new Exception("IO Re-direction: Too many files for input redirection");
+            throw new IOException("IO Re-direction: Too many files for input redirection");
         }
 
         return null;
     }
 
-    private OutputStream getOutputStream(ArrayList<String> tokens, OutputStream os) throws Exception {
+    private OutputStream getOutputStream(ArrayList<String> tokens, OutputStream os) throws IOException {
         if (countChars(tokens, '>') > 1) {
-            throw new Exception("IO Re-direction: Too many files for input redirection");
+            throw new IOException("IO Re-direction: Too many files for input redirection");
         }
 
         return null;

@@ -43,7 +43,7 @@ public class Jsh {
         Visitable parseTree = Parser.parseCMD(cmdline);
 
         try {
-            parseTree.accept(new AppVisitor<>(), null, output, currentDirectory);
+            parseTree.accept(new AppVisitor(), null, output, currentDirectory);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             //e.printStackTrace();

@@ -6,10 +6,10 @@ import java.io.OutputStream;
 
 public interface Visitor<T> {
     
-    void visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) throws Exception;
+    T visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) throws IOException;
 
-    void visit(Call call, InputStream is, OutputStream os, String currentDirectory) throws Exception;
+    T visit(Call call, InputStream is, OutputStream os, String currentDirectory) throws IOException;
 
-    void visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) throws Exception;
+    T visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) throws IOException;
 
 }
