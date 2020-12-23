@@ -54,6 +54,12 @@ public interface CallGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDouble_quote(CallGrammarParser.Double_quoteContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CallGrammarParser#double_quote_options}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDouble_quote_options(CallGrammarParser.Double_quote_optionsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CallGrammarParser#back_quote}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

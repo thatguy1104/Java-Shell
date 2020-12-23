@@ -79,6 +79,16 @@ public interface CallGrammarListener extends ParseTreeListener {
 	 */
 	void exitDouble_quote(CallGrammarParser.Double_quoteContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CallGrammarParser#double_quote_options}.
+	 * @param ctx the parse tree
+	 */
+	void enterDouble_quote_options(CallGrammarParser.Double_quote_optionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CallGrammarParser#double_quote_options}.
+	 * @param ctx the parse tree
+	 */
+	void exitDouble_quote_options(CallGrammarParser.Double_quote_optionsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CallGrammarParser#back_quote}.
 	 * @param ctx the parse tree
 	 */

@@ -23,7 +23,10 @@ argument: unquotedArgument = UNQUOTED argument?
 
 single_quote: SINGLEQUOTE contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | OUTPUTREDIRECTION | DOUBLEQUOTE | BACKQUOTE)* SINGLEQUOTE;
 
-double_quote: DOUBLEQUOTE (contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | SINGLEQUOTE) | back_quote)* DOUBLEQUOTE;
+double_quote: DOUBLEQUOTE double_quote_options DOUBLEQUOTE;
+double_quote_options: contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | SINGLEQUOTE) double_quote_options
+                    | back_quote double_quote_options
+                    |;
 
 back_quote: BACKQUOTE contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | OUTPUTREDIRECTION | SINGLEQUOTE | DOUBLEQUOTE)* BACKQUOTE;
 

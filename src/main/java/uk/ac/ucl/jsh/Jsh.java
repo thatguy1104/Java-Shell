@@ -27,6 +27,8 @@ public class Jsh {
 
     private static String currentDirectory = System.getProperty("user.dir");
 
+    public final static String lineSeparator = System.getProperty("line.separator");
+
     private static ArrayList<String> supplementary(String cmdline) {
         CharStream parserInput = CharStreams.fromString(cmdline);
         JshGrammarLexer lexer = new JshGrammarLexer(parserInput);
@@ -47,7 +49,7 @@ public class Jsh {
         return rawCommands;
     }
 
-    public static void eval(String cmdline, OutputStream output) throws IOException {
+    public static void eval(String cmdline, OutputStream output) {
         Visitable parseTree = Parser.parseCMD(cmdline);
 
         try {
@@ -56,46 +58,46 @@ public class Jsh {
             System.err.println(e.getMessage());
         }
 
-        ArrayList<String> rawCommands = supplementary(cmdline);
-
-        for (String rawCommand : rawCommands) {
-            String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
-            ArrayList<String> tokens = new ArrayList<>();
-            Pattern regex = Pattern.compile(spaceRegex);
-            Matcher regexMatcher = regex.matcher(rawCommand);
-            String nonQuote;
-
-            while (regexMatcher.find()) {
-                if (regexMatcher.group(1) != null || regexMatcher.group(2) != null) {
-                    String quoted = regexMatcher.group(0).trim();
-                    tokens.add(quoted.substring(1, quoted.length() - 1));
-                } else {
-                    nonQuote = regexMatcher.group().trim();
-                    ArrayList<String> globbingResult = new ArrayList<>();
-                    Path dir = Paths.get(currentDirectory);
-                    DirectoryStream<Path> stream = Files.newDirectoryStream(dir, nonQuote);
-                    for (Path entry : stream) {
-                        globbingResult.add(entry.getFileName().toString());
-                    }
-                    if (globbingResult.isEmpty()) {
-                        globbingResult.add(nonQuote);
-                    }
-                    tokens.addAll(globbingResult);
-                }
-            }
-
-            String appName = tokens.get(0);
-            ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
-
-            Factory factory = new Factory();
-            Application app = factory.getApp(appName);
+//        ArrayList<String> rawCommands = supplementary(cmdline);
+//
+//        for (String rawCommand : rawCommands) {
+//            String spaceRegex = "[^\\s\"']+|\"([^\"]*)\"|'([^']*)'";
+//            ArrayList<String> tokens = new ArrayList<>();
+//            Pattern regex = Pattern.compile(spaceRegex);
+//            Matcher regexMatcher = regex.matcher(rawCommand);
+//            String nonQuote;
+//
+//            while (regexMatcher.find()) {
+//                if (regexMatcher.group(1) != null || regexMatcher.group(2) != null) {
+//                    String quoted = regexMatcher.group(0).trim();
+//                    tokens.add(quoted.substring(1, quoted.length() - 1));
+//                } else {
+//                    nonQuote = regexMatcher.group().trim();
+//                    ArrayList<String> globbingResult = new ArrayList<>();
+//                    Path dir = Paths.get(currentDirectory);
+//                    DirectoryStream<Path> stream = Files.newDirectoryStream(dir, nonQuote);
+//                    for (Path entry : stream) {
+//                        globbingResult.add(entry.getFileName().toString());
+//                    }
+//                    if (globbingResult.isEmpty()) {
+//                        globbingResult.add(nonQuote);
+//                    }
+//                    tokens.addAll(globbingResult);
+//                }
+//            }
+//
+//            String appName = tokens.get(0);
+//            ArrayList<String> appArgs = new ArrayList<>(tokens.subList(1, tokens.size()));
+//
+//            Factory factory = new Factory();
+//            Application app = factory.getApp(appName);
 
 //            try {
 //                currentDirectory = app.mainExec(appArgs, currentDirectory, is, output);
 //            } catch (IOException e) {
 //                throw new RuntimeException(appName + ": unknown application");
 //            }
-        }
+//        }
     }
 
     public static void main(String[] args) {

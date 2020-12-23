@@ -100,6 +100,18 @@ public class CallGrammarBaseListener implements CallGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDouble_quote_options(CallGrammarParser.Double_quote_optionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDouble_quote_options(CallGrammarParser.Double_quote_optionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBack_quote(CallGrammarParser.Back_quoteContext ctx) { }
 	/**
 	 * {@inheritDoc}
