@@ -18,7 +18,7 @@ public class TailTest extends JshTest {
         String[][] cases = {{"tail -n 3 text2.txt", "o\nw\nj"}, {"tail -n 3 text3.txt", "LoL\nlol\nloL"}, {"tail -n 0 text1.txt", ""}};
         for (String[] aCase : cases) {
             Jsh.eval(aCase[0], this.out);
-            String full_string = full_line(aCase[1]);
+            String full_string = getEvalResult(aCase[1]);
             assertEquals(full_string, aCase[1]);
         }
     }

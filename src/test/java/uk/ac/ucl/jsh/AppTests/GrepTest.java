@@ -18,7 +18,7 @@ public class GrepTest extends JshTest {
         String[][] cases = {{"grep \"d\" text1.txt", "abcdefghi"}, {"grep \"d\" text2.txt", "d\nd"}, {"grep \"aa\" text3.txt", "aaa\naaa"}};
         for (String[] aCase : cases) {
             Jsh.eval(aCase[0], out);
-            String result = full_line(aCase[1]);
+            String result = getEvalResult(aCase[1]);
             assertEquals(aCase[1], result);
         }
     }

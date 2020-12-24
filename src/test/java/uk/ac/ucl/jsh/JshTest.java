@@ -6,6 +6,8 @@ import uk.ac.ucl.jsh.AppTests.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ public class JshTest {
         return lines[lines.length - 1];
     }
 
-    protected String full_line(String file_contents) {
+    protected String getEvalResult(String file_contents) {
         int limit = 50, i = 0;
 
         if (file_contents.equals("")) return "";

@@ -24,7 +24,19 @@ public class CutTest extends JshTest {
         }
     }
 
+    @Test
+    public void test_2() {
+        String[][] cases = {{"echo abc | cut -b 1", "a"}};
+        for (String[] aCase : cases) {
+            Jsh.eval(aCase[0], out);
+            String expected = aCase[1];
+            String result = getEvalResult(aCase[1]);
+            assertEquals(expected, result);
+        }
+    }
+
     public void runAllTests() throws IOException {
         test_1();
+        test_2();
     }
 }

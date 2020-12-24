@@ -19,7 +19,7 @@ public class FindTest extends JshTest {
         for (String[] aCase : cases) {
             String expected = aCase[1];
             Jsh.eval(aCase[0], this.out);
-            String result = full_line(expected);
+            String result = getEvalResult(expected);
             assertEquals(expected, result);
         }
     }

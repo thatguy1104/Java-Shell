@@ -19,7 +19,7 @@ public class EchoTest extends JshTest {
         for (String[] aCase : cases) {
             String expected = aCase[1];
             Jsh.eval(aCase[0], this.out);
-            String result = full_line(aCase[1]);
+            String result = getEvalResult(aCase[1]);
             assertEquals(expected, result);
         }
     }

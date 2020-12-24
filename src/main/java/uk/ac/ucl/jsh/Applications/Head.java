@@ -3,9 +3,6 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,11 +13,10 @@ public class Head implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        String appResult;
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            appResult = exec(args, currentDirectory, input, output);
+            String appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }

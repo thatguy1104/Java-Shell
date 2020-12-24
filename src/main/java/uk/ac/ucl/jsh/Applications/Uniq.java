@@ -6,7 +6,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
@@ -17,6 +16,13 @@ public class Uniq implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
+        // Has pipe
+        if (args.size() == 1 && new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input))))).size() != 0) {
+            ArrayList<String> new_args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
+            new_args.add(0, "cat");
+            message = argCheck(new_args);
+        }
+        // No pipe
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -33,13 +39,6 @@ public class Uniq implements Application {
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
         String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
-        ArrayList<String> new_args = new ArrayList<>();
-        new_args.add(0, "uniq");
-
-        if (args.size() == 1) {
-            new_args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
-        }
-        args = new_args;
 
         /* String input = appArgs(*) */
         File uniqFile = new File(currDir + File.separator + uniqFilename);

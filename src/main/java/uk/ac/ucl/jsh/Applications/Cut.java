@@ -3,7 +3,6 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -13,14 +12,35 @@ import java.util.stream.Stream;
 public class Cut implements Application {
 
     private OutputStreamWriter writer;
+    private boolean pipe;
+
+    private ArrayList<String> preProcess(InputStream input, ArrayList<String> args) {
+        ArrayList<String> result = new ArrayList<>(args);
+        if (input != null) {
+            Scanner scn = new Scanner(input);
+            while (scn.hasNextLine()) {
+                result.add(scn.nextLine());
+            }
+        }
+        return result;
+    }
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        String appResult;
+        pipe = false;
+        // Has pipe
+        ArrayList<String> temp = preProcess(input, args);
+        if (args.size() == 3 && temp.size() != args.size()) {
+            message = argCheck(temp);
+            args = temp;
+            pipe = true;
+        }
+        // No pipe
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
+            String appResult;
             appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
@@ -33,10 +53,6 @@ public class Cut implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-
-        if (args.size() == 0) {
-            args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
-        }
 
         String concat_args = Stream.of(args.get(2)
                 .replaceAll("[^-?0-9]+", " ")
@@ -59,22 +75,25 @@ public class Cut implements Application {
 
     private String process(String currentDirectory, List<Integer> clean_args, String file_name) throws IOException {
         File curr_File = new File(currentDirectory + File.separator + file_name);
-        if (curr_File.exists()) {
+        Scanner scn;
+        if (curr_File.exists() && !pipe) {
             Path filePath = Paths.get(currentDirectory + File.separator + file_name);
-            Scanner scn = new Scanner(filePath);
-            try {
-                if (!writeOut(scn, clean_args)) {
-                    return "ERROR cut: byte index specified does not exist";
-                }
-            } catch (IOException e) {
-                return "ERROR cut: cannot open " + file_name;
-                //throw new RuntimeException("cut: cannot open " + file_name);
-            }
-            return currentDirectory;
+            scn = new Scanner(filePath);
+        } else if (pipe) {
+            scn = new Scanner(file_name);
         } else {
             return "ERROR cut: file does not exist";
             //throw new RuntimeException("cut: file does not exist");
         }
+        try {
+            if (!writeOut(scn, clean_args)) {
+                return "ERROR cut: byte index specified does not exist";
+            }
+        } catch (IOException e) {
+            return "ERROR cut: cannot open " + file_name;
+            //throw new RuntimeException("cut: cannot open " + file_name);
+        }
+        return currentDirectory;
     }
 
     /* Prints to specified output */

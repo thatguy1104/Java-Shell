@@ -18,7 +18,7 @@ public class SortTest extends JshTest {
         String[][] cases = {{"sort -r text1.txt", "ofeijnwio\nabcdefghi"}, {"sort -r text3.txt", "lol\nloL\nbbb\nbbb\nbab\naaa\naaa\nLoL\nBBB\nAAA"}};
         for (String[] aCase : cases) {
             Jsh.eval(aCase[0], this.out);
-            String full_string = full_line(aCase[1]);
+            String full_string = getEvalResult(aCase[1]);
             assertEquals(full_string, aCase[1]);
         }
     }

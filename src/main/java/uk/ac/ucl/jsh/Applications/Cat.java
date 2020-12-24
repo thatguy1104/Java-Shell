@@ -14,6 +14,13 @@ public class Cat implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
+        // Has pipe
+        if (args.size() == 1 && new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input))))).size() != 0) {
+            ArrayList<String> new_args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
+            new_args.add(0, "cat");
+            message = argCheck(new_args);
+        }
+        // No pipe
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -24,6 +31,7 @@ public class Cat implements Application {
             }
             return appResult;
         }
+
         return "";
     }
 

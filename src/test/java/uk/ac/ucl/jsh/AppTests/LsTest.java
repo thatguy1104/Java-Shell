@@ -22,7 +22,7 @@ public class LsTest extends JshTest {
 
         for (String file_name : path_names) {
             Jsh.eval("ls", this.out);
-            String full_string = full_line(file_name);
+            String full_string = getEvalResult(file_name);
             assertEquals(full_string, file_name);
         }
     }

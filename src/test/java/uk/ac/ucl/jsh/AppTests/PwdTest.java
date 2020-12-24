@@ -18,7 +18,7 @@ public class PwdTest extends JshTest {
         String aCase = "pwd";
         String curr_dir = System.getProperty("user.dir");
         Jsh.eval(aCase, this.out);
-        String full_string = full_line(curr_dir);
+        String full_string = getEvalResult(curr_dir);
         assertEquals(full_string, curr_dir);
     }
 

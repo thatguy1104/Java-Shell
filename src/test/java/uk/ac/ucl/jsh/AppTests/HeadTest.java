@@ -18,7 +18,7 @@ public class HeadTest extends JshTest {
         String[][] cases = {{"head text1.txt", readFile("text1.txt")}, {"head -n 3 text3.txt", "bab\nbbb\nBBB"}, {"head -n 0 text1.txt", ""}};
         for (String[] aCase : cases) {
             Jsh.eval(aCase[0], this.out);
-            String full_string = full_line(aCase[1]);
+            String full_string = getEvalResult(aCase[1]);
             assertEquals(full_string, aCase[1]);
         }
     }
