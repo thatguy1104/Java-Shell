@@ -6,7 +6,9 @@ import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class LsTest extends JshTest {
@@ -15,19 +17,27 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
+    public void test_1() {
         File f = new File(System.getProperty("user.dir"));
-        String[] path_names = f.list();
-        assert path_names != null;
+        List<String> expected = Arrays.asList(Objects.requireNonNull(f.list()));
+        List<String> results = new ArrayList<>();
 
-        for (String file_name : path_names) {
+        for (String file_name : expected) {
             Jsh.eval("ls", this.out);
-            String full_string = getEvalResult(file_name);
-            assertEquals(full_string, file_name);
+            results.add(pwdSupplementary(file_name));
+        }
+        Collections.sort(expected);
+        Arrays.sort(results.toArray());
+
+
+        for (String s : results) {
+            if (expected.contains(s)) {
+                assertEquals(expected.get(expected.indexOf(s)), s);
+            }
         }
     }
 
-    public void runAllTests() throws IOException {
+    public void runAllTests() {
         test_1();
     }
 }

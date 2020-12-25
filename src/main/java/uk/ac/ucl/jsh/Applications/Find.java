@@ -28,6 +28,7 @@ public class Find implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         File cur = new File(currentDirectory);
         OutputStreamWriter writer = new OutputStreamWriter(output);
+        args.remove(0);
 
         try {
             File[] listOfFiles = cur.listFiles();

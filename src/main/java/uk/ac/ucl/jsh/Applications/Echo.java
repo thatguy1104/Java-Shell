@@ -30,6 +30,7 @@ public class Echo implements Application {
 
     private void writeOut(ArrayList<String> args, OutputStreamWriter writer) throws IOException {
         boolean atLeastOnePrinted = false;
+
         for (int i = 1; i < args.size(); i++) {
             writer.write(args.get(i) + " ");
             writer.flush();

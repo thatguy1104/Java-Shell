@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class JshTest {
 
@@ -26,49 +30,35 @@ public class JshTest {
         return contents.stream().map(String::valueOf).collect(Collectors.joining("\n"));
     }
 
-    private String last_string(String line) {
-        String[] lines = line.split("\\n");
-        return lines[lines.length - 1];
+    protected String pwdSupplementary(String contents) {
+        StringBuilder result = new StringBuilder();
+        String[] words = contents.split("\\s+");
+
+        IntStream.range(0, words.length).forEach(i -> {
+            String line = scn.next();
+            result.append(line);
+            if (i != words.length - 1) {
+                result.append(" ");
+            }
+        });
+        return result.toString();
     }
 
     protected String getEvalResult(String file_contents) {
-        int limit = 50, i = 0;
+        if (file_contents.equals("")) return file_contents;
 
-        if (file_contents.equals("")) return "";
+        List<String> ok = Stream.of(file_contents.split("\n")).map(String::new).collect(Collectors.toList());
+        int size = ok.size();
 
-        StringBuilder line = new StringBuilder(scn.next());
-        if (file_contents.contains("\n")) {
-            while (scn.hasNextLine()) {
-                String temp = scn.next();
-                line.append("\n").append(temp);
-                if (temp.equals(last_string(file_contents))) break;
-                i++;
-                if (i > limit) break;
-            }
-            return line.toString();
-        }
-        return file_contents;
-    }
-
-    protected String getActualResult(String file_name) throws IOException {
         StringBuilder result = new StringBuilder();
-        int file_lines = countFileLines(file_name);
-        for (int i = 0; i < file_lines; i++) {
+        for (int i = 0; i < size; i++) {
             String line = scn.next();
             result.append(line);
-            if (i != file_lines - 1) {
+            if (i != size - 1) {
                 result.append("\n");
             }
         }
         return result.toString();
-    }
-
-    private int countFileLines(String fileName) throws IOException {
-        int lines = 0;
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        while (reader.readLine() != null) lines++;
-        reader.close();
-        return lines;
     }
 
     @Test

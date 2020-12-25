@@ -19,7 +19,7 @@ public class CatTest extends JshTest {
     public void test_1() throws IOException {
         String file_name = "text1.txt";
         Jsh.eval("cat " + file_name, out);
-        String result = getActualResult(file_name);
+        String result = readFile(file_name);
         String expected = readFile(file_name);
         assertEquals(expected, result);
     }

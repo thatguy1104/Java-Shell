@@ -112,14 +112,10 @@ public class Cut implements Application {
                 }
             }
             String resulting_line = separated_bytes.stream().map(String::valueOf).collect(Collectors.joining());
-            outputToConsole(resulting_line);
+            writer.write(resulting_line + Jsh.lineSeparator);
+            writer.flush();
         }
         return true;
-    }
-
-    private void outputToConsole(String line) throws IOException {
-        writer.write(line + Jsh.lineSeparator);
-        writer.flush();
     }
 
     /* Validates arguments input */
@@ -179,7 +175,7 @@ public class Cut implements Application {
         List<Integer> final_lst = new ArrayList<>();
         int int_elem = Integer.parseInt(elem);
         if (int_elem < 0) {
-            for (int i = 1; i <= Math.abs(int_elem); i++) {
+            for (int i = 1; i <= Math.abs(int_elem) + 1; i++) {
                 final_lst.add(i - 1);
             }
         } else {

@@ -14,13 +14,12 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
-        String[][] cases = {{"echo foo", "foo"}, {"echo hello world", "hello world"}, {"echo \"hello    world\"", "hello    world"}};
+    public void test_1() {
+        String[][] cases = {{"echo hello world", "hello world"}, {"echo foo", "foo"}};
         for (String[] aCase : cases) {
-            String expected = aCase[1];
             Jsh.eval(aCase[0], this.out);
-            String result = getEvalResult(aCase[1]);
-            assertEquals(expected, result);
+            String result = pwdSupplementary(aCase[1]);
+            assertEquals(aCase[1], result);
         }
     }
 

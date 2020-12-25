@@ -14,15 +14,15 @@ public class PwdTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
+    public void test_1() {
         String aCase = "pwd";
-        String curr_dir = System.getProperty("user.dir");
+        String expected = System.getProperty("user.dir");
         Jsh.eval(aCase, this.out);
-        String full_string = getEvalResult(curr_dir);
-        assertEquals(full_string, curr_dir);
+        String result = pwdSupplementary(expected);
+        assertEquals(expected, result);
     }
 
-    public void runAllTests() throws IOException {
+    public void runAllTests() {
         test_1();
     }
 }
