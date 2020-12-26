@@ -117,7 +117,7 @@ class TestJSH(unittest.TestCase):
         stdout = self.eval(cmdline)
         result = set(re.split("\n|\t", stdout.strip()))
         self.assertEqual(result, {"./dir1/file.txt", "./dir2/file.txt"})
-    
+
     def test_uniq(self):
         cmdline = "uniq dir1/file.txt"
         stdout = self.eval(cmdline)
