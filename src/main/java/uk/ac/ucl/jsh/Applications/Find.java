@@ -32,10 +32,12 @@ public class Find implements Application {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int argSizeCheck = 3;
         String directoryCheck = currentDirectory;
+        Boolean directorySpecified = false;
 
         if (!args.get(1).equals("-name")) {
             argSizeCheck += 1;
             directoryCheck = directoryCheck + "\\" + args.get(1);
+            directorySpecified = true;
         }
         cur = new File(directoryCheck);
 
@@ -50,14 +52,22 @@ public class Find implements Application {
                     HashMap<String, String> all_files = walkFileDirs(file);
 
                     for (Map.Entry<String, String> entry : all_files.entrySet()) {
-                        if (args.size() == argSizeCheck && args.get(argSizeCheck - 1).equals(entry.getValue())) {
-                            if (entry.getKey().equals("/" + entry.getValue())) {
-                                result_set.add(entry.getValue());
-                            } else {
-                                result_set.add("." + entry.getKey());
+                        for (String currentArgument : args.subList(argSizeCheck - 1, args.size())) {
+                            if (currentArgument.equals(entry.getValue())) {
+                                //if (args.size() == argSizeCheck && args.get(argSizeCheck - 1).equals(entry.getValue())) {
+                                if (entry.getKey().equals("/" + entry.getValue())) {
+                                    result_set.add(entry.getValue());
+                                } else {
+                                    if (!directorySpecified) {
+                                        result_set.add("." + entry.getKey());
+                                    } else {
+                                        result_set.add(entry.getKey().substring(1));
+                                    }
+                                }
+                                //} else if (args.size() > argSizeCheck) {
+                                //result_set.addAll(args.subList(argSizeCheck - 1, args.size()));
+                                //}
                             }
-                        } else if (args.size() > argSizeCheck) {
-                            result_set.addAll(args.subList(argSizeCheck - 1, args.size()));
                         }
                     }
                 }
