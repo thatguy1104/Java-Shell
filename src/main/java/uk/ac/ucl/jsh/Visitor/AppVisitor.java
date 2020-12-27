@@ -44,7 +44,7 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
 
         try {
             int position = tokens.indexOf("<");
-            if (position != -1 && position + 1 < tokens.size()) {
+            if ((position != -1) && (position + 1 < tokens.size())) {
                 is = new FileInputStream(new File(tokens.get(position + 1)));
                 tokens.subList(position, position + 2).clear();
             }
@@ -61,7 +61,7 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
 
         try {
             int position = tokens.indexOf(">");
-            if (position != -1 && position + 1 < tokens.size()) {
+            if ((position != -1) && (position + 1 < tokens.size())) {
                 os = new FileOutputStream(new File(tokens.get(position + 1)));
                 tokens.subList(position, position + 2).clear();
             }
