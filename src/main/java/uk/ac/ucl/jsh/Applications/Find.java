@@ -28,8 +28,16 @@ public class Find implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        File cur = new File(currentDirectory);
+        File cur;
         OutputStreamWriter writer = new OutputStreamWriter(output);
+        int argSizeCheck = 3;
+        String directoryCheck = currentDirectory;
+
+        if (!args.get(1).equals("-name")) {
+            argSizeCheck += 1;
+            directoryCheck = directoryCheck + "\\" + args.get(1);
+        }
+        cur = new File(directoryCheck);
 
         try {
             File[] listOfFiles = cur.listFiles();
@@ -42,21 +50,21 @@ public class Find implements Application {
                     HashMap<String, String> all_files = walkFileDirs(file);
 
                     for (Map.Entry<String, String> entry : all_files.entrySet()) {
-                        if (args.size() == 3 && args.get(2).equals(entry.getValue())) {
+                        if (args.size() == argSizeCheck && args.get(argSizeCheck - 1).equals(entry.getValue())) {
                             if (entry.getKey().equals("/" + entry.getValue())) {
                                 result_set.add(entry.getValue());
                             } else {
                                 result_set.add("." + entry.getKey());
                             }
-                        } else if (args.size() > 3) {
-                            result_set.addAll(args.subList(2, args.size()));
+                        } else if (args.size() > argSizeCheck) {
+                            result_set.addAll(args.subList(argSizeCheck - 1, args.size()));
                         }
                     }
                 }
             }
             writeOut(result_set, writer);
         } catch (NullPointerException e) {
-            return "ERROR find: " + e;
+            return "ERROR find: no such directory";
             //throw new RuntimeException("find: no such directory");
         }
         return currentDirectory;
