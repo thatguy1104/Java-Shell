@@ -22,8 +22,8 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
     public Void visit(Call call, InputStream is, OutputStream os, String currentDirectory) throws IOException {
         ArrayList<String> tokens = Parser.parseCallCommand(call.getVisitable());
 
-//        is = getInputStream(tokens, is);
-//        os = getOutputStream(tokens, os);
+        is = getInputStream(tokens, is);
+        os = getOutputStream(tokens, os);
         Factory factory = new Factory();
         assert tokens != null;
         Jsh.currentDirectory = factory.getApp(tokens.get(0)).mainExec(tokens, currentDirectory, is, os);
@@ -33,7 +33,7 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
     @Override
     public Void visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) throws IOException {
         seq.getLeft().accept(this, is, os, currentDirectory);
-        seq.getRight().accept(this, is,  os, currentDirectory);
+        seq.getRight().accept(this, is,  os, Jsh.currentDirectory);
         return null;
     }
 
@@ -42,7 +42,16 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
             throw new IOException("IO Re-direction: Too many files for input redirection");
         }
 
-        return null;
+        try {
+            int inIndex = tokens.indexOf("<");
+            if (inIndex != -1 && inIndex + 1 < tokens.size()) {
+                is = new FileInputStream(new File(tokens.get(inIndex + 1)));
+                tokens.subList(inIndex, inIndex + 2).clear();
+            }
+        } catch (FileNotFoundException e) {
+            throw new IOException(e.getMessage());
+        }
+        return is;
     }
 
     private OutputStream getOutputStream(ArrayList<String> tokens, OutputStream os) throws IOException {
@@ -50,7 +59,16 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
             throw new IOException("IO Re-direction: Too many files for input redirection");
         }
 
-        return null;
+        try {
+            int outIndex = tokens.indexOf(">");
+            if (outIndex != -1 && outIndex + 1 < tokens.size()) {
+                os = new FileOutputStream(new File(tokens.get(outIndex + 1)));
+                tokens.subList(outIndex, outIndex + 2).clear();
+            }
+        } catch (FileNotFoundException e) {
+            throw new IOException(e.getMessage());
+        }
+        return os;
     }
 
     private int countChars(ArrayList<String> tokens, char elem) {

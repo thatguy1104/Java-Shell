@@ -38,29 +38,35 @@ public class Grep implements Application {
             return "ERROR grep: wrong file argument";
         }
 
+        boolean mutli = (args.size() > 3);
+
         if (args.size() > 1) {
             for (int i = 2; i < args.size(); i++) {
                 Scanner scn;
+                Path filePath;
                 try {
-                    Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
+                    filePath = Paths.get(currentDirectory + File.separator + args.get(i));
                     scn = new Scanner(filePath);
                 } catch (FileNotFoundException e) {
                     throw new IOException("ERROR cat: " + e.getMessage());
                 }
-                writeOut(scn, writer, grepPattern);
+                if (mutli) writeOut(scn, writer, grepPattern, args.get(i));
+                else writeOut(scn, writer, grepPattern, null);
             }
         } else {
-            writeOut(new Scanner(input), writer, grepPattern);
+            writeOut(new Scanner(input), writer, grepPattern, null);
         }
         return currentDirectory;
     }
 
-    private void writeOut(Scanner scn, OutputStreamWriter writer, Pattern pattern) throws IOException {
+    private void writeOut(Scanner scn, OutputStreamWriter writer, Pattern pattern, String filePath) throws IOException {
+        String s = "";
+        if (filePath != null) s = filePath + ":";
         while (scn.hasNextLine()) {
             String line = scn.nextLine();
             Matcher match = pattern.matcher(line);
             if (match.find()) {
-                writer.write(line + Jsh.lineSeparator);
+                writer.write(s + line + Jsh.lineSeparator);
                 writer.flush();
             }
             writer.flush();

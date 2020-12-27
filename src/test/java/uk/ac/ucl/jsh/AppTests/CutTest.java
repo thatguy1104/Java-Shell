@@ -14,8 +14,8 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
-        String[][] cases = {{"cut -b 1 text1.txt", "a\no"}, {"cut -b 1,2 text1.txt", "ab\nof"}, {"cut -b 1- text1.txt", "bcdefghi\nfeijnwio"}, {"cut -b 1,3-4 text1.txt", "ad\noi"}};
+    public void test_1() {
+        String[][] cases = {{"cut -b 1 text1.txt", "a\no"}, {"cut -b 1,2 text1.txt", "ab\nof"}, {"cut -b 1- text1.txt", "bcdefghi\nfeijnwio"}, {"cut -b 1,3-4 text1.txt", "acd\noei"}};
         for (String[] aCase : cases) {
             Jsh.eval(aCase[0], out);
             String result = getEvalResult(aCase[1]);

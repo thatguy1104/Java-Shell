@@ -25,7 +25,7 @@ public class Cd implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
-        String dirString = args.get(0);
+        String dirString = args.get(1);
         File dir = new File(currDir, dirString);
         if (!dir.exists() || !dir.isDirectory()) {
             return "ERROR cd: " + dirString + " is not an existing directory";

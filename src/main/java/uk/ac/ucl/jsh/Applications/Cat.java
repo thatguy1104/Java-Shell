@@ -82,4 +82,5 @@ public class Cat implements Application {
     public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
     }
+
 }

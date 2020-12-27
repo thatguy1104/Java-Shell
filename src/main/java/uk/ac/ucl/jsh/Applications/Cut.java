@@ -142,7 +142,7 @@ public class Cut implements Application {
         try {
             int converted_elem = Integer.parseInt(inner_range.get(0));
             int num_of_char_per_line = 1000;
-            for (int j = converted_elem + 1; j < num_of_char_per_line; j++) {
+            for (int j = converted_elem; j < num_of_char_per_line; j++) {
                 if (!total_range.contains(j)) {
                     final_lst.add(j - 1);
                 }
@@ -159,7 +159,7 @@ public class Cut implements Application {
         try {
             int converted_start = Integer.parseInt(inner_range.get(0));
             int converted_end = Integer.parseInt(inner_range.get(1));
-            for (int j = converted_start + 1; j <= converted_end; j++) {
+            for (int j = converted_start; j <= converted_end; j++) {
                 if (!total_range.contains(j)) {
                     final_lst.add(j - 1);
                 }
