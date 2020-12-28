@@ -1,6 +1,7 @@
 package uk.ac.ucl.jsh.Applications;
 
 import uk.ac.ucl.jsh.Jsh;
+import uk.ac.ucl.jsh.Parser.Globbing;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -33,12 +34,18 @@ public class Find implements Application {
         int argSizeCheck = 3;
         String directoryCheck = currentDirectory;
         Boolean directorySpecified = false;
+        Boolean globbing = false;
 
         if (!args.get(1).equals("-name")) {
             argSizeCheck += 1;
             directoryCheck = directoryCheck + "\\" + args.get(1);
             directorySpecified = true;
         }
+
+        if (args.get(args.size() - 1).startsWith("*.")) {
+            globbing = true;
+        }
+
         cur = new File(directoryCheck);
 
         try {
@@ -52,11 +59,31 @@ public class Find implements Application {
                     HashMap<String, String> all_files = walkFileDirs(file);
 
                     for (Map.Entry<String, String> entry : all_files.entrySet()) {
-                        for (String currentArgument : args.subList(argSizeCheck - 1, args.size())) {
-                            if (currentArgument.equals(entry.getValue())) {
-                                //if (args.size() == argSizeCheck && args.get(argSizeCheck - 1).equals(entry.getValue())) {
+                        if (!globbing) {
+                            for (String currentArgument : args.subList(argSizeCheck - 1, args.size())) {
+                                if (currentArgument.equals(entry.getValue())) {
+                                    if (entry.getKey().equals("/" + entry.getValue())) {
+                                        result_set.add(entry.getValue());
+                                    } else {
+                                        if (!directorySpecified) {
+                                            result_set.add("." + entry.getKey());
+                                        } else {
+                                            result_set.add(entry.getKey().substring(1));
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            System.out.println(args.get(args.size() - 1).substring(2));
+                            System.out.print(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()));
+                            if (args.get(args.size() - 1).substring(2).equals(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()))) {
+                                //System.out.println("HOYAH");
                                 if (entry.getKey().equals("/" + entry.getValue())) {
-                                    result_set.add(entry.getValue());
+                                    if (!directorySpecified) {
+                                        result_set.add( "." + entry.getKey());
+                                    } else {
+                                        result_set.add(entry.getValue());
+                                    }
                                 } else {
                                     if (!directorySpecified) {
                                         result_set.add("." + entry.getKey());
@@ -64,14 +91,12 @@ public class Find implements Application {
                                         result_set.add(entry.getKey().substring(1));
                                     }
                                 }
-                                //} else if (args.size() > argSizeCheck) {
-                                //result_set.addAll(args.subList(argSizeCheck - 1, args.size()));
-                                //}
                             }
                         }
                     }
                 }
             }
+            System.out.println(result_set);
             writeOut(result_set, writer);
         } catch (NullPointerException e) {
             return "ERROR find: no such directory";
