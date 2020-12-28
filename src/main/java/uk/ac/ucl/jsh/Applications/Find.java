@@ -42,7 +42,7 @@ public class Find implements Application {
             directorySpecified = true;
         }
 
-        if (args.get(args.size() - 1).startsWith("*.")) {
+        if (args.get(args.size() - 1).contains("*.")) {
             globbing = true;
         }
 
@@ -74,8 +74,8 @@ public class Find implements Application {
                                 }
                             }
                         } else {
-                            System.out.println(args.get(args.size() - 1).substring(2));
-                            System.out.print(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()));
+                            //System.out.println(args.get(args.size() - 1).substring(2));
+                            //System.out.print(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()));
                             if (args.get(args.size() - 1).substring(2).equals(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()))) {
                                 //System.out.println("HOYAH");
                                 if (entry.getKey().equals("/" + entry.getValue())) {
@@ -96,7 +96,7 @@ public class Find implements Application {
                     }
                 }
             }
-            System.out.println(result_set);
+            //System.out.println(result_set);
             writeOut(result_set, writer);
         } catch (NullPointerException e) {
             return "ERROR find: no such directory";
