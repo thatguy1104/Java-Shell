@@ -39,14 +39,14 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
 
     private InputStream getInputStream(ArrayList<String> tokens, InputStream is) throws IOException {
         if (countChars(tokens, '<') > 1) {
-            throw new IOException("IO Re-direction: Too many files for input redirection");
+            throw new IOException("Number of files exceeding limit for IO");
         }
 
         try {
-            int inIndex = tokens.indexOf("<");
-            if (inIndex != -1 && inIndex + 1 < tokens.size()) {
-                is = new FileInputStream(new File(tokens.get(inIndex + 1)));
-                tokens.subList(inIndex, inIndex + 2).clear();
+            int position = tokens.indexOf("<");
+            if ((position != -1) && (position + 1 < tokens.size())) {
+                is = new FileInputStream(new File(tokens.get(position + 1)));
+                tokens.subList(position, position + 2).clear();
             }
         } catch (FileNotFoundException e) {
             throw new IOException(e.getMessage());
@@ -56,14 +56,14 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
 
     private OutputStream getOutputStream(ArrayList<String> tokens, OutputStream os) throws IOException {
         if (countChars(tokens, '>') > 1) {
-            throw new IOException("IO Re-direction: Too many files for input redirection");
+            throw new IOException("Number of files exceeding limit for IO");
         }
 
         try {
-            int outIndex = tokens.indexOf(">");
-            if (outIndex != -1 && outIndex + 1 < tokens.size()) {
-                os = new FileOutputStream(new File(tokens.get(outIndex + 1)));
-                tokens.subList(outIndex, outIndex + 2).clear();
+            int position = tokens.indexOf(">");
+            if ((position != -1) && (position + 1 < tokens.size())) {
+                os = new FileOutputStream(new File(tokens.get(position + 1)));
+                tokens.subList(position, position + 2).clear();
             }
         } catch (FileNotFoundException e) {
             throw new IOException(e.getMessage());
