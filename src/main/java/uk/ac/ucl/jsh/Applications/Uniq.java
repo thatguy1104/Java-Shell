@@ -3,7 +3,9 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
+import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,12 +18,11 @@ public class Uniq implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        // Has pipe
-        if (args.size() == 1 && new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input))))).size() != 0) {
-            ArrayList<String> new_args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
-            new_args.add(0, "cat");
-            message = argCheck(new_args);
+
+        if (input != null && args.size() == 1) {
+            message = "nothing";
         }
+
         // No pipe
         if (!message.equals("nothing")) {
             throwError(message, output);
@@ -38,48 +39,59 @@ public class Uniq implements Application {
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
-        String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
 
-        /* String input = appArgs(*) */
-        File uniqFile = new File(currDir + File.separator + uniqFilename);
-        if (uniqFile.exists()) {
-            try {
-                /* Populate array with lines of the file */
-                ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(uniqFile))));
-                ArrayList<String> uniqLines;
+        if (args.size() == 1) {
+            writeOut(new Scanner(input));
+        } else {
+            String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
+            /* String input = appArgs(*) */
+            File uniqFile = new File(currDir + File.separator + uniqFilename);
+            if (uniqFile.exists()) {
+                try {
+                    /* Populate array with lines of the file */
+                    ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(uniqFile))));
+                    ArrayList<String> uniqLines;
 
-                /* Check if the -i and if exists make comparision case insensitive */
-                if (args.size() == 3) {
-                    uniqLines = new ArrayList<>();
+                    /* Check if the -i and if exists make comparision case insensitive */
+                    if (args.size() == 3) {
+                        uniqLines = new ArrayList<>();
 
-                    for (int i = 0; i < lines.size(); i++) {
-                        boolean equals = false;
-                        String row = lines.get(i);
-                        for (int j = i + 1; j < lines.size(); j++) {
-                            if (row.equalsIgnoreCase(lines.get(j))) {
-                                equals = true;
-                                break;
+                        for (int i = 0; i < lines.size(); i++) {
+                            boolean equals = false;
+                            String row = lines.get(i);
+                            for (int j = i + 1; j < lines.size(); j++) {
+                                if (row.equalsIgnoreCase(lines.get(j))) {
+                                    equals = true;
+                                    break;
+                                }
+                            }
+                            if (!equals && !uniqLines.contains(row)) {
+                                uniqLines.add(row);
                             }
                         }
-                        if (!equals && !uniqLines.contains(row)) {
-                            uniqLines.add(row);
-                        }
+                    } else { /* Case sensitive */
+                        LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
+                        uniqLines = new ArrayList<>(uniqSet);
                     }
-                } else { /* Case sensitive */
-                    LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
-                    uniqLines = new ArrayList<>(uniqSet);
+                    /* Display array of uniq lines */
+                    writeOut(uniqLines);
+
+                } catch (IOException e) {
+                    return "ERROR uniq: cannot open " + uniqFilename;
                 }
-                /* Display array of uniq lines */
-                writeOut(uniqLines);
-
-            } catch (IOException e) {
-                return "ERROR uniq: cannot open " + uniqFilename;
+            } else {
+                return "ERROR uniq: " + uniqFilename + " does not exist";
             }
-        } else {
-            return "ERROR uniq: " + uniqFilename + " does not exist";
         }
-
         return currDir;
+    }
+
+    /* Prints to specified output */
+    private void writeOut(Scanner scn) throws IOException {
+        while (scn.hasNextLine()) {
+            writer.write(scn.nextLine() + Jsh.lineSeparator);
+            writer.flush();
+        }
     }
 
     /* Prints to specified output */
