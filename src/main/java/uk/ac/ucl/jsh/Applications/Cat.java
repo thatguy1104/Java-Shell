@@ -39,7 +39,6 @@ public class Cat implements Application {
             }
             return appResult;
         }
-
         return "";
     }
 
