@@ -13,6 +13,14 @@ import java.util.Scanner;
 
 public class Cat implements Application {
 
+    /**
+     * 
+     * @param args Command line arguments 
+     * @param currentDirectory The current directory
+     * @param input Stream that is used when command line arguments doesn't contain anything
+     * @param output 
+     */
+
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
