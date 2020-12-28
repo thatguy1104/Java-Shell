@@ -17,6 +17,4 @@ public interface Application {
     String argCheck(ArrayList<String> args);
 
     void throwError(String message, OutputStream output) throws IOException;
-
-//    ArrayList<File> globFiles(String input);
 }

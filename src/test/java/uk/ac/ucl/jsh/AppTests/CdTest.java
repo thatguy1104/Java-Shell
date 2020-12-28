@@ -19,14 +19,15 @@ public class CdTest extends JshTest {
         String toFolder = "src";
 
         ArrayList<String> aCase = new ArrayList<>();
-        aCase.add(0, toFolder);
+        aCase.add("cd");
+        aCase.add(toFolder);
 
         String curr_dir = System.getProperty("user.dir");
         String result_dir = System.getProperty("user.dir") + "/" + toFolder;
 
         String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, null, this.out);
 
-        assertEquals(new_dir, result_dir);
+        assertEquals(result_dir, new_dir);
     }
 
     public void runAllTests() throws IOException {

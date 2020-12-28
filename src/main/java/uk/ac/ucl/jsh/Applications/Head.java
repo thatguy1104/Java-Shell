@@ -13,6 +13,11 @@ public class Head implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
+
+        if (input != null && args.size() == 1) {
+            message = "nothing";
+        }
+
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -28,6 +33,7 @@ public class Head implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
+
         int headLines = 10;
         if (args.size() == 4) {
             try {

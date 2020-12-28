@@ -3,10 +3,12 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Cat implements Application {
@@ -14,13 +16,11 @@ public class Cat implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-        // Has pipe
-        if (args.size() == 1 && new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input))))).size() != 0) {
-            ArrayList<String> new_args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
-            new_args.add(0, "cat");
-            message = argCheck(new_args);
+
+        if (input != null && args.size() == 1) {
+            message = "nothing";
         }
-        // No pipe
+
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -37,7 +37,7 @@ public class Cat implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        if (args.isEmpty()) {
+        if (args.size() == 1) {
             writeOut(new Scanner(input), output);
         } else {
             for (int i = 1; i < args.size(); i++) {

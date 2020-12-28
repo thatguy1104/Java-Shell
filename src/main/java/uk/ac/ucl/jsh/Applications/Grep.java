@@ -16,6 +16,11 @@ public class Grep implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
+
+        if (input != null && args.size() == 2) {
+            message = "nothing";
+        }
+
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -40,7 +45,7 @@ public class Grep implements Application {
 
         boolean mutli = (args.size() > 3);
 
-        if (args.size() > 1) {
+        if (args.size() > 2) {
             for (int i = 2; i < args.size(); i++) {
                 Scanner scn;
                 Path filePath;
@@ -59,16 +64,33 @@ public class Grep implements Application {
         return currentDirectory;
     }
 
+    private int isAllDots(Pattern pattern) {
+        int result = 0;
+        String s = String.valueOf(pattern);
+        for (char c : s.toCharArray()) {
+            if (c != '.') return 0;
+            result++;
+        }
+        return result;
+    }
+
     private void writeOut(Scanner scn, OutputStreamWriter writer, Pattern pattern, String filePath) throws IOException {
         String s = "";
         if (filePath != null) s = filePath + ":";
         while (scn.hasNextLine()) {
             String line = scn.nextLine();
             Matcher match = pattern.matcher(line);
-            if (match.find()) {
-                writer.write(s + line + Jsh.lineSeparator);
-                writer.flush();
+            int dots = isAllDots(pattern);
+            if (dots != 0) {
+                if (match.find()) {
+                    writer.write(s + line.substring(0, dots) + Jsh.lineSeparator);
+                }
+            } else {
+                if (match.find()) {
+                    writer.write(s + line + Jsh.lineSeparator);
+                }
             }
+
             writer.flush();
         }
     }
