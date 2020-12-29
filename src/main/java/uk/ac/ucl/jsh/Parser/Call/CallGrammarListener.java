@@ -69,6 +69,16 @@ public interface CallGrammarListener extends ParseTreeListener {
 	 */
 	void exitSingle_quote(CallGrammarParser.Single_quoteContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CallGrammarParser#single_quote_contents}.
+	 * @param ctx the parse tree
+	 */
+	void enterSingle_quote_contents(CallGrammarParser.Single_quote_contentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CallGrammarParser#single_quote_contents}.
+	 * @param ctx the parse tree
+	 */
+	void exitSingle_quote_contents(CallGrammarParser.Single_quote_contentsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CallGrammarParser#double_quote}.
 	 * @param ctx the parse tree
 	 */
@@ -98,4 +108,14 @@ public interface CallGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBack_quote(CallGrammarParser.Back_quoteContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CallGrammarParser#back_quote_contents}.
+	 * @param ctx the parse tree
+	 */
+	void enterBack_quote_contents(CallGrammarParser.Back_quote_contentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CallGrammarParser#back_quote_contents}.
+	 * @param ctx the parse tree
+	 */
+	void exitBack_quote_contents(CallGrammarParser.Back_quote_contentsContext ctx);
 }

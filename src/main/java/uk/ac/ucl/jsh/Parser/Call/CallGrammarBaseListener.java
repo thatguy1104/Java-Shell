@@ -88,6 +88,18 @@ public class CallGrammarBaseListener implements CallGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSingle_quote_contents(CallGrammarParser.Single_quote_contentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSingle_quote_contents(CallGrammarParser.Single_quote_contentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDouble_quote(CallGrammarParser.Double_quoteContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -119,6 +131,18 @@ public class CallGrammarBaseListener implements CallGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBack_quote(CallGrammarParser.Back_quoteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBack_quote_contents(CallGrammarParser.Back_quote_contentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBack_quote_contents(CallGrammarParser.Back_quote_contentsContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

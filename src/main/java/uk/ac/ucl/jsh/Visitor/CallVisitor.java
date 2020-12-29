@@ -116,6 +116,8 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      */
     public ArrayList<String> visitSingle_quote(CallGrammarParser.Single_quoteContext ctx) {
         ArrayList<String> singleQuoteArray = new ArrayList<>(List.of(ctx.contents.getText()));
+//        System.out.println(ctx.contents.getText());
+//        System.out.println(singleQuoteArray);
         return singleQuoteArray;
         //return super.visitSingle_quote(ctx);
     }
@@ -160,10 +162,13 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         if (backQuoteString.equals("")) {
             return new ArrayList<>(List.of(""));
         }
+        //System.out.println(backQuoteString);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Jsh.eval(backQuoteString, outputStream);
+        Jsh.eval(backQuoteString, System.out);
 
         ArrayList<String> backQuoteArray = new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
+//        System.out.println(backQuoteArray.size());
+//        System.out.println(backQuoteArray);
         return backQuoteArray;
         //return super.visitBack_quote(ctx);
     }

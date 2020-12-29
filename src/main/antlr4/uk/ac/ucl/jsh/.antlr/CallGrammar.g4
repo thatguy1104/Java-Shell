@@ -21,14 +21,16 @@ argument: unquotedArgument = UNQUOTED argument?
         | doubleQuoteArgument = double_quote argument?
         | backQuoteArgument = back_quote argument?;
 
-single_quote: SINGLEQUOTE contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | OUTPUTREDIRECTION | DOUBLEQUOTE | BACKQUOTE)* SINGLEQUOTE;
+single_quote: SINGLEQUOTE contents = single_quote_contents SINGLEQUOTE;
+single_quote_contents: (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | OUTPUTREDIRECTION | DOUBLEQUOTE | BACKQUOTE)*;
 
 double_quote: DOUBLEQUOTE double_quote_options DOUBLEQUOTE;
 double_quote_options: contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | SINGLEQUOTE) double_quote_options
                     | back_quote double_quote_options
                     |;
 
-back_quote: BACKQUOTE contents = (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | OUTPUTREDIRECTION | SINGLEQUOTE | DOUBLEQUOTE)* BACKQUOTE;
+back_quote: BACKQUOTE contents = back_quote_contents BACKQUOTE;
+back_quote_contents: (WHITESPACE | UNQUOTED | PIPE | SEMICOLON | INPUTREDIRECTION | OUTPUTREDIRECTION | SINGLEQUOTE | DOUBLEQUOTE)*;
 
 /*
  * Lexer Rules

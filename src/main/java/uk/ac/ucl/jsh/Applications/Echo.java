@@ -20,10 +20,6 @@ public class Echo implements Application {
             message = "nothing";
         }
 
-        // echo `echo foo`
-        // echo ""
-        // null
-
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -42,32 +38,32 @@ public class Echo implements Application {
 
         if (args.size() == 1) {
             writeOut(new Scanner(input));
-        }
-
-        for (String checkArg : args) {
-            if (!checkArg.contains("*.")) {
-                argArray.add(checkArg);
-            } else {
-                if (checkArg.startsWith("*.")) {
-                    fileType = checkArg.substring(2);
-                    directoryCheck = currentDirectory;
-                    //argArray.addAll()
+        } else {
+            for (String checkArg : args) {
+                if (!checkArg.contains("*.")) {
+                    argArray.add(checkArg);
                 } else {
-                    Integer splitPosition = checkArg.indexOf(".");
-                    fileType = checkArg.substring(splitPosition);
-                    diffDirectory = checkArg.substring(0, splitPosition - 2);
-                    directoryCheck = currentDirectory + "\\" + diffDirectory;
-                }
-                ArrayList<File> listOfFiles = new ArrayList<>();
-                listOfFiles.addAll(globbing.globFiles(fileType, directoryCheck));
-                for (File fileName : listOfFiles) {
-                    String relativeFile;
-                    relativeFile = fileName.toString().substring(currentDirectory.length() + 1);
-                    argArray.add(relativeFile);
+                    if (checkArg.startsWith("*.")) {
+                        fileType = checkArg.substring(2);
+                        directoryCheck = currentDirectory;
+                        //argArray.addAll()
+                    } else {
+                        Integer splitPosition = checkArg.indexOf(".");
+                        fileType = checkArg.substring(splitPosition);
+                        diffDirectory = checkArg.substring(0, splitPosition - 2);
+                        directoryCheck = currentDirectory + "\\" + diffDirectory;
+                    }
+                    ArrayList<File> listOfFiles = new ArrayList<>();
+                    listOfFiles.addAll(globbing.globFiles(fileType, directoryCheck));
+                    for (File fileName : listOfFiles) {
+                        String relativeFile;
+                        relativeFile = fileName.toString().substring(currentDirectory.length() + 1);
+                        argArray.add(relativeFile);
+                    }
                 }
             }
+            writeOut(argArray);
         }
-        writeOut(argArray);
         return currentDirectory;
     }
 
