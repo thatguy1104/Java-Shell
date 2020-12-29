@@ -59,7 +59,7 @@ public class Ls implements Application {
     /* Validates arguments input */
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (!args.isEmpty() && args.size() != 1) {
+        if (!args.isEmpty() && args.size() > 2) {
             return "ls: too many arguments";
         } else {
             return "nothing";
