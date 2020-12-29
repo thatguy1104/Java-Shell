@@ -48,29 +48,24 @@ public class Uniq implements Application {
                 try {
                     /* Populate array with lines of the file */
                     ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(uniqFile))));
-                    ArrayList<String> uniqLines;
-
-                    /* Check if the -i and if exists make comparision case insensitive */
-                    if (args.size() == 3) {
-                        uniqLines = new ArrayList<>();
+                    ArrayList<String> uniqLines = new ArrayList<>();
 
                         for (int i = 0; i < lines.size(); i++) {
                             boolean equals = false;
                             String row = lines.get(i);
-                            for (int j = i + 1; j < lines.size(); j++) {
-                                if (row.equalsIgnoreCase(lines.get(j))) {
+                            for (int j = i + 1; j < i+2; j++) {
+                                if (j == lines.size()) {break;}
+                                 /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
+                                if ((row.equalsIgnoreCase(lines.get(j)) && args.size() == 3) 
+                                    || (row.equals(lines.get(j)) && (args.size() != 3))) {
                                     equals = true;
                                     break;
                                 }
                             }
-                            if (!equals && !uniqLines.contains(row)) {
+                            if (!equals) {
                                 uniqLines.add(row);
                             }
                         }
-                    } else { /* Case sensitive */
-                        LinkedHashSet<String> uniqSet = new LinkedHashSet<>(lines);
-                        uniqLines = new ArrayList<>(uniqSet);
-                    }
                     /* Display array of uniq lines */
                     writeOut(uniqLines);
 
