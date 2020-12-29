@@ -28,7 +28,7 @@ public class Ls implements Application {
         OutputStreamWriter writer = new OutputStreamWriter(output);
 
         /* Assign the current directory if no path is specified */
-        File currDir = ((args.size() == 1) ? new File(currentDirectory) : new File(args.get(0)));
+        File currDir = ((args.size() == 1) ? new File(currentDirectory) : new File(args.get(1)));
 
         try {
             File[] listOfFiles = currDir.listFiles();
