@@ -48,10 +48,10 @@ public class Echo implements Application {
                         directoryCheck = currentDirectory;
                         //argArray.addAll()
                     } else {
-                        Integer splitPosition = checkArg.indexOf(".");
+                        int splitPosition = checkArg.indexOf(".");
                         fileType = checkArg.substring(splitPosition);
                         diffDirectory = checkArg.substring(0, splitPosition - 2);
-                        directoryCheck = currentDirectory + "\\" + diffDirectory;
+                        directoryCheck = currentDirectory + "/" + diffDirectory;
                     }
                     ArrayList<File> listOfFiles = new ArrayList<>();
                     listOfFiles.addAll(globbing.globFiles(fileType, directoryCheck));
