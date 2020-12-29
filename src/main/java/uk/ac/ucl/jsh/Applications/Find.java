@@ -1,7 +1,6 @@
 package uk.ac.ucl.jsh.Applications;
 
 import uk.ac.ucl.jsh.Jsh;
-import uk.ac.ucl.jsh.Parser.Globbing;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -33,12 +32,12 @@ public class Find implements Application {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int argSizeCheck = 3;
         String directoryCheck = currentDirectory;
-        Boolean directorySpecified = false;
-        Boolean globbing = false;
+        boolean directorySpecified = false;
+        boolean globbing = false;
 
         if (!args.get(1).equals("-name")) {
             argSizeCheck += 1;
-            directoryCheck = directoryCheck + "\\" + args.get(1);
+            directoryCheck = directoryCheck + "/" + args.get(1);
             directorySpecified = true;
         }
 
@@ -77,7 +76,6 @@ public class Find implements Application {
                             //System.out.println(args.get(args.size() - 1).substring(2));
                             //System.out.print(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()));
                             if (args.get(args.size() - 1).substring(2).equals(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()))) {
-                                //System.out.println("HOYAH");
                                 if (entry.getKey().equals("/" + entry.getValue())) {
                                     if (!directorySpecified) {
                                         result_set.add( "." + entry.getKey());
@@ -96,7 +94,6 @@ public class Find implements Application {
                     }
                 }
             }
-            //System.out.println(result_set);
             writeOut(result_set, writer);
         } catch (NullPointerException e) {
             return "ERROR find: no such directory";
