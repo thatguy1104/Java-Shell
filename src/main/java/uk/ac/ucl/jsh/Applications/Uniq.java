@@ -52,14 +52,14 @@ public class Uniq implements Application {
                     ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(uniqFile))));
                     ArrayList<String> uniqLines = new ArrayList<>();
 
-                    /* Check if the -i and if exists make comparision case insensitive */
-                    if (args.size() == 3) {
                         for (int i = 0; i < lines.size(); i++) {
                             boolean equals = false;
                             String row = lines.get(i);
                             for (int j = i + 1; j < i+2; j++) {
                                 if (j == lines.size()) {break;}
-                                if (row.equalsIgnoreCase(lines.get(j))) {
+                                 /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
+                                if ((row.equalsIgnoreCase(lines.get(j)) && args.size() == 3) 
+                                    || (row.equals(lines.get(j)) && (args.size() != 3))) {
                                     equals = true;
                                     break;
                                 }
@@ -68,22 +68,6 @@ public class Uniq implements Application {
                                 uniqLines.add(row);
                             }
                         }
-                    } else { /* Case sensitive */
-                        for (int i = 0; i < lines.size(); i++) {
-                            boolean equals = false;
-                            String row = lines.get(i);
-                            for (int j = i + 1; j < i+2; j++) {
-                                if (j == lines.size()) {break;}
-                                if (row.equals(lines.get(j))) {
-                                    equals = true;
-                                    break;
-                                }
-                            }
-                            if (!equals) {
-                                uniqLines.add(row);
-                            }
-                        }
-                    }
                     /* Display array of uniq lines */
                     writeOut(uniqLines);
 
