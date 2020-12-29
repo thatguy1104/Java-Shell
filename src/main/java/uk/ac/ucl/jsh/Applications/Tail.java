@@ -35,11 +35,16 @@ public class Tail implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
+        ArrayList<String> new_args = new ArrayList<>();
         int tailLines = 10;
         String tailArg;
 
         if (args.size() == 1) {
-            writeOut(new Scanner(input));
+            Scanner scn = new Scanner(input);
+            while (scn.hasNextLine()) {
+                new_args.add(scn.nextLine());
+            }
+            returnTailLines(tailLines, new_args);
         } else {
             if (args.size() == 4) {
                 try {
@@ -56,11 +61,7 @@ public class Tail implements Application {
             if (tailFile.exists()) {
                 ArrayList<String> storage = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(tailFile))));
                 try {
-                    int index = ((tailLines <= storage.size()) ? storage.size() - tailLines : 0);
-                    for (int i = index; i < storage.size(); i++) {
-                        writer.write(storage.get(i) + Jsh.lineSeparator);
-                        writer.flush();
-                    }
+                    returnTailLines(tailLines, storage);
                 } catch (IOException e) {
                     return "ERROR tail: cannot open " + tailArg;
                 }
@@ -69,6 +70,14 @@ public class Tail implements Application {
             }
         }
         return currentDirectory;
+    }
+
+    private void returnTailLines(int tailLines, ArrayList<String> storage) throws IOException {
+        int index = ((tailLines <= storage.size()) ? storage.size() - tailLines : 0);
+        for (int i = index; i < storage.size(); i++) {
+            writer.write(storage.get(i) + Jsh.lineSeparator);
+            writer.flush();
+        }
     }
 
     /* Prints to specified output */
