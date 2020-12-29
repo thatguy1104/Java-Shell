@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     @Override
-    /*
+    /**
     Visits the start rule from CallGrammar
     @param ctx The current context from ANTLR being parsed
      */
@@ -23,7 +23,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the arguments rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -47,7 +47,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the redirection rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -62,7 +62,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the call_type rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -85,7 +85,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the argument rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -110,7 +110,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the single quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -123,7 +123,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the double quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -133,7 +133,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the double quote options rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -152,7 +152,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /*
+    /**
      Visits the back quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */

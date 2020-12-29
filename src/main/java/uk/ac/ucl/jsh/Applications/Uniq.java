@@ -4,7 +4,6 @@ import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -37,35 +36,25 @@ public class Uniq implements Application {
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
+        ArrayList<String> new_args = new ArrayList<>();
 
         if (args.size() == 1) {
-            writeOut(new Scanner(input));
+            Scanner scn = new Scanner(input);
+            while (scn.hasNextLine()) {
+                new_args.add(scn.nextLine());
+            }
+            ArrayList<String> uniqLines = returnUniqLines(new_args, args);
+            writeOut(uniqLines);
         } else {
             String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
-            /* String input = appArgs(*) */
             File uniqFile = new File(currDir + File.separator + uniqFilename);
+
             if (uniqFile.exists()) {
                 try {
                     /* Populate array with lines of the file */
                     ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(uniqFile))));
-                    ArrayList<String> uniqLines = new ArrayList<>();
+                    ArrayList<String> uniqLines = returnUniqLines(lines, args);
 
-                        for (int i = 0; i < lines.size(); i++) {
-                            boolean equals = false;
-                            String row = lines.get(i);
-                            for (int j = i + 1; j < i+2; j++) {
-                                if (j == lines.size()) {break;}
-                                 /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
-                                if ((row.equalsIgnoreCase(lines.get(j)) && args.size() == 3) 
-                                    || (row.equals(lines.get(j)) && (args.size() != 3))) {
-                                    equals = true;
-                                    break;
-                                }
-                            }
-                            if (!equals) {
-                                uniqLines.add(row);
-                            }
-                        }
                     /* Display array of uniq lines */
                     writeOut(uniqLines);
 
@@ -79,12 +68,25 @@ public class Uniq implements Application {
         return currDir;
     }
 
-    /* Prints to specified output */
-    private void writeOut(Scanner scn) throws IOException {
-        while (scn.hasNextLine()) {
-            writer.write(scn.nextLine() + Jsh.lineSeparator);
-            writer.flush();
+    private ArrayList<String> returnUniqLines(ArrayList<String> lines, ArrayList<String> args) {
+        ArrayList<String> uniqLines = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            boolean equals = false;
+            String row = lines.get(i);
+            for (int j = i + 1; j < i+2; j++) {
+                if (j == lines.size()) {break;}
+                /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
+                if ((row.equalsIgnoreCase(lines.get(j)) && args.size() == 3)
+                        || (row.equals(lines.get(j)) && (args.size() != 3))) {
+                    equals = true;
+                    break;
+                }
+            }
+            if (!equals) {
+                uniqLines.add(row);
+            }
         }
+        return uniqLines;
     }
 
     /* Prints to specified output */
