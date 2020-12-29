@@ -5,6 +5,7 @@ import uk.ac.ucl.jsh.Parser.Call.CallGrammarBaseVisitor;
 import uk.ac.ucl.jsh.Parser.Call.CallGrammarParser;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     @Override
-    /**
+    /*
     Visits the start rule from CallGrammar
     @param ctx The current context from ANTLR being parsed
      */
@@ -22,7 +23,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the arguments rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -41,13 +42,12 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
                 argumentsArray.addAll(visit(ctx.call_type(counter)));
             }
         }
-
         return argumentsArray;
         //return super.visitArguments(ctx);
     }
 
     @Override
-    /**
+    /*
      Visits the redirection rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -62,7 +62,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the call_type rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -85,7 +85,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the argument rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -110,7 +110,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the single quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -121,7 +121,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the double quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -131,7 +131,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the double quote options rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
@@ -150,13 +150,14 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     }
 
     @Override
-    /**
+    /*
      Visits the back quote rule from CallGrammar
      @param ctx The current context from ANTLR being parsed
      */
     public ArrayList<String> visitBack_quote(CallGrammarParser.Back_quoteContext ctx) {
         String backQuoteString = ctx.contents.getText();
-        if (backQuoteString == "" ) {
+
+        if (backQuoteString.equals("")) {
             return new ArrayList<>(List.of(""));
         }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

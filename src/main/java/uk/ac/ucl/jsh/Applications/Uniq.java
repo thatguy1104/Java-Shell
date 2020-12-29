@@ -3,9 +3,7 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
-import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.nio.file.Files;
 import java.nio.file.Paths;
