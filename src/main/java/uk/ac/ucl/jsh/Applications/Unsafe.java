@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class Unsafe implements Application {
+
     private OutputStreamWriter writer;
     private Application application;
 
@@ -48,5 +49,4 @@ public class Unsafe implements Application {
     public Unsafe(Application application) {
         this.application = application;
     }
-
 }
