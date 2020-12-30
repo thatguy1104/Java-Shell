@@ -15,15 +15,31 @@ public class HeadTest extends JshTest {
 
     @Test
     public void test_1() throws IOException {
-        String[][] cases = {{"head text1.txt", readFile("text1.txt")}, {"head -n 3 text3.txt", "bab\nbbb\nBBB"}, {"head -n 0 text1.txt", ""}};
-        for (String[] aCase : cases) {
-            Jsh.eval(aCase[0], this.out);
-            String result = getEvalResult(aCase[1]);
-            assertEquals(aCase[1], result);
-        }
+        String[] args = {"head " + JshTest.testDirectory + "text1.txt", readFile(JshTest.testDirectory + "text1.txt")};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
+    public void test_2() {
+        String[] args = {"head -n 7 " + JshTest.testDirectory + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb"};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
+    public void test_3() {
+        String[] args = {"head -n 0 " + JshTest.testDirectory + "text1.txt", ""};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
     }
 
     public void runAllTests() throws IOException {
         test_1();
+        test_2();
+        test_3();
     }
 }

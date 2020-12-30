@@ -16,7 +16,10 @@ public class FindTest extends JshTest {
 
     @Test
     public void test_1() {
-        String[][] cases = {{"find *.txt", "text1.txt"}, {"find run.txt", "run.txt"}, {"find text1.txt", "text1.txt"}, {"find text2.txt", "text2.txt"}};
+        String[][] cases = {{"find testDir/*.txt", "text1.txt"},
+                            {"find run.txt", "run.txt"},
+                            {"find text1.txt", "text1.txt"},
+                            {"find testDir/text2.txt", "text2.txt"}};
         for (String[] aCase : cases) {
             File[] listOfFiles = new File(System.getProperty("user.dir")).listFiles();
             assert listOfFiles != null;

@@ -23,7 +23,7 @@ public class EchoTest extends JshTest {
         }
     }
 
-    public void runAllTests() throws IOException {
+    public void runAllTests() {
         test_1();
     }
 }

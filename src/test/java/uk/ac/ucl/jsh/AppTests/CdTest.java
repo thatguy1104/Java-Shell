@@ -6,6 +6,7 @@ import uk.ac.ucl.jsh.JshTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,12 +19,11 @@ public class CdTest extends JshTest {
     public void test_1() throws IOException {
         String toFolder = "src";
 
-        ArrayList<String> aCase = new ArrayList<>();
-        aCase.add("cd");
+        ArrayList<String> aCase = new ArrayList<>(Collections.singleton("cd"));
         aCase.add(toFolder);
 
         String curr_dir = System.getProperty("user.dir");
-        String result_dir = System.getProperty("user.dir") + "/" + toFolder;
+        String result_dir = curr_dir + "/" + toFolder;
 
         String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, null, this.out);
 

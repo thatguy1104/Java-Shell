@@ -14,16 +14,32 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
-        String[][] cases = {{"grep \"d\" text1.txt", "abcdefghi"}, {"grep \"d\" text2.txt", "d\nd"}, {"grep \"aa\" text3.txt", "aaa\naaa"}};
-        for (String[] aCase : cases) {
-            Jsh.eval(aCase[0], out);
-            String result = getEvalResult(aCase[1]);
-            assertEquals(aCase[1], result);
-        }
+    public void test_1() {
+        String[] args = {"grep \"d\" " + JshTest.testDirectory + "text1.txt", "abcdefghi"};
+        Jsh.eval(args[0], out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
     }
 
-    public void runAllTests() throws IOException {
+    @Test
+    public void test_2() {
+        String[] args = {"grep BB " + JshTest.testDirectory + "text2.txt", "BBB"};
+        Jsh.eval(args[0], out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
+    public void test_3() {
+        String[] args = {"grep a" + JshTest.testDirectory + "text3.txt", ""};
+        Jsh.eval(args[0], out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    public void runAllTests() {
         test_1();
+        test_2();
+        test_3();
     }
 }
