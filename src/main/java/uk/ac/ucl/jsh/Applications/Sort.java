@@ -15,6 +15,11 @@ public class Sort implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
+
+        if (input != null && args.size() == 1) {
+            message = "nothing";
+        }
+
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -30,42 +35,49 @@ public class Sort implements Application {
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
+        ArrayList<String> new_args = new ArrayList<>();
 
-        if (args.isEmpty()) {
-            args = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(new Scanner(input)))));
-        }
-
-        String sortArg = ((args.size() == 3) ? args.get(2) : args.get(1));
-        File filePath = new File(currDir + File.separator + sortArg);
-
-        if (filePath.exists()) {
-            try {
-                /* Populate array with lines of the file */
-                ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(filePath))));
-
-                /* Use the quick-sort on the array list of strings */
-                List<String> sortedLines;
-
-                /* Check if the -r is present then display array in reverse order */
-                if (args.size() == 3) {
-                    sortedLines = lines.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-                    for (String sortedLine : sortedLines) {
-                        writeOut(sortedLine);
-                    }
-                } else {
-                    /* If -r is not present display array normally */
-                    sortedLines = lines.stream().sorted().collect(Collectors.toList());
-                    for (String sortedLine : sortedLines) {
-                        writeOut(sortedLine);
-                    }
-                }
-            } catch (IOException e) {
-                return "ERROR sort: cannot open " + sortArg;
+        if (args.size() == 1) {
+            Scanner scn = new Scanner(input);
+            while (scn.hasNextLine()) {
+                new_args.add(scn.nextLine());
             }
+            returnSorted(args, new_args);
         } else {
-            return "ERROR sort: " + sortArg + " does not exist";
+            String sortArg = ((args.size() == 3) ? args.get(2) : args.get(1));
+            File filePath = new File(currDir + File.separator + sortArg);
+
+            if (filePath.exists()) {
+                try {
+                    /* Populate array with lines of the file */
+                    ArrayList<String> lines = new ArrayList<>(Files.readAllLines(Paths.get(String.valueOf(filePath))));
+                    returnSorted(args, lines);
+
+                } catch (IOException e) {
+                    return "ERROR sort: cannot open " + sortArg;
+                }
+            } else {
+                return "ERROR sort: " + sortArg + " does not exist";
+            }
         }
         return currDir;
+    }
+
+    private void returnSorted(ArrayList<String> args, ArrayList<String> lines) throws IOException {
+        List<String> sortedLines;
+        /* Check if the -r is present then display array in reverse order */
+        if (args.size() == 3) {
+            sortedLines = lines.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+            for (String sortedLine : sortedLines) {
+                writeOut(sortedLine);
+            }
+        } else {
+            /* If -r is not present display array normally */
+            sortedLines = lines.stream().sorted().collect(Collectors.toList());
+            for (String sortedLine : sortedLines) {
+                writeOut(sortedLine);
+            }
+        }
     }
 
     private void writeOut(String s) throws IOException {
