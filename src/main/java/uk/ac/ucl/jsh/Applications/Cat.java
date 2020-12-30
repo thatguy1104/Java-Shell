@@ -47,6 +47,7 @@ public class Cat implements Application {
             for (int i = 1; i < args.size(); i++) {
                 Scanner scn;
                 File currFile = new File(currentDirectory + File.separator + args.get(i));
+
                 if (currFile.exists()) {
                     Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
                     try {

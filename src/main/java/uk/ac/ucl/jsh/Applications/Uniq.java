@@ -38,7 +38,7 @@ public class Uniq implements Application {
         this.writer = new OutputStreamWriter(output);
         ArrayList<String> new_args = new ArrayList<>();
 
-        if (args.size() == 1) {
+        if (args.size() == 1 || (args.size() == 2 && args.get(1).equals("-i"))) {
             Scanner scn = new Scanner(input);
             while (scn.hasNextLine()) {
                 new_args.add(scn.nextLine());
@@ -75,9 +75,9 @@ public class Uniq implements Application {
             String row = lines.get(i);
             for (int j = i + 1; j < i+2; j++) {
                 if (j == lines.size()) {break;}
-                /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
-                if ((row.equalsIgnoreCase(lines.get(j)) && args.size() == 3)
-                        || (row.equals(lines.get(j)) && (args.size() != 3))) {
+                /* Check if -i is present */
+                boolean ignore_case = row.equalsIgnoreCase(lines.get(j));
+                if ((ignore_case && args.get(1).equals("-i")) || (row.equals(lines.get(j)) && !(args.get(1).equals("-i")))) {
                     equals = true;
                     break;
                 }

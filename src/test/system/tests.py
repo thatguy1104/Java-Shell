@@ -40,7 +40,7 @@ class TestJSH(unittest.TestCase):
             print("error: failed to create test volume")
             exit(1)
         filesystem_setup = ";".join([
-            "echo \"''\" > test.txt",
+            "echo \"''\" > file1.txt",
             "mkdir dir1",
             "mkdir -p dir2/subdir",
             "echo AAA > dir1/file1.txt",
@@ -71,7 +71,7 @@ class TestJSH(unittest.TestCase):
         cmdline = "ls"
         stdout = self.eval(cmdline)
         result = set(re.split("\n|\t", stdout.strip()))
-        self.assertEqual(result, {"test.txt", "dir1", "dir2"})
+        self.assertEqual(result, {"file1.txt", "dir1", "dir2"})
 
     def test_ls_dir(self):
         cmdline = "ls dir1"
@@ -318,7 +318,7 @@ class TestJSH(unittest.TestCase):
         stdout = self.eval(cmdline)
         result = set(re.split("\n|\t", stdout.strip()))
         self.assertEqual(result, {"./dir2/subdir/file.txt",
-                                  "./test.txt",
+                                  "./file1.txt",
                                   "./dir1/file1.txt",
                                   "./dir1/file2.txt",
                                   "./dir1/longfile.txt"})
@@ -393,9 +393,9 @@ class TestJSH(unittest.TestCase):
         self.assertEqual(result, "foo")
 
     def test_output_redirection_overwrite(self):
-        cmdline = "echo foo > test.txt"
+        cmdline = "echo foo > file1.txt"
         self.eval(cmdline)
-        stdout = self.eval("cat test.txt", shell="/bin/bash")
+        stdout = self.eval("cat file1.txt", shell="/bin/bash")
         result = stdout.strip()
         self.assertEqual(result, "foo")
 
@@ -403,7 +403,7 @@ class TestJSH(unittest.TestCase):
         cmdline = "echo *.txt"
         stdout = self.eval(cmdline)
         result = set(stdout.strip().split())
-        self.assertEqual(result, {"test.txt"})
+        self.assertEqual(result, {"file1.txt"})
 
     def test_globbing_dir(self):
         cmdline = "echo dir1/*.txt"
@@ -503,7 +503,7 @@ class TestJSH(unittest.TestCase):
         self.assertEqual(result, "foo bar")
 
     def test_substitution_keywords(self):
-        cmdline = "echo `cat test.txt`"
+        cmdline = "echo `cat file1.txt`"
         stdout = self.eval(cmdline)
         result = stdout.strip()
         self.assertEqual(result, "''")
