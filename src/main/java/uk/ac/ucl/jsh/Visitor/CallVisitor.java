@@ -163,7 +163,9 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Jsh.eval(backQuoteString, outputStream);
+        ArrayList<String> result = new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
+        result.add("backquote");
 
-        return new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
+        return result;
     }
 }

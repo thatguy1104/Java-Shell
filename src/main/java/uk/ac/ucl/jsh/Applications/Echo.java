@@ -32,9 +32,7 @@ public class Echo implements Application {
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
         ArrayList<String> argArray = new ArrayList<>();
-        String directoryCheck;
-        String fileType;
-        String diffDirectory;
+        String directoryCheck, fileType, diffDirectory;
 
         if (args.size() == 1) {
             writeOut(new Scanner(input));
@@ -78,6 +76,10 @@ public class Echo implements Application {
 
         filler = ((counter == 0) ? " " : "");
         if (validityCheck(args)) filler = "";
+        if (args.contains("backquote")) {
+            filler = "";
+            args.remove("backquote");
+        }
 
         for (int i = 1; i < args.size(); i++) {
             writer.write(args.get(i) + filler);
