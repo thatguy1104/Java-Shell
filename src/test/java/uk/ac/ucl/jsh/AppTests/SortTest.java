@@ -14,16 +14,23 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
-        String[][] cases = {{"sort -r text1.txt", "ofeijnwio\nabcdefghi"}, {"sort -r text3.txt", "lol\nloL\nbbb\nbbb\nbab\naaa\naaa\nLoL\nBBB\nAAA"}};
-        for (String[] aCase : cases) {
-            Jsh.eval(aCase[0], this.out);
-            String full_string = getEvalResult(aCase[1]);
-            assertEquals(full_string, aCase[1]);
-        }
+    public void test_1() {
+        String[] args = {"sort -r " + JshTest.testDirectory + "text1.txt", "ofeijnwio\nabcdefghi"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
     }
 
-    public void runAllTests() throws IOException {
+    @Test
+    public void test_2() {
+        String[] args = {"sort -r " + JshTest.testDirectory + "text3.txt", "i\nh\ng\nf\ne\nd\nccc\nc\nb\na"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
+    }
+
+    public void runAllTests() {
         test_1();
+        test_2();
     }
 }

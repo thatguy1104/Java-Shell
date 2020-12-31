@@ -17,7 +17,7 @@ public class CatTest extends JshTest {
 
     @Test
     public void test_1() throws IOException {
-        String file_name = "text1.txt";
+        String file_name = JshTest.testDirectory + "text1.txt";
         Jsh.eval("cat " + file_name, out);
         String result = readFile(file_name);
         String expected = readFile(file_name);

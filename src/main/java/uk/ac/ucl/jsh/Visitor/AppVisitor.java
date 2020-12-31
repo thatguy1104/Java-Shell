@@ -1,5 +1,6 @@
 package uk.ac.ucl.jsh.Visitor;
 
+import uk.ac.ucl.jsh.Applications.Application;
 import uk.ac.ucl.jsh.Factory;
 import uk.ac.ucl.jsh.Parser.Parser;
 import uk.ac.ucl.jsh.Jsh;
@@ -26,7 +27,8 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
         os = getOutputStream(tokens, os);
         Factory factory = new Factory();
         assert tokens != null;
-        Jsh.currentDirectory = factory.getApp(tokens.get(0)).mainExec(tokens, currentDirectory, is, os);
+        Application app = factory.getApp(tokens.get(0));
+        Jsh.currentDirectory = app.mainExec(tokens, currentDirectory, is, os);
         return null;
     }
 

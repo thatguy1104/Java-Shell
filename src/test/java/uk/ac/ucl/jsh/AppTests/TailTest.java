@@ -14,16 +14,32 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
-        String[][] cases = {{"tail -n 3 text2.txt", "o\nw\nj"}, {"tail -n 3 text3.txt", "LoL\nlol\nloL"}, {"tail -n 0 text1.txt", ""}};
-        for (String[] aCase : cases) {
-            Jsh.eval(aCase[0], this.out);
-            String full_string = getEvalResult(aCase[1]);
-            assertEquals(full_string, aCase[1]);
-        }
+    public void test_1() {
+        String[] args = {"tail -n 3 " + JshTest.testDirectory + "text2.txt", "AAA\nBBB\nAAA"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
     }
 
-    public void runAllTests() throws IOException {
+    @Test
+    public void test_2() {
+        String[] args = {"tail -n 1 " + JshTest.testDirectory + "text1.txt", "ofeijnwio"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
+    }
+
+    @Test
+    public void test_3() {
+        String[] args = {"tail -n 3 " + JshTest.testDirectory + "text3.txt", "g\nh\ni"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
+    }
+
+    public void runAllTests() {
         test_1();
+        test_2();
+        test_3();
     }
 }

@@ -14,16 +14,23 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_1() throws IOException {
-        String[][] cases = {{"uniq text3.txt", "bab\nbbb\nBBB\naaa\nAAA\nLoL\nlol\nloL"}, {"uniq -i text3.txt", "bab\nAAA\nbbb\nloL"}};
-        for (String[] aCase : cases) {
-            Jsh.eval(aCase[0], this.out);
-            String full_string = getEvalResult(aCase[1]);
-            assertEquals(full_string, aCase[1]);
-        }
+    public void test_1() {
+        String[] args = {"uniq " + JshTest.testDirectory + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
     }
 
-    public void runAllTests() throws IOException {
+    @Test
+    public void test_2() {
+        String[] args = {"uniq -i " + JshTest.testDirectory + "text3.txt", "d\ne\nf\ng"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
+    }
+
+    public void runAllTests() {
         test_1();
+        test_2();
     }
 }
