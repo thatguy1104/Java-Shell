@@ -5,8 +5,6 @@ import uk.ac.ucl.jsh.Parser.Call.CallGrammarBaseVisitor;
 import uk.ac.ucl.jsh.Parser.Call.CallGrammarParser;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -158,18 +156,14 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      */
     public ArrayList<String> visitBack_quote(CallGrammarParser.Back_quoteContext ctx) {
         String backQuoteString = ctx.contents.getText();
-
+        // echo "a"." ",""
         if (backQuoteString.equals("")) {
             return new ArrayList<>(List.of(""));
         }
-        //System.out.println(backQuoteString);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Jsh.eval(backQuoteString, System.out);
 
-        ArrayList<String> backQuoteArray = new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
-//        System.out.println(backQuoteArray.size());
-//        System.out.println(backQuoteArray);
-        return backQuoteArray;
-        //return super.visitBack_quote(ctx);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Jsh.eval(backQuoteString, outputStream);
+
+        return new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
     }
 }
