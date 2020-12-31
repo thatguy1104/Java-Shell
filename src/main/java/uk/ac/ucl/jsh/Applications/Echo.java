@@ -11,6 +11,7 @@ public class Echo implements Application {
 
     private Globbing globbing = new Globbing();
     private OutputStreamWriter writer;
+    private String filler;
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
@@ -44,15 +45,13 @@ public class Echo implements Application {
                     if (checkArg.startsWith("*.")) {
                         fileType = checkArg.substring(2);
                         directoryCheck = currentDirectory;
-                        //argArray.addAll()
                     } else {
                         int splitPosition = checkArg.indexOf(".");
                         fileType = checkArg.substring(splitPosition);
                         diffDirectory = checkArg.substring(0, splitPosition - 2);
                         directoryCheck = currentDirectory + "/" + diffDirectory;
                     }
-                    ArrayList<File> listOfFiles = new ArrayList<>();
-                    listOfFiles.addAll(globbing.globFiles(fileType, directoryCheck));
+                    ArrayList<File> listOfFiles = new ArrayList<>(globbing.globFiles(fileType, directoryCheck));
                     for (File fileName : listOfFiles) {
                         String relativeFile;
                         relativeFile = fileName.toString().substring(currentDirectory.length() + 1);
@@ -65,21 +64,30 @@ public class Echo implements Application {
         return currentDirectory;
     }
 
+    private ArrayList<String> checker(ArrayList<String> args) {
+        ArrayList<String> result = new ArrayList<>(args);
+
+        if (result.contains("backquote")) {
+            filler = "";
+            result.remove("backquote");
+        }
+        if (result.contains("doublequote")) {
+            filler = "";
+            while (result.contains("doublequote")) result.remove("doublequote");
+        }
+        return result;
+    }
+
     private void writeOut(ArrayList<String> args) throws IOException {
         boolean atLeastOnePrinted = false;
         int counter = 0;
-        String filler;
 
         for (int i = 1; i < args.size(); i++) {
             if (args.get(i).equals(" ")) counter++;
         }
 
         filler = ((counter == 0) ? " " : "");
-        if (validityCheck(args)) filler = "";
-        if (args.contains("backquote")) {
-            filler = "";
-            args.remove("backquote");
-        }
+        args = checker(args);
 
         for (int i = 1; i < args.size(); i++) {
             writer.write(args.get(i) + filler);
@@ -109,13 +117,5 @@ public class Echo implements Application {
     @Override
     public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
-    }
-
-    private boolean validityCheck(ArrayList<String> args) {
-        StringBuilder valid_args = new StringBuilder();
-        for (int i = 1; i < args.size(); i++) {
-            valid_args.append(args.get(i));
-        }
-        return valid_args.toString().hashCode() == 96354;
     }
 }

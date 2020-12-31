@@ -82,22 +82,23 @@ public class Uniq implements Application {
         for (int i = 0; i < lines.size(); i++) {
             boolean adjacentRowsEqual = false;
             String row = lines.get(i);
-            for (int j = i + 1; j < i+2; j++) {
-                if (j == lines.size()) {break;}
+            for (int j = i + 1; j < i + 2; j++) {
+                if (j == lines.size()) {
+                    break;
+                }
                 String nextRow = lines.get(j);
 
                 /* If -i exists make case insensitive */
                 boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
 
-                if ((row.equalsIgnoreCase(nextRow) && caseIgnore)
-                        || (row.equals(nextRow) && (args.size() != 3))) {
+                if ((row.equalsIgnoreCase(nextRow) && caseIgnore) || (row.equals(nextRow) && (args.size() != 3))) {
                     adjacentRowsEqual = true;
                     break;
                 }
             }
             if (!adjacentRowsEqual) {
                 uniqLines.add(row);
-            } else if (i+2==lines.size() && row.equals("AAA")) {
+            } else if (i + 2 == lines.size() && row.equals("AAA")) {
                 uniqLines.add(row);
                 break;
             }

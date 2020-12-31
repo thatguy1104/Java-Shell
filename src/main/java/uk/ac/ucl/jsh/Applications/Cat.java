@@ -44,6 +44,7 @@ public class Cat implements Application {
         if (args.size() == 1) {
             writeOut(new Scanner(input), output);
         } else {
+            args = checker(args);
             for (int i = 1; i < args.size(); i++) {
                 Scanner scn;
                 File currFile = new File(currentDirectory + File.separator + args.get(i));
@@ -62,6 +63,15 @@ public class Cat implements Application {
             }
         }
         return currentDirectory;
+    }
+
+    private ArrayList<String> checker(ArrayList<String> args) {
+        ArrayList<String> result = new ArrayList<>(args);
+        result.remove("backquote");
+        if (result.contains("doublequote")) {
+            while (result.contains("doublequote")) result.remove("doublequote");
+        }
+        return result;
     }
 
     /* Prints to specified output */
