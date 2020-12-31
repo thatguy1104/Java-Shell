@@ -78,35 +78,21 @@ public class Uniq implements Application {
 
         ArrayList<String> uniqLines = new ArrayList<>();
 
-        /* add first element of lines to uniqLines*/
+        /* First line is always considered unique*/
         uniqLines.add(lines.get(0));
 
         /* Iterate through each line and ensure unique adjacent lines */
         for (int i = 1; i < lines.size(); i++) {
-            boolean adjacentRowsEqual = false;
             String row = lines.get(i);
-            for (int j = i + 1; j < i + 2; j++) {
-                if (j == lines.size()) {
-                    adjacentRowsEqual = true;
-                    break;
-                }
-                String previousRow = lines.get(uniqLines.size() - 1);
+            String previousRow = lines.get(uniqLines.size()-1);
 
                 /* If -i exists make case insensitive */
                 boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
 
+                /* compare lines and only save unique adjacent lines*/
                 if ((row.equalsIgnoreCase(previousRow) && caseIgnore)
                         || (row.equals(previousRow) && (args.size() != 3))) {
-                    adjacentRowsEqual = true;
-                    break;
-                }
-            }
-            if (!adjacentRowsEqual) {
-                uniqLines.add(row);
-            } else if (i + 2 == lines.size()) {
-                uniqLines.add(row);
-                break;
-            }
+                } else  uniqLines.add(row);
         }
         return uniqLines;
     }

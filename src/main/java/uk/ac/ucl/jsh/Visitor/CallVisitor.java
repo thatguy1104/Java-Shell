@@ -90,6 +90,8 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     public ArrayList<String> visitArgument(CallGrammarParser.ArgumentContext ctx) {
         ArrayList<String> argumentArray = new ArrayList<>();
         if (ctx.unquotedArgument != null) {
+            //argumentArray.addAll(visit(ctx.UNQUOTED()));
+            //argumentArray.addAll(ctx.UNQUOTED().getText());
             argumentArray.addAll(new ArrayList<>(Arrays.asList(ctx.unquotedArgument.getText())));
         } else if (ctx.singleQuoteArgument != null) {
             argumentArray.addAll(visit(ctx.single_quote()));
@@ -111,7 +113,11 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      @param ctx The current context from ANTLR being parsed
      */
     public ArrayList<String> visitSingle_quote(CallGrammarParser.Single_quoteContext ctx) {
-        return new ArrayList<>(List.of(ctx.contents.getText()));
+        ArrayList<String> singleQuoteArray = new ArrayList<>(List.of(ctx.contents.getText()));
+//        System.out.println(ctx.contents.getText());
+//        System.out.println(singleQuoteArray);
+        return singleQuoteArray;
+        //return super.visitSingle_quote(ctx);
     }
 
     @Override
@@ -139,7 +145,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         if (ctx.double_quote_options() != null) {
             doubleQuoteArray.addAll(visit(ctx.double_quote_options()));
         }
-        doubleQuoteArray.add("doublequote");
+        doubleQuoteArray.add("\"");
         return doubleQuoteArray;
         //return super.visitDouble_quote_options(ctx);
     }
@@ -159,7 +165,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Jsh.eval(backQuoteString, outputStream);
         ArrayList<String> result = new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
-        result.add("backquote");
+        result.add("`");
 
         return result;
     }
