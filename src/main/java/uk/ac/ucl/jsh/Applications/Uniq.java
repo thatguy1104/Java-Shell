@@ -72,23 +72,36 @@ public class Uniq implements Application {
     }
 
     private ArrayList<String> returnUniqLines(ArrayList<String> lines, ArrayList<String> args) {
+
+        /* Eliminate leading and trailing spaces */
+        lines.replaceAll(String::strip);
+
         ArrayList<String> uniqLines = new ArrayList<>();
+
+        /* Iterate through each line and ensure unique adjacent lines */
         for (int i = 0; i < lines.size(); i++) {
-            boolean equals = false;
+            boolean adjacentRowsEqual = false;
             String row = lines.get(i);
             for (int j = i + 1; j < i+2; j++) {
                 if (j == lines.size()) {break;}
-                /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
-                boolean caseIgnore = args.size() > 2 && args.get(1).equals("-i");
-                if ((row.equalsIgnoreCase(lines.get(j)) && caseIgnore)
-                        || (row.equals(lines.get(j)) && (args.size() != 3))) {
-                    equals = true;
+                String nextRow = lines.get(j);
+
+                /* If -i exists make case insensitive */
+                boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
+
+                if ((row.equalsIgnoreCase(nextRow) && caseIgnore)
+                        || (row.equals(nextRow) && (args.size() != 3))) {
+                    adjacentRowsEqual = true;
                     break;
                 }
             }
-            if (!equals) {
+            if (!adjacentRowsEqual) {
                 uniqLines.add(row);
+            } else if (i+2==lines.size()) {
+                uniqLines.add(row);
+                break;
             }
+
         }
         return uniqLines;
     }
