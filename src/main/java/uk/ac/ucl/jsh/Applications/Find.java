@@ -61,7 +61,7 @@ public class Find implements Application {
                         if (!globbing) {
                             for (String currentArgument : args.subList(argSizeCheck - 1, args.size())) {
                                 if (currentArgument.equals(entry.getValue())) {
-                                    if (entry.getKey().equals("/" + entry.getValue())) {
+                                    if (entry.getKey().equals(System.lineSeparator() + entry.getValue())) {
                                         result_set.add(entry.getValue());
                                     } else {
                                         if (!directorySpecified) {
@@ -76,7 +76,7 @@ public class Find implements Application {
                             //System.out.println(args.get(args.size() - 1).substring(2));
                             //System.out.print(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()));
                             if (args.get(args.size() - 1).substring(2).equals(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()))) {
-                                if (entry.getKey().equals("/" + entry.getValue())) {
+                                if (entry.getKey().equals(System.lineSeparator() + entry.getValue())) {
                                     if (!directorySpecified) {
                                         result_set.add( "." + entry.getKey());
                                     } else {

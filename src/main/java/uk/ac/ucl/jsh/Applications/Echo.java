@@ -75,10 +75,16 @@ public class Echo implements Application {
         }
 
         filler = ((counter == 0) ? " " : "");
-        if (validityCheck(args)) filler = "";
+        //if (validityCheck(args)) filler = "";
         if (args.contains("backquote")) {
             filler = "";
             args.remove("backquote");
+        }
+        if (args.contains("doublequote")) {
+            filler = "";
+            while (args.contains("doublequote")) {
+                args.remove("doublequote");
+            }
         }
 
         for (int i = 1; i < args.size(); i++) {

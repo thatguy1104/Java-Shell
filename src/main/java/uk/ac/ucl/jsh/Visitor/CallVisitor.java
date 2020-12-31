@@ -145,6 +145,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         if (ctx.double_quote_options() != null) {
             doubleQuoteArray.addAll(visit(ctx.double_quote_options()));
         }
+        doubleQuoteArray.add("doublequote");
         return doubleQuoteArray;
         //return super.visitDouble_quote_options(ctx);
     }
