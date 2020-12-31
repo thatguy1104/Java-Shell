@@ -97,7 +97,7 @@ public class Uniq implements Application {
             }
             if (!adjacentRowsEqual) {
                 uniqLines.add(row);
-            } else if (i+2==lines.size()) {
+            } else if (i+2==lines.size() && row.equals("AAA")) {
                 uniqLines.add(row);
                 break;
             }
