@@ -12,7 +12,7 @@ start: arguments EOF;
 
 arguments: WHITESPACE* (redirection WHITESPACE)* argument (WHITESPACE call_type)* WHITESPACE*;
 
-redirection: INPUTREDIRECTION WHITESPACE+ argument | OUTPUTREDIRECTION WHITESPACE+ argument;
+redirection: INPUTREDIRECTION WHITESPACE* argument | OUTPUTREDIRECTION WHITESPACE+ argument;
 
 call_type: redirection | argument | call_type WHITESPACE+ arguments;
 

@@ -1,6 +1,4 @@
 // Generated from C:/Users/aashv/Documents/GitHub/jsh-team-41/src/main/antlr4/uk/ac/ucl/jsh/.antlr\CallGrammar.g4 by ANTLR 4.9
-package uk.ac.ucl.jsh.Parser.Call;
-
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
