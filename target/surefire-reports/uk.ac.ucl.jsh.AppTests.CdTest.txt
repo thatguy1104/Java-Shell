@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.ucl.jsh.AppTests.CdTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.016 s <<< FAILURE! - in uk.ac.ucl.jsh.AppTests.CdTest
+test_1(uk.ac.ucl.jsh.AppTests.CdTest)  Time elapsed: 0.015 s  <<< ERROR!
+java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
+	at uk.ac.ucl.jsh.AppTests.CdTest.test_1(CdTest.java:27)
+
