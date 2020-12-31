@@ -41,12 +41,12 @@ public class Cat implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        if (args.contains("backquote")) {
-            args.remove("backquote");
+        if (args.contains("`")) {
+            args.remove("`");
         }
-        if (args.contains("doublequote")) {
-            while (args.contains("doublequote")) {
-                args.remove("doublequote");
+        if (args.contains("\"")) {
+            while (args.contains("\"")) {
+                args.remove("\"");
             }
         }
 //        System.out.println("ARGS");

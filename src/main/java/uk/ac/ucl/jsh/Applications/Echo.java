@@ -76,14 +76,14 @@ public class Echo implements Application {
 
         filler = ((counter == 0) ? " " : "");
         //if (validityCheck(args)) filler = "";
-        if (args.contains("backquote")) {
+        if (args.contains("`")) {
             filler = "";
-            args.remove("backquote");
+            args.remove("`");
         }
-        if (args.contains("doublequote")) {
+        if (args.contains("\"")) {
             filler = "";
-            while (args.contains("doublequote")) {
-                args.remove("doublequote");
+            while (args.contains("\"")) {
+                args.remove("\"");
             }
         }
 

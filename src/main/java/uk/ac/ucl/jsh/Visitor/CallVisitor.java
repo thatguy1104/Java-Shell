@@ -145,7 +145,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         if (ctx.double_quote_options() != null) {
             doubleQuoteArray.addAll(visit(ctx.double_quote_options()));
         }
-        doubleQuoteArray.add("doublequote");
+        doubleQuoteArray.add("\"");
         return doubleQuoteArray;
         //return super.visitDouble_quote_options(ctx);
     }
@@ -165,7 +165,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Jsh.eval(backQuoteString, outputStream);
         ArrayList<String> result = new ArrayList<>(Arrays.asList(outputStream.toString().trim().split(Jsh.lineSeparator)));
-        result.add("backquote");
+        result.add("`");
 
         return result;
     }
