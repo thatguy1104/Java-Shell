@@ -16,11 +16,12 @@ public class Uniq implements Application {
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
 
+        /* If conditions not true pipe is present and scanner will be used*/
         if (input != null && args.size() == 1) {
             message = "nothing";
         }
 
-        // No pipe
+        /* No pipe */
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -38,6 +39,7 @@ public class Uniq implements Application {
         this.writer = new OutputStreamWriter(output);
         ArrayList<String> new_args = new ArrayList<>();
 
+        /* Safety check to limit args going out of bound */
         if (args.size() == 1 || (args.size() == 2 && args.get(1).equals("-i"))) {
             Scanner scn = new Scanner(input);
             while (scn.hasNextLine()) {
@@ -46,6 +48,7 @@ public class Uniq implements Application {
             ArrayList<String> uniqLines = returnUniqLines(new_args, args);
             writeOut(uniqLines);
         } else {
+            /* Filename position in args changes if '-i' is present */
             String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
             File uniqFile = new File(currDir + File.separator + uniqFilename);
 
@@ -75,9 +78,10 @@ public class Uniq implements Application {
             String row = lines.get(i);
             for (int j = i + 1; j < i+2; j++) {
                 if (j == lines.size()) {break;}
-                /* Check if -i is present */
-                boolean ignore_case = row.equalsIgnoreCase(lines.get(j));
-                if ((ignore_case && args.get(1).equals("-i")) || (row.equals(lines.get(j)) && !(args.get(1).equals("-i")))) {
+                /* Check if the -i (args.size == 3) exists and if exists make comparision case insensitive */
+                boolean caseIgnore = args.size() > 2 && args.get(1).equals("-i");
+                if ((row.equalsIgnoreCase(lines.get(j)) && caseIgnore)
+                        || (row.equals(lines.get(j)) && (args.size() != 3))) {
                     equals = true;
                     break;
                 }
