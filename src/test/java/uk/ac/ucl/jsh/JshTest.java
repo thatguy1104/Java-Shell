@@ -20,6 +20,8 @@ public class JshTest {
     protected OutputStream out = new PipedOutputStream(in);
     private Scanner scn = new Scanner(in);
     protected static String testDirectory = "testDir";
+    protected static String testSubDirectory = "testSubDir";
+    protected static String subDirString = testDirectory + File.separator + testSubDirectory;
 
     public JshTest() throws IOException {
     }
@@ -32,11 +34,18 @@ public class JshTest {
                 throw new IOException("Failed to create directory: " + theDir);
             }
         }
+        theDir = new File(subDirString);
+        if (!theDir.exists()) {
+            if (!theDir.mkdirs()) {
+                throw new IOException("Failed to create directory: " + theDir);
+            }
+        }
 
         String[][] files_and_contents = {
                 {testDirectory + "/text1.txt", "abcdefghi\nofeijnwio"},
                 {testDirectory + "/text2.txt", "AAA\nBBB\nAAA"},
-                {testDirectory + "/text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"}};
+                {testDirectory + "/text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"},
+                {subDirString + "/text1.txt", "1\n2\n3\n4\n5"}};
 
         for (String[] files_and_content : files_and_contents) {
             File f = new File(files_and_content[0]);
@@ -56,6 +65,7 @@ public class JshTest {
     @AfterClass
     public static void deleteFiles() throws IOException {
         recursiveDelete(new File(testDirectory));
+        recursiveDelete(new File(subDirString));
         System.out.println("Files deleted");
     }
 
