@@ -99,10 +99,11 @@ public class Grep implements Application {
             /* Check for wildcard dots, then perform matching with the pattern */
             if (dots != 0 && match.find()) {
                 writer.write(s + line.substring(0, dots) + Jsh.lineSeparator);
+                writer.flush();
             } else if (dots == 0 && match.find()) {
                 writer.write(s + line + Jsh.lineSeparator);
+                writer.flush();
             }
-            writer.flush();
         }
     }
 
