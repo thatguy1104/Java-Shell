@@ -47,6 +47,12 @@ public interface CallGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSingle_quote(CallGrammarParser.Single_quoteContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CallGrammarParser#single_quote_contents}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSingle_quote_contents(CallGrammarParser.Single_quote_contentsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CallGrammarParser#double_quote}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -64,4 +70,10 @@ public interface CallGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBack_quote(CallGrammarParser.Back_quoteContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CallGrammarParser#back_quote_contents}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBack_quote_contents(CallGrammarParser.Back_quote_contentsContext ctx);
 }
