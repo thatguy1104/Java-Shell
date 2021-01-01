@@ -106,14 +106,13 @@ public class Uniq implements Application {
         /* Iterate through each line and ensure unique adjacent lines */
         for (int i = 1; i < lines.size(); i++) {
             String row = lines.get(i);
-            String previousRow = lines.get(uniqLines.size()-1);
+            String previousRow = uniqLines.get(uniqLines.size()-1);
 
                 /* If -i exists make case insensitive */
                 boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
 
                 /* compare lines and only save unique adjacent lines*/
-                if (!((row.equalsIgnoreCase(previousRow) && caseIgnore)
-                        || (row.equals(previousRow) && (args.size() != 3)))) {
+                if (!((row.equalsIgnoreCase(previousRow) && caseIgnore) || (row.equals(previousRow) && (args.size() != 3)))) {
                     uniqLines.add(row);
                 }
         }
