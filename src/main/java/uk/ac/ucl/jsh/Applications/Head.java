@@ -3,6 +3,7 @@ package uk.ac.ucl.jsh.Applications;
 import uk.ac.ucl.jsh.Jsh;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,26 +33,38 @@ public class Head implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
 
+        int headLines = changeHeadLines(args);
+        if (headLines == -1) {
+            return "ERROR head: wrong argument " + args.get(2);
+        }
+        getCorrectLines(args, currentDirectory, input, output, headLines);
+        return currentDirectory;
+    }
+
+    /* Checks if there is a number of lines specified */
+    private int changeHeadLines(ArrayList<String> args) {
         int headLines = 10;
         if (args.size() == 4) {
             try {
                 headLines = Integer.parseInt(args.get(2));
             } catch (Exception e) {
-                return "ERROR head: wrong argument " + args.get(2);
+                headLines = -1;
             }
         }
+        return headLines;
+    }
 
+    /* Gets the correct number of lines and calls the WriteOut method with relevant parameters */
+    private void getCorrectLines(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output, int headLines) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
         if (args.size() == 2 || args.size() == 4) {
             Path filePath = Paths.get(currentDirectory + File.separator + args.get(args.size() - 1));
             Scanner scn = new Scanner(filePath);
             writeOut(scn, writer, headLines);
-
         } else {
             writeOut(new Scanner(input), writer, headLines);
         }
-        return currentDirectory;
     }
 
     /* Prints to specified output */
