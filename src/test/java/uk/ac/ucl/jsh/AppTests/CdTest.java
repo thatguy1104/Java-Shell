@@ -4,6 +4,7 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Factory;
 import uk.ac.ucl.jsh.JshTest;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +24,7 @@ public class CdTest extends JshTest {
         aCase.add(toFolder);
 
         String curr_dir = System.getProperty("user.dir");
-        String result_dir = curr_dir + "/" + toFolder;
+        String result_dir = curr_dir + File.separator + toFolder;
 
         String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, null, this.out);
 
