@@ -12,17 +12,12 @@ public class Cat implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        String message = argCheck(args);
-
-        if (input != null && args.size() == 1) {
-            message = "nothing";
-        }
+        String message = ((input != null && args.size() == 1) ? "nothing" : argCheck(args));
 
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
-            String appResult;
-            appResult = exec(args, currentDirectory, input, output);
+            String appResult = exec(args, currentDirectory, input, output);
             if (appResult.startsWith("ERROR")) {
                 throwError(appResult.substring(6), output);
             }
@@ -33,29 +28,22 @@ public class Cat implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        if (args.contains("`")) {
-            args.remove("`");
-        }
+        args.remove("`");
         if (args.contains("\"")) {
-            while (args.contains("\"")) {
-                args.remove("\"");
-            }
+            while (args.contains("\"")) args.remove("\"");
         }
-//        System.out.println("ARGS");
-//        System.out.println(args);
+
         if (args.size() == 1) {
             writeOut(new Scanner(input), output);
         } else {
-            args = checker(args);
+            args = caseChecker(args);
             for (int i = 1; i < args.size(); i++) {
-                Scanner scn;
                 File currFile = new File(currentDirectory + File.separator + args.get(i));
-
+                // Check for filename existence
                 if (currFile.exists()) {
                     Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
                     try {
-                        scn = new Scanner(filePath);
-                        writeOut(scn, output);
+                        writeOut(new Scanner(filePath), output);
                     } catch (FileNotFoundException e) {
                         throw new IOException("ERROR cat: " + e.getMessage());
                     }
@@ -67,7 +55,22 @@ public class Cat implements Application {
         return currentDirectory;
     }
 
-    private ArrayList<String> checker(ArrayList<String> args) {
+    @Override
+    public String argCheck(ArrayList<String> args) {
+        if (args.isEmpty()) return "cat: missing arguments";
+        else return "nothing";
+    }
+
+    @Override
+    public void throwError(String message, OutputStream output) {
+        throw new RuntimeException(message);
+    }
+
+    /**
+     * Function to check for back-quote & double-quote scenarios for further processing
+     * @return - returns a clean arguemnts ArrayList
+     */
+    private ArrayList<String> caseChecker(ArrayList<String> args) {
         ArrayList<String> result = new ArrayList<>(args);
         result.remove("backquote");
         if (result.contains("doublequote")) {
@@ -76,7 +79,10 @@ public class Cat implements Application {
         return result;
     }
 
-    /* Prints to specified output */
+    /**
+    * Function to print to a specified output stream
+    * @return - void
+    */
     private void writeOut(Scanner scn, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);
         while (scn.hasNextLine()) {
@@ -84,20 +90,4 @@ public class Cat implements Application {
             writer.flush();
         }
     }
-
-    /* Validate args input */
-    @Override
-    public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            return "cat: missing arguments";
-        } else {
-            return "nothing";
-        }
-    }
-
-    @Override
-    public void throwError(String message, OutputStream output) {
-        throw new RuntimeException(message);
-    }
-
 }

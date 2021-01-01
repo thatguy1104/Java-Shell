@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 public class Cd implements Application {
 
+    @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
         if (!message.equals("nothing")) {
@@ -35,7 +36,6 @@ public class Cd implements Application {
         return currDir;
     }
 
-    /* Validates arguments input */
     @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
