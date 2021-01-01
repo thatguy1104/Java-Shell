@@ -10,7 +10,7 @@ import java.util.Arrays;
 public interface Application {
 
     /**
-     *
+     * //TODO - comments
      * @param args Commandline arguments
      * @param currDir Current directory
      * @param input Used instead of args when input redirection present
@@ -20,7 +20,7 @@ public interface Application {
     String mainExec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException;
 
     /**
-     *
+     * //TODO - comments
      * @param args Commandline arguments
      * @param currentDirectory Current directory
      * @param input Used instead of args when input redirection present
@@ -29,7 +29,7 @@ public interface Application {
     String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException;
 
     /**
-     * Ensure correct numbers and text
+     * Ensure valid present arguments are valid
      * @param args Commandline arguments
      */
     String argCheck(ArrayList<String> args);
