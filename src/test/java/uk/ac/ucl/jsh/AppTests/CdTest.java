@@ -7,31 +7,42 @@ import uk.ac.ucl.jsh.JshTest;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
 public class CdTest extends JshTest {
 
+    private String currDir = System.getProperty("user.dir");
+
     public CdTest() throws IOException {
     }
 
     @Test
-    public void test_1() throws IOException {
+    public void testChangeDir() throws IOException {
         String toFolder = "src";
-
         ArrayList<String> aCase = new ArrayList<>(Collections.singleton("cd"));
         aCase.add(toFolder);
-
-        String curr_dir = System.getProperty("user.dir");
-        String result_dir = curr_dir + File.separator + toFolder;
-
-        String new_dir = new Factory().getApp("cd").exec(aCase, curr_dir, null, this.out);
-
+        String result_dir = currDir + File.separator + toFolder;
+        String new_dir = new Factory().getApp("cd").exec(aCase, currDir, null, this.out);
         assertEquals(result_dir, new_dir);
     }
 
+    @Test
+    public void testChangeBack() throws IOException {
+        String[] args = {"cd", ".."};
+        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
+        List<String> splitDir = Stream.of(currDir.split("/")).map(String::new).collect(Collectors.toList());
+        splitDir.remove(splitDir.size() - 1);
+        assertEquals(String.join("/", splitDir), new_dir);
+    }
+
     public void runAllTests() throws IOException {
-        test_1();
+        testChangeDir();
+        testChangeBack();
     }
 }

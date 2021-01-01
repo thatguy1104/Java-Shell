@@ -14,16 +14,50 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
-        String[][] cases = {{"echo hello world", "hello world"}, {"echo foo", "foo"}};
-        for (String[] aCase : cases) {
-            Jsh.eval(aCase[0], this.out);
-            String result = pwdSupplementary(aCase[1]);
-            assertEquals(aCase[1], result);
-        }
+    public void test_simple_1() {
+        String[] arg = {"echo hello world", "hello world"};
+        Jsh.eval(arg[0], this.out);
+        String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], result);
+    }
+
+    @Test
+    public void test_simple_2() {
+        String[] arg = {"echo foo", "foo"};
+        Jsh.eval(arg[0], this.out);
+        String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], result);
+    }
+
+    @Test
+    public void input_sub() {
+        String[] arg = {"`echo echo` foo", "foo"};
+        Jsh.eval(arg[0], this.out);
+        String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], result);
+    }
+
+    @Test
+    public void test_complex_input_sub() {
+        String[] arg = {"echo \"a `echo \"b\"`\"", "a b"};
+        Jsh.eval(arg[0], this.out);
+        String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], result);
+    }
+
+    @Test
+    public void test_doube_quotes() {
+        String[] arg = {"echo \"a b\"", "a b"};
+        Jsh.eval(arg[0], this.out);
+        String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], result);
     }
 
     public void runAllTests() {
-        test_1();
+        test_simple_1();
+        test_simple_2();
+        input_sub();
+        test_complex_input_sub();
+        test_doube_quotes();
     }
 }
