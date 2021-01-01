@@ -3,6 +3,7 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,7 @@ public class CatTest extends JshTest {
 
     @Test
     public void test_cat_simple() throws IOException {
-        String file_name = JshTest.testDirectory + "/text1.txt";
+        String file_name = JshTest.testDirectory + File.separator + "text1.txt";
         Jsh.eval("cat " + file_name, out);
         String result = getEvalResult(readFile(file_name));
         String expected = readFile(file_name);
@@ -23,7 +24,7 @@ public class CatTest extends JshTest {
 
     @Test
     public void test_cat_redirection() throws IOException {
-        String fileName = JshTest.testDirectory + "/text2.txt";
+        String fileName = JshTest.testDirectory + File.separator + "text2.txt";
         Jsh.eval("cat < " + fileName, out);
         String result = getEvalResult(readFile(fileName));
         String expected = readFile(fileName);

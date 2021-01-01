@@ -36,9 +36,9 @@ public class CdTest extends JshTest {
     public void testChangeBack() throws IOException {
         String[] args = {"cd", ".."};
         String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
-        List<String> splitDir = Stream.of(currDir.split("/")).map(String::new).collect(Collectors.toList());
+        List<String> splitDir = Stream.of(currDir.split(File.separator)).map(String::new).collect(Collectors.toList());
         splitDir.remove(splitDir.size() - 1);
-        assertEquals(String.join("/", splitDir), new_dir);
+        assertEquals(String.join(File.separator, splitDir), new_dir);
     }
 
     public void runAllTests() throws IOException {

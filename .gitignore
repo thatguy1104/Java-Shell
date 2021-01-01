@@ -2,5 +2,5 @@
 .settings
 .vscode
 .devcontainer
-#.antlr/
 .factorypath
+target

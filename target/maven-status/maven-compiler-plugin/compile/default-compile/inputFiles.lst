@@ -1,60 +1,58 @@
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Seq.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Application.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Ls.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Pipe.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarListener.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarListener.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Find.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Uniq.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Unsafe.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarCallVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Factory.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cd.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/m.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cut.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Parser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Pwd.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarParser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarParser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Echo.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarLexer.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/AppVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Visitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cat.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarBaseListener.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/CommandLineVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/JshCommandVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Sort.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarLexer.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarParser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarParser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarParser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Jsh.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Visitable.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarParser.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/CallVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarListener.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarBaseListener.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarCallBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Tail.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarBaseVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarLexer.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarBaseListener.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarLexer.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Head.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Applications/Grep.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/JshCallVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarVisitor.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Call.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarLexer.java
-/Users/albert.ov11/Desktop/OneDrive - University College London/YEAR 2/SWE/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarLexer.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Parser.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarBaseVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Find.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/CommandLineVisitor.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarVisitor.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarParser.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Tail.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Pipe.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Jsh.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarListener.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarCallVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Sort.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarBaseVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarBaseVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/CallVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarLexer.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarLexer.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarParser.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarBaseVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Grep.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Head.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Factory.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cd.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Pwd.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarLexer.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarParser.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarListener.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Echo.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarBaseVisitor.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarLexer.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Visitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarListener.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Seq.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Visitable.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Unsafe.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Globbing.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarBaseListener.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarLexer.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cat.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarBaseListener.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Application.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarLexer.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarParser.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Uniq.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/AppVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cut.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarBaseVisitor.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarCallBaseVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Ls.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarParser.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Call.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarBaseListener.java
+/workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarVisitor.java
+/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarParser.java
