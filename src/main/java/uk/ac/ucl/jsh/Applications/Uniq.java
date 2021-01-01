@@ -71,6 +71,28 @@ public class Uniq implements Application {
         return currDir;
     }
 
+    @Override
+    public String argCheck(ArrayList<String> args) {
+        if (args.isEmpty()) {
+            return "uniq: missing argument";
+        } else if (args.size() > 3) {
+            return "uniq: too many arguments";
+        } else if (args.size() == 3 && !args.get(1).equals("-i")) {
+            return "uniq: wrong argument" + args.get(1);
+        } else {
+            return "nothing";
+        }
+    }
+
+    @Override
+    public void throwError(String message, OutputStream output) {
+        throw new RuntimeException(message);
+    }
+
+    /**
+     * Find the unique lines and store them into an ArrayList to return
+     * @return - ArrayList
+     */
     private ArrayList<String> returnUniqLines(ArrayList<String> lines, ArrayList<String> args) {
 
         /* Eliminate leading and trailing spaces */
@@ -90,37 +112,22 @@ public class Uniq implements Application {
                 boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
 
                 /* compare lines and only save unique adjacent lines*/
-                if ((row.equalsIgnoreCase(previousRow) && caseIgnore)
-                        || (row.equals(previousRow) && (args.size() != 3))) {
-                } else  uniqLines.add(row);
+                if (!((row.equalsIgnoreCase(previousRow) && caseIgnore)
+                        || (row.equals(previousRow) && (args.size() != 3)))) {
+                    uniqLines.add(row);
+                }
         }
         return uniqLines;
     }
 
-    /* Prints to specified output */
+    /**
+     * Function to print the Array of unique lines
+     * @return - void
+     */
     private void writeOut(ArrayList<String> uniqLines) throws IOException {
         for (String uniqLine : uniqLines) {
             this.writer.write(uniqLine + Jsh.lineSeparator);
             this.writer.flush();
         }
-    }
-
-    /* Validates arguments input */
-    @Override
-    public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            return "uniq: missing argument";
-        } else if (args.size() > 3) {
-            return "uniq: too many arguments";
-        } else if (args.size() == 3 && !args.get(1).equals("-i")) {
-            return "uniq: wrong argument" + args.get(1);
-        } else {
-            return "nothing";
-        }
-    }
-
-    @Override
-    public void throwError(String message, OutputStream output) {
-        throw new RuntimeException(message);
     }
 }

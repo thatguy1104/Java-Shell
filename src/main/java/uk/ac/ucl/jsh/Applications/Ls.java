@@ -55,7 +55,7 @@ public class Ls implements Application {
     }
 
     /**
-     * Function to write out all files found in current directory
+     * Function to print the list of files to a specified output stream
      * @return - void
      */
     private void writeOut(File[] listOfFiles, OutputStreamWriter writer) throws IOException {

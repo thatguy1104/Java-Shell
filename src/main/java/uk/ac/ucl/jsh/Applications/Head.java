@@ -33,7 +33,6 @@ public class Head implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-
         int headLines = changeHeadLines(args);
         if (headLines == -1) {
             return "ERROR head: wrong argument " + args.get(2);
@@ -42,42 +41,6 @@ public class Head implements Application {
         return currentDirectory;
     }
 
-    /* Checks if there is a number of lines specified */
-    private int changeHeadLines(ArrayList<String> args) {
-        int headLines = 10;
-        if (args.size() == 4) {
-            try {
-                headLines = Integer.parseInt(args.get(2));
-            } catch (Exception e) {
-                headLines = -1;
-            }
-        }
-        return headLines;
-    }
-
-    /* Gets the correct number of lines and calls the WriteOut method with relevant parameters */
-    private void getCorrectLines(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output, int headLines) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(output);
-        if (args.size() == 2 || args.size() == 4) {
-            Path filePath = Paths.get(currentDirectory + File.separator + args.get(args.size() - 1));
-            Scanner scn = new Scanner(filePath);
-            writeOut(scn, writer, headLines);
-        } else {
-            writeOut(new Scanner(input), writer, headLines);
-        }
-    }
-
-    /* Prints to specified output */
-    private void writeOut(Scanner scn, OutputStreamWriter writer, int headLines) throws IOException {
-        int counter = 0;
-        while (counter < headLines && scn.hasNextLine()) {
-            writer.write(scn.nextLine() + Jsh.lineSeparator);
-            writer.flush();
-            counter++;
-        }
-    }
-
-    /* Validates arguments input */
     @Override
     public String argCheck(ArrayList<String> args) {
         if (args.isEmpty()) {
@@ -94,5 +57,49 @@ public class Head implements Application {
     @Override
     public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
+    }
+
+    /**
+     * Function to print the correct number of lines to a specified output stream
+     * @return - void
+     */
+    private void writeOut(Scanner scn, OutputStreamWriter writer, int headLines) throws IOException {
+        int counter = 0;
+        while (counter < headLines && scn.hasNextLine()) {
+            writer.write(scn.nextLine() + Jsh.lineSeparator);
+            writer.flush();
+            counter++;
+        }
+    }
+
+    /**
+     * Checks if there is a number of lines specified
+     * @return - int
+     */
+    private int changeHeadLines(ArrayList<String> args) {
+        int headLines = 10;
+        if (args.size() == 4) {
+            try {
+                headLines = Integer.parseInt(args.get(2));
+            } catch (Exception e) {
+                headLines = -1;
+            }
+        }
+        return headLines;
+    }
+
+    /**
+     * Gets the correct number of lines and calls the WriteOut method with relevant parameters
+     * @return - void
+     */
+    private void getCorrectLines(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output, int headLines) throws IOException {
+        OutputStreamWriter writer = new OutputStreamWriter(output);
+        if (args.size() == 2 || args.size() == 4) {
+            Path filePath = Paths.get(currentDirectory + File.separator + args.get(args.size() - 1));
+            Scanner scn = new Scanner(filePath);
+            writeOut(scn, writer, headLines);
+        } else {
+            writeOut(new Scanner(input), writer, headLines);
+        }
     }
 }
