@@ -140,7 +140,7 @@ public class JshTest {
         new HeadTest().runAllTests();
     }
 
-    @Test //TODO - fails, need to fix the bug
+    @Test //TODO
     public void testLs() throws Exception {
         new LsTest().runAllTests();
     }

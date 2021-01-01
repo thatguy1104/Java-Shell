@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class LsTest extends JshTest {
@@ -16,7 +17,7 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_ls_currentDirectory() {
         File f = new File(System.getProperty("user.dir"));
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
@@ -35,14 +36,34 @@ public class LsTest extends JshTest {
         Collections.sort(expected);
         Arrays.sort(results.toArray());
 
-        for (String s : results) {
-            if (expected.contains(s)) {
-                assertEquals(expected.get(expected.indexOf(s)), s);
-            }
+        assertArrayEquals(expected.toArray(), results.toArray());
+    }
+
+    @Test
+    public void test_ls_specified_directory() {
+        File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory);
+        File[] f_list = f.listFiles();
+        List<String> expected = new ArrayList<>();
+        List<String> results = new ArrayList<>();
+
+        assert f_list != null;
+        for (File file : f_list) {
+            if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
+
+        for (String file_name : expected) {
+            Jsh.eval("ls testDir", this.out);
+            results.add(pwdSupplementary(file_name));
+        }
+
+        Collections.sort(expected);
+        Arrays.sort(results.toArray());
+
+        assertArrayEquals(expected.toArray(), results.toArray());
     }
 
     public void runAllTests() {
-        test_1();
+        test_ls_currentDirectory();
+        test_ls_specified_directory();
     }
 }
