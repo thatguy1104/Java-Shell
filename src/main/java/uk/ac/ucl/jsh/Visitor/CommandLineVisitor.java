@@ -16,7 +16,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
         } else {
             return visit(ctx.seq());
         }
-        //return super.visitStart(ctx);
     }
 
     @Override
@@ -30,7 +29,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
         } else {
             return visit(ctx.call());
         }
-        //return super.visitCommand(ctx);
     }
 
     @Override
@@ -40,7 +38,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
      */
     public Visitable visitPipeBaseCase(CommandLineGrammarParser.PipeBaseCaseContext ctx) {
         return new Pipe(visit(ctx.call1), visit(ctx.call2));
-        //return super.visitPipeBaseCase(ctx);
     }
 
     @Override
@@ -50,7 +47,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
      */
     public Visitable visitPipeRecursiveCase(CommandLineGrammarParser.PipeRecursiveCaseContext ctx) {
         return new Pipe(visit(ctx.pipe()), visit(ctx.call()));
-        //return super.visitPipeRecursiveCase(ctx);
     }
 
     @Override
@@ -60,7 +56,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
      */
     public Visitable visitSeqBaseCase(CommandLineGrammarParser.SeqBaseCaseContext ctx) {
         return new Seq(visit(ctx.command1), visit(ctx.command2));
-        //return super.visitSeqBaseCase(ctx);
     }
 
     @Override
@@ -70,7 +65,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
      */
     public Visitable visitSeqRecursiveCase(CommandLineGrammarParser.SeqRecursiveCaseContext ctx) {
         return new Seq(visit(ctx.seq()), visit(ctx.command()));
-        //return super.visitSeqRecursiveCase(ctx);
     }
 
     @Override
@@ -80,7 +74,6 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
      */
     public Visitable visitCall(CommandLineGrammarParser.CallContext ctx) {
         return new Call(ctx.getText());
-        //return super.visitCall(ctx);
     }
 
     @Override

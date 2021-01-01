@@ -17,7 +17,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      */
     public ArrayList<String> visitStart(CallGrammarParser.StartContext ctx) {
         return visit(ctx.arguments());
-        //return super.visitStart(ctx);
     }
 
     @Override
@@ -41,7 +40,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
             }
         }
         return argumentsArray;
-        //return super.visitArguments(ctx);
     }
 
     @Override
@@ -56,7 +54,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
             redirectionArray.addAll(visit(ctx.argument()));
         }
         return redirectionArray;
-        //return super.visitRedirection(ctx);
     }
 
     @Override
@@ -79,7 +76,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
             }
         }
         return callTypeArray;
-        //return super.visitCall_type(ctx);
     }
 
     @Override
@@ -90,8 +86,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     public ArrayList<String> visitArgument(CallGrammarParser.ArgumentContext ctx) {
         ArrayList<String> argumentArray = new ArrayList<>();
         if (ctx.unquotedArgument != null) {
-            //argumentArray.addAll(visit(ctx.UNQUOTED()));
-            //argumentArray.addAll(ctx.UNQUOTED().getText());
             argumentArray.addAll(new ArrayList<>(Arrays.asList(ctx.unquotedArgument.getText())));
         } else if (ctx.singleQuoteArgument != null) {
             argumentArray.addAll(visit(ctx.single_quote()));
@@ -104,7 +98,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
             argumentArray.addAll(visit(ctx.argument()));
         }
         return argumentArray;
-        //return super.visitArgument(ctx);
     }
 
     @Override
@@ -114,10 +107,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      */
     public ArrayList<String> visitSingle_quote(CallGrammarParser.Single_quoteContext ctx) {
         ArrayList<String> singleQuoteArray = new ArrayList<>(List.of(ctx.contents.getText()));
-//        System.out.println(ctx.contents.getText());
-//        System.out.println(singleQuoteArray);
         return singleQuoteArray;
-        //return super.visitSingle_quote(ctx);
     }
 
     @Override
@@ -127,7 +117,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      */
     public ArrayList<String> visitDouble_quote(CallGrammarParser.Double_quoteContext ctx) {
         return visit(ctx.double_quote_options());
-        //return super.visitDouble_quote(ctx);
     }
 
     @Override
@@ -147,7 +136,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
         }
         doubleQuoteArray.add("\"");
         return doubleQuoteArray;
-        //return super.visitDouble_quote_options(ctx);
     }
 
     @Override
@@ -157,7 +145,6 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
      */
     public ArrayList<String> visitBack_quote(CallGrammarParser.Back_quoteContext ctx) {
         String backQuoteString = ctx.contents.getText();
-        // echo "a"." ",""
         if (backQuoteString.equals("")) {
             return new ArrayList<>(List.of(""));
         }

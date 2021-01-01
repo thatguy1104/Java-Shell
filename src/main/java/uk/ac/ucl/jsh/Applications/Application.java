@@ -10,8 +10,8 @@ import java.util.Arrays;
 public interface Application {
 
     /**
-     * Function signature definition for application
-     * @param args Command line arguments
+     *
+     * @param args Commandline arguments
      * @param currDir Current directory
      * @param input Used instead of args when input redirection present
      * @param output Output
@@ -20,13 +20,18 @@ public interface Application {
     String mainExec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException;
 
     /**
-     * @param args
-     * @param currentDirectory
-     * @param input
-     * @param output
+     *
+     * @param args Commandline arguments
+     * @param currentDirectory Current directory
+     * @param input Used instead of args when input redirection present
+     * @param output ...
      */
     String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException;
 
+    /**
+     * Ensure correct numbers and text
+     * @param args Commandline arguments
+     */
     String argCheck(ArrayList<String> args);
 
     void throwError(String message, OutputStream output) throws IOException;
