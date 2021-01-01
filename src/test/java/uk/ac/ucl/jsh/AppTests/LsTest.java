@@ -65,7 +65,7 @@ public class LsTest extends JshTest {
 
     @Test
     public void test_ls_specified_subDirectory() {
-        File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory + File.separator + "testsubDir");
+        File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory + File.separator + JshTest.testSubDirectory);
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results = new ArrayList<>();
@@ -76,7 +76,7 @@ public class LsTest extends JshTest {
         }
 
         for (String file_name : expected) {
-            Jsh.eval("ls testDir" + File.separator + "testsubDir", this.out);
+            Jsh.eval("ls testDir" + File.separator + "testSubDir", this.out);
             results.add(pwdSupplementary(file_name));
         }
 
