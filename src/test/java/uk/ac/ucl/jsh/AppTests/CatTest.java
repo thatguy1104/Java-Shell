@@ -40,9 +40,9 @@ public class CatTest extends JshTest {
 
     @Test
     public void test_cat_multi_file() {
-        String[] cases = {"cat testDir/text1.txt testDir/text2.txt", "abcdefghi ofeijnwio AAA BBB AAA"};
+        String[] cases = {"cat testDir/text1.txt testDir/text2.txt", "abcdefghi\nofeijnwio\nAAA\nBBB\nAAA"};
         Jsh.eval(cases[0], out);
-        String result = pwdSupplementary(cases[1]);
+        String result = getEvalResult(cases[1]);
         assertEquals(cases[1], result);
     }
 
