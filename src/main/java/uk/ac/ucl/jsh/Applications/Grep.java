@@ -54,7 +54,7 @@ public class Grep implements Application {
                 else writeOut(scn, grepPattern, null);
             }
         } else {
-            // if args are empty and input stream is present
+            /* if args are empty and input stream is present */
             writeOut(new Scanner(input), grepPattern, null);
         }
         return currentDirectory;
@@ -96,7 +96,7 @@ public class Grep implements Application {
         while (scn.hasNextLine()) {
             String line = scn.nextLine();
             Matcher match = pattern.matcher(line);
-            // Check for wildcard dots, then perform matching with the pattern
+            /* Check for wildcard dots, then perform matching with the pattern */
             if (dots != 0 && match.find()) {
                 writer.write(s + line.substring(0, dots) + Jsh.lineSeparator);
             } else if (dots == 0 && match.find()) {

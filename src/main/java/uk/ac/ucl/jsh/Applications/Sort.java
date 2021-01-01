@@ -35,9 +35,9 @@ public class Sort implements Application {
     @Override
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
-        ArrayList<String> new_args = new ArrayList<>();
 
         if (args.size() == 1) {
+            ArrayList<String> new_args = new ArrayList<>();
             Scanner scn = new Scanner(input);
             while (scn.hasNextLine()) {
                 new_args.add(scn.nextLine());
@@ -63,6 +63,28 @@ public class Sort implements Application {
         return currDir;
     }
 
+    @Override
+    public String argCheck(ArrayList<String> args) {
+        if (args.isEmpty()) {
+            return "sort: missing arguments";
+        } else if (args.size() != 2 && args.size() != 3) {
+            return "sort: wrong number of arguments";
+        } else if (args.size() == 3 && !args.get(1).equals("-r")) {
+            return "sort: wrong argument " + args.get(1);
+        } else {
+            return "nothing";
+        }
+    }
+
+    @Override
+    public void throwError(String message, OutputStream output) {
+        throw new RuntimeException(message);
+    }
+
+    /**
+     * Function to process arguments and call writeOut method to output results
+     * @return - void
+     */
     private void returnSorted(ArrayList<String> args, ArrayList<String> lines) throws IOException {
         List<String> sortedLines;
         /* Check if the -r is present then display array in reverse order */
@@ -80,27 +102,12 @@ public class Sort implements Application {
         }
     }
 
+    /**
+     * Function to write String s to a designated output stream
+     * @return - void
+     */
     private void writeOut(String s) throws IOException {
         this.writer.write(s + Jsh.lineSeparator);
         this.writer.flush();
-    }
-
-    /* Validates arguments input */
-    @Override
-    public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            return "sort: missing arguments";
-        } else if (args.size() != 2 && args.size() != 3) {
-            return "sort: wrong number of arguments";
-        } else if (args.size() == 3 && !args.get(1).equals("-r")) {
-            return "sort: wrong argument " + args.get(1);
-        } else {
-            return "nothing";
-        }
-    }
-
-    @Override
-    public void throwError(String message, OutputStream output) {
-        throw new RuntimeException(message);
     }
 }

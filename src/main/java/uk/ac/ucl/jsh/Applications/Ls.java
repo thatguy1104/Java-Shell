@@ -30,9 +30,7 @@ public class Ls implements Application {
         /* Assign the current directory if no path is specified */
         File currDir = ((args.size() == 1) ? new File(currentDirectory) : new File(args.get(1)));
 
-        if (!currDir.exists()) {
-            return "ERROR ls: directory does not exist";
-        }
+        if (!currDir.exists()) return "ERROR ls: directory does not exist";
 
         try {
             File[] listOfFiles = currDir.listFiles();
@@ -45,6 +43,21 @@ public class Ls implements Application {
         return currentDirectory;
     }
 
+    @Override
+    public String argCheck(ArrayList<String> args) {
+        if (!args.isEmpty() && args.size() > 2) return "ls: too many arguments";
+        else return "nothing";
+    }
+
+    @Override
+    public void throwError(String message, OutputStream output) {
+        throw new RuntimeException(message);
+    }
+
+    /**
+     * Function to write out all files found in current directory
+     * @return - void
+     */
     private void writeOut(File[] listOfFiles, OutputStreamWriter writer) throws IOException {
         boolean atLeastOnePrinted = false;
         for (File file : listOfFiles) {
@@ -58,20 +71,5 @@ public class Ls implements Application {
             writer.write(Jsh.lineSeparator);
             writer.flush();
         }
-    }
-
-    /* Validates arguments input */
-    @Override
-    public String argCheck(ArrayList<String> args) {
-        if (!args.isEmpty() && args.size() > 2) {
-            return "ls: too many arguments";
-        } else {
-            return "nothing";
-        }
-    }
-
-    @Override
-    public void throwError(String message, OutputStream output) {
-        throw new RuntimeException(message);
     }
 }

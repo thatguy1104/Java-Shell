@@ -28,12 +28,11 @@ public class Find implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        File cur;
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int argSizeCheck = 3;
         String directoryCheck = currentDirectory;
-        boolean directorySpecified = false;
-        boolean globbing = false;
+        boolean directorySpecified = false, globbing = false;
+        File cur;
 
         if (!args.get(1).equals("-name")) {
             argSizeCheck += 1;

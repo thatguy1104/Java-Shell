@@ -18,7 +18,7 @@ public class Cut implements Application {
         String message = argCheck(args);
         pipe = false;
 
-        // If input stream is present
+        /* If input stream is present */
         ArrayList<String> temp = preProcess(input, args);
         if (args.size() == 3 && temp.size() != args.size()) {
             message = argCheck(temp);
@@ -119,7 +119,7 @@ public class Cut implements Application {
             String line = scn.nextLine();
             ArrayList<Character> separated_bytes = new ArrayList<>();
             for (int i : clean_args) {
-                if (i < 0) return false; // invalid character index
+                if (i < 0) return false; /* invalid character index */
                 else if (i < line.length()) separated_bytes.add(line.charAt(i));
             }
             String resulting_line = separated_bytes.stream().map(String::valueOf).collect(Collectors.joining());
@@ -203,37 +203,41 @@ public class Cut implements Application {
         List<String> line_args = lineArgument(str);
         List<Integer> total_range = new ArrayList<>();
 
-        // Parse each element to extend arguments where necessary
+        /* Parse each element to extend arguments where necessary */
         for (String elem : line_args) {
             try {
                 total_range = Stream.of(total_range, parse_caseZero(elem)).flatMap(Collection::stream).collect(Collectors.toList());
             } catch (Exception e) {
                 elem = elem.replaceAll("[^?0-9]+", " ");
                 List<String> inner_range = Arrays.asList(elem.trim().split(" "));
-
-                switch (inner_range.size()) {
-                    case 1: // For: X- (e.g.: 1-)
-                        List<Integer> case_one = parse_caseOne(inner_range, total_range);
-                        if (case_one == null) {
-                            total_range.set(0, -1);
-                            return total_range;
-                        }
-                        total_range = Stream.of(total_range, case_one).flatMap(Collection::stream).collect(Collectors.toList());
-                        break;
-                    case 2: // For: X-Y, where X < Y (e.g.: 1-3)
-                        List<Integer> case_two = parse_caseTwo(inner_range, total_range);
-                        if (case_two == null) {
-                            total_range.set(0, -1);
-                            return total_range;
-                        }
-                        total_range = Stream.of(total_range, case_two).flatMap(Collection::stream).collect(Collectors.toList());
-                        break;
-                    default:
-                        total_range.set(0, -2);
-                        return total_range;
-                }
+                total_range = test(inner_range, total_range);
                 return total_range;
             }
+        }
+        return total_range;
+    }
+
+    private List<Integer> test(List<String> inner_range, List<Integer> total_range) {
+        switch (inner_range.size()) {
+            case 1: /* For: X- (e.g.: 1-) */
+                List<Integer> case_one = parse_caseOne(inner_range, total_range);
+                if (case_one == null) {
+                    total_range.set(0, -1);
+                    return total_range;
+                }
+                total_range = Stream.of(total_range, case_one).flatMap(Collection::stream).collect(Collectors.toList());
+                break;
+            case 2: /* For: X-Y, where X < Y (e.g.: 1-3) */
+                List<Integer> case_two = parse_caseTwo(inner_range, total_range);
+                if (case_two == null) {
+                    total_range.set(0, -1);
+                    return total_range;
+                }
+                total_range = Stream.of(total_range, case_two).flatMap(Collection::stream).collect(Collectors.toList());
+                break;
+            default:
+                total_range.set(0, -2);
+                return total_range;
         }
         return total_range;
     }

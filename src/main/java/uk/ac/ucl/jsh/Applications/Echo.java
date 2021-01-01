@@ -16,10 +16,6 @@ public class Echo implements Application {
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
 
-        if (input != null && args.size() == 1) {
-            message = "nothing";
-        }
-
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -96,7 +92,7 @@ public class Echo implements Application {
         boolean atLeastOnePrinted = false;
         int counter = countEmptySpaces(args);
 
-        // Choose appropriate number of spaces between string arguments
+        /* Choose appropriate number of spaces between string arguments */
         String filler = ((counter == 0) ? " " : "");
         if (args.contains("`")) {
             filler = "";
@@ -112,7 +108,7 @@ public class Echo implements Application {
             atLeastOnePrinted = true;
         }
 
-        // Print final new-line character onto the output stream
+        /* Print final new-line character onto the output stream */
         if (atLeastOnePrinted) {
             writer.write(Jsh.lineSeparator);
         }
