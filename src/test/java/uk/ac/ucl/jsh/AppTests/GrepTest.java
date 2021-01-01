@@ -15,7 +15,7 @@ public class GrepTest extends JshTest {
 
     @Test
     public void test_1() {
-        String[] args = {"grep \"d\" " + JshTest.testDirectory + "text1.txt", "abcdefghi"};
+        String[] args = {"grep d " + JshTest.testDirectory + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
@@ -31,7 +31,7 @@ public class GrepTest extends JshTest {
 
     @Test
     public void test_3() {
-        String[] args = {"grep a" + JshTest.testDirectory + "text3.txt", ""};
+        String[] args = {"grep a " + JshTest.testDirectory + "text3.txt", ""};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
