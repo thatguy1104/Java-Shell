@@ -14,7 +14,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_uniq() {
         String[] args = {"uniq " + JshTest.testDirectory + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
@@ -22,7 +22,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_2() {
+    public void test_uniq_i() {
         String[] args = {"uniq -i " + JshTest.testDirectory + "text3.txt", "d\ne\nf\ng"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
@@ -30,7 +30,8 @@ public class UniqTest extends JshTest {
     }
 
     public void runAllTests() {
-        test_1();
-        test_2();
+        test_uniq();
+        test_uniq_i();
+
     }
 }
