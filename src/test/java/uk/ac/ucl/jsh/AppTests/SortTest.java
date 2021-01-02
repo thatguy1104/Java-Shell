@@ -53,7 +53,7 @@ public class SortTest extends JshTest {
     @Test
     public void test_substitution_sort_find_r() {
         String filepath = JshTest.testDirectory;
-        String[] args = {"cat `find " + filepath + " -name '*.txt'` | sort -r", "1\n2\n3\n4\n5\nA\nAAA\nAAA\nAAA\nAAA\nB\nBBB\nBBB\nC\nCCC\na\na"};
+        String[] args = {"cat `find " + filepath + " -name '*.txt'` | sort -r", "AAA\nAAA\nAAA\nAAA\nBBB\nBBB\nC\na\nabcdefghi\nb\nc\nccc\nd\ne\nf\ng\nh\ni\nofeijnwio"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
