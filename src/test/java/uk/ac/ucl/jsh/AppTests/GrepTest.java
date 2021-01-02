@@ -48,7 +48,7 @@ public class GrepTest extends JshTest {
 
     @Test
     public void test_5() {
-        String[] args = {"grep AAA `\"cat testDir/text1.txt`", "AAA"};
+        String[] args = {"grep AAA `\"cat testDir/text1.txt\"`", "AAA"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
