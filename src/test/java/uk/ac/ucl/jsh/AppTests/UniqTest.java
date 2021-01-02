@@ -34,7 +34,7 @@ public class UniqTest extends JshTest {
     @Test
     public void test_uniq_i() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
-        String[] args = {"uniq", "A\nB\nC"};
+        String[] args = {"uniq -i " + filepath + "text2.txt", "A\nB\nC"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
