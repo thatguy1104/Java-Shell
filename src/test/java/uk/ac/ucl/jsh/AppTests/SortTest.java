@@ -32,7 +32,7 @@ public class SortTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-    @Test
+    @Test //TODO NEEDS FIX!!!
     public void test_sort_r_stdin() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"sort -r <" + filepath +  "text3.txt", "AAA\nAAA\nBBB\nCCC\na\nb\nc\nccc\nd\ne"};
@@ -50,10 +50,12 @@ public class SortTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-    @Test
+    @Test //TODO ERROR
     public void test_substitution_sort_find_r() {
-        String filepath = JshTest.testDirectory;
-        String[] args = {"cat `find " + filepath + " -name '*.txt'` | sort -r", "AAA\nAAA\nAAA\nAAA\nBBB\nBBB\nC\na\nabcdefghi\nb\nc\nccc\nd\ne\nf\ng\nh\ni\nofeijnwio"};
+        //String filepath = JshTest.testDirectory;
+        String filepath2 = JshTest.testDirectory + File.separator + JshTest.testSubDirectory;
+        String[] args = {"cat `find " + filepath2 + " -name '*.txt'` | sort -r", "1\n2\n3\n4\n5\nA\nB\nC\na\nb\nc"};
+        //String[] args = {"cat `find " + filepath + " -name '*.txt'` | sort -r", "1\n2\n3\n4\n5\nA\nAAA\nAAA\nAAA\nAAA\nB\nBBB\nBBB\nC\nCCC\na\na\nabcdefghi\nb\nb\nc\nc\nccc\nd\ne\nf\ng\nh\ni\nofeijnwio"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
