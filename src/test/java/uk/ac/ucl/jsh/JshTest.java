@@ -66,8 +66,8 @@ public class JshTest {
 
     @AfterClass
     public static void deleteFiles() throws IOException {
-        recursiveDelete(new File(testDirectory));
         recursiveDelete(new File(subDirString));
+        recursiveDelete(new File(testDirectory));
         System.out.println("Files deleted");
     }
 
