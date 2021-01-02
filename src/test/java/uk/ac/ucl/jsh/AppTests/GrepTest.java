@@ -46,19 +46,19 @@ public class GrepTest extends JshTest {
         assertEquals(args[1], result);
     }
 
-    @Test
-    public void test_5() {
-        String[] args = {"grep AAA `\"cat testDir/text1.txt\"`", "AAA"};
-        Jsh.eval(args[0], out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
-    }
+//    @Test
+//    public void test_5() {
+//        String[] args = {"grep AAA < cat testDir/text1.txt", "AAA"};
+//        Jsh.eval(args[0], out);
+//        String result = getEvalResult(args[1]);
+//        assertEquals(args[1], result);
+//    }
 
     public void runAllTests() {
         test_1();
         test_2();
         test_3();
         test_4();
-        test_5();
+//        test_5();
     }
 }

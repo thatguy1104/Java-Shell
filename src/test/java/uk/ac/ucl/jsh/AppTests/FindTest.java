@@ -8,6 +8,7 @@ import uk.ac.ucl.jsh.JshTest;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class FindTest extends JshTest {
