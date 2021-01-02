@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -35,7 +36,7 @@ public class LsTest extends JshTest {
         }
 
         Collections.sort(expected);
-        Arrays.sort(results.toArray());
+        Collections.sort(results);
 
         assertArrayEquals(expected.toArray(), results.toArray());
     }
@@ -58,7 +59,7 @@ public class LsTest extends JshTest {
         }
 
         Collections.sort(expected);
-        Arrays.sort(results.toArray());
+        Collections.sort(results);
 
         assertArrayEquals(expected.toArray(), results.toArray());
     }
@@ -81,7 +82,7 @@ public class LsTest extends JshTest {
         }
 
         Collections.sort(expected);
-        Arrays.sort(results.toArray());
+        Collections.sort(results);
 
         assertArrayEquals(expected.toArray(), results.toArray());
     }
