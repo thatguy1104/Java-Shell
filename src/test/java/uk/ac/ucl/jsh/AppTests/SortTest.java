@@ -30,7 +30,7 @@ public class SortTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-    @Test
+    @Test //TODO 2 more sort tests
     public void test_pipe_uniq() {
         String[] args = {"sort -r " + JshTest.testDirectory + File.separator +  "text3.txt", "i\nh\ng\nf\ne\nd\nccc\nc\nb\na"};
         Jsh.eval(args[0], this.out);
