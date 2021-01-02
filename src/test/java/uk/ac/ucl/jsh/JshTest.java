@@ -42,12 +42,12 @@ public class JshTest {
         }
 
         String[][] files_and_contents = {
-                {testDirectory + "/text1.txt", "abcdefghi\nofeijnwio"},
-                {testDirectory + "/text2.txt", "AAA\nBBB\nAAA"},
-                {testDirectory + "/text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"},
-                {subDirString + "/text1.txt", "1\n2\n3\n4\n5"},
-                {subDirString + "/text2.txt", "A\na\nB\nb\nC\nc"},
-                {subDirString + "/text3.txt", ""}};
+                {testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"},
+                {testDirectory + File.separator + "text2.txt", "AAA\nBBB\nAAA"},
+                {testDirectory + File.separator + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"},
+                {subDirString + File.separator + "text1.txt", "1\n2\n3\n4\n5"},
+                {subDirString + File.separator + "text2.txt", "A\na\nB\nb\nC\nc"},
+                {subDirString + File.separator + "text3.txt", ""}};
 
         for (String[] files_and_content : files_and_contents) {
             File f = new File(files_and_content[0]);

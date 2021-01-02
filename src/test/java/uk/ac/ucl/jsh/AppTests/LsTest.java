@@ -30,8 +30,8 @@ public class LsTest extends JshTest {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
+        Jsh.eval("ls", this.out);
         for (String file_name : expected) {
-            Jsh.eval("ls", this.out);
             results.add(pwdSupplementary(file_name));
         }
 
@@ -53,8 +53,8 @@ public class LsTest extends JshTest {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
+        Jsh.eval("ls testDir", this.out);
         for (String file_name : expected) {
-            Jsh.eval("ls testDir", this.out);
             results.add(pwdSupplementary(file_name));
         }
 
@@ -76,8 +76,8 @@ public class LsTest extends JshTest {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
+        Jsh.eval("ls testDir" + File.separator + "testSubDir", this.out);
         for (String file_name : expected) {
-            Jsh.eval("ls testDir" + File.separator + "testSubDir", this.out);
             results.add(pwdSupplementary(file_name));
         }
 
