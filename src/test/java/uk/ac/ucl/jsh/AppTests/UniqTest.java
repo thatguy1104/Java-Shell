@@ -16,7 +16,8 @@ public class UniqTest extends JshTest {
 
     @Test
     public void test_uniq() {
-        String[] args = {"uniq " + JshTest.testDirectory + File.separator + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc"};
+        String filepath = JshTest.testDirectory + File.separator;
+        String[] args = {"uniq " + filepath + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
@@ -67,12 +68,12 @@ public class UniqTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-    public void runAllTests() throws IOException {
+    public void runAllTests() {
         test_uniq();
-//        test_uniq_i();
+        test_uniq_i();
         test_uniq_empty();
-//        test_uniq_stdin();
-//        test_uniq_stdin_i();
-//        test_tail_pipe_uniq_i();
+        test_uniq_stdin();
+        test_uniq_stdin_i();
+        test_tail_pipe_uniq_i();
     }
 }
