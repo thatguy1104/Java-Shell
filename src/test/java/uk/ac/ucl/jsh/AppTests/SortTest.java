@@ -16,7 +16,8 @@ public class SortTest extends JshTest {
 
     @Test
     public void test_sort() {
-        String[] args = {"sort " + JshTest.testDirectory + File.separator +  "text1.txt", "abcdefghi\nofeijnwio"};
+        String filepath = JshTest.testDirectory + File.separator;
+        String[] args = {"sort " + filepath +  "text1.txt", "abcdefghi\nofeijnwio"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
@@ -24,23 +25,46 @@ public class SortTest extends JshTest {
 
     @Test
     public void test_sort_r() {
-        String[] args = {"sort -r " + JshTest.testDirectory + File.separator + "text1.txt", "ofeijnwio\nabcdefghi"};
+        String filepath = JshTest.testDirectory + File.separator;
+        String[] args = {"sort -r " + filepath + "text1.txt", "ofeijnwio\nabcdefghi"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
     }
 
     @Test
-    public void test_pipe_uniq() {
-        String[] args = {"sort -r " + JshTest.testDirectory + File.separator +  "text3.txt", "i\nh\ng\nf\ne\nd\nccc\nc\nb\na"};
+    public void test_sort_r_stdin() {
+        String filepath = JshTest.testDirectory + File.separator;
+        String[] args = {"sort -r <" + filepath +  "text3.txt", "AAA\nAAA\nBBB\nCCC\na\nb\nc\nccc\nd\ne"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
     }
 
+    @Test
+    public void test_sort_empty() {
+        String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
+        String[] args = {"sort " + filepath +  "text3.txt", ""};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
+    }
+
+    @Test
+    public void test_substitution_sort_find_r() {
+        String filepath = JshTest.testDirectory;
+        String[] args = {"cat `find " + filepath + " -name '*.txt'` | sort -r", "1\n2\n3\n4\n5\nA\nAAA\nAAA\nAAA\nAAA\nB\nBBB\nBBB\nC\nCCC\na\na"};
+        Jsh.eval(args[0], this.out);
+        String full_string = getEvalResult(args[1]);
+        assertEquals(full_string, args[1]);
+    }
+
+
     public void runAllTests() {
         test_sort();
         test_sort_r();
-
+        test_sort_r_stdin();
+        test_sort_empty();
+        test_substitution_sort_find_r();
     }
 }
