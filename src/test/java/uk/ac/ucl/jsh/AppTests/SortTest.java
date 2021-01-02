@@ -32,7 +32,7 @@ public class SortTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-    @Test //TODO NEEDS FIX!!!
+    @Test
     public void test_sort_r_stdin() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"sort -r <" + filepath +  "text3.txt", "AAA\nAAA\nBBB\nCCC\na\nb\nc\nccc\nd\ne"};
