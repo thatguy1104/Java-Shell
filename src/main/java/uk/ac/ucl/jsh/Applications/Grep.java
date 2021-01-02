@@ -48,7 +48,7 @@ public class Grep implements Application {
                     Path filePath = Paths.get(currentDirectory + File.separator + args.get(i));
                     scn = new Scanner(filePath);
                 } catch (FileNotFoundException e) {
-                    throw new IOException("ERROR cat: " + e.getMessage());
+                    throw new IOException("ERROR grep: " + e.getMessage());
                 }
                 if (mutlArgFiles) writeOut(scn, grepPattern, args.get(i));
                 else writeOut(scn, grepPattern, null);
