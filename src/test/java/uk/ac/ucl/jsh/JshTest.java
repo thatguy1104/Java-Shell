@@ -152,7 +152,7 @@ public class JshTest {
         new HeadTest().runAllTests();
     }
 
-    @Test //TODO
+    @Test
     public void testLs() throws Exception {
         new LsTest().runAllTests();
     }
