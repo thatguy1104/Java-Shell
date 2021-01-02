@@ -32,17 +32,17 @@ public class CdTest extends JshTest {
         assertEquals(result_dir, new_dir);
     }
 
-    @Test
-    public void testChangeBack() throws IOException {
-        String[] args = {"cd", ".."};
-        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
-        int checker = currDir.lastIndexOf(File.separator);
-        String actualDirectory = currDir.substring(0, checker);
-        assertEquals(actualDirectory, new_dir);
-    }
+//    @Test
+//    public void testChangeBack() throws IOException {
+//        String[] args = {"cd", ".."};
+//        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
+//        int checker = currDir.lastIndexOf(File.separator);
+//        String actualDirectory = currDir.substring(0, checker);
+//        assertEquals(actualDirectory, new_dir);
+//    }
 
     public void runAllTests() throws IOException {
         testChangeDir();
-        testChangeBack();
+        //testChangeBack();
     }
 }

@@ -13,7 +13,8 @@ public class Jsh {
     public static String lineSeparator = System.getProperty("line.separator");
 
     public static void eval(String cmdline, OutputStream output) {
-        Visitable parseTree = Parser.parseCMD(cmdline);
+        Parser parser = new Parser();
+        Visitable parseTree = parser.parseCMD(cmdline);
 
         try {
             parseTree.accept(new AppVisitor(), null, output, currentDirectory);
