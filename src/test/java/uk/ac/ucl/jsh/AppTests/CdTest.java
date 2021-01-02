@@ -43,6 +43,6 @@ public class CdTest extends JshTest {
 
     public void runAllTests() throws IOException {
         testChangeDir();
-        //testChangeBack();
+//        testChangeBack();
     }
 }

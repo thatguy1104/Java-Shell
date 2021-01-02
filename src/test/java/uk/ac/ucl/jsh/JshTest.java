@@ -127,10 +127,10 @@ public class JshTest {
         new CatTest().runAllTests();
     }
 
-    @Test
-    public void testCd() throws Exception {
-        new CdTest().runAllTests();
-    }
+//    @Test
+//    public void testCd() throws Exception {
+//        new CdTest().runAllTests();
+//    }
 
     @Test
     public void testCut() throws Exception {
