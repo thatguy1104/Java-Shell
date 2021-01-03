@@ -1,12 +1,13 @@
 package uk.ac.ucl.jsh.AppTests;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import uk.ac.ucl.jsh.Applications.Ls;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,5 +86,14 @@ public class UnsafeLsTest extends JshTest {
         Collections.sort(results);
 
         assertArrayEquals(expected.toArray(), results.toArray());
+    }
+
+    @Test
+    public void test_unsafe_nothing() throws IOException {
+        String expected = "_cat: missing arguments";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Jsh.eval("_cat", outputStream);
+        String result = outputStream.toString().replaceAll("\n", "").replaceAll("\r", "");
+        assertEquals(expected, result);
     }
 }

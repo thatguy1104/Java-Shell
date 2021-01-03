@@ -78,7 +78,7 @@ public class Uniq implements Application {
         } else if (args.size() > 3) {
             return "uniq: too many arguments";
         } else if (args.size() == 3 && !args.get(1).equals("-i")) {
-            return "uniq: wrong argument" + args.get(1);
+            return "uniq: wrong argument " + args.get(1);
         } else {
             return "nothing";
         }
