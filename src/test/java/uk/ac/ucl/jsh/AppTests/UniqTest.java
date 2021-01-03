@@ -51,7 +51,7 @@ public class UniqTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-//    @Test
+    @Test
     public void test_uniq_stdin() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq < " + filepath + "text2.txt", "A\na\nB\nb\nC\nc"};
@@ -60,7 +60,7 @@ public class UniqTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-//    @Test
+    @Test
     public void test_uniq_stdin_i() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq -i < " + filepath + "text2.txt", "A\nB\nC"};
