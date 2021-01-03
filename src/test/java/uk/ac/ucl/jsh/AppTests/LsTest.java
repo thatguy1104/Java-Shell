@@ -92,7 +92,7 @@ public class LsTest extends JshTest {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
-    @Test()
+    @Test
     public void test_ls_argument_error() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("ls: too many arguments");
@@ -102,7 +102,7 @@ public class LsTest extends JshTest {
         ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
-    @Test()
+    @Test
     public void test_ls_directory_error() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("ls: directory does not exist");

@@ -90,9 +90,9 @@ public class UnsafeLsTest extends JshTest {
 
     @Test
     public void test_unsafe_nothing() throws IOException {
-        String expected = "_cat: missing arguments";
+        String expected = "_ls: too many arguments";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Jsh.eval("_cat", outputStream);
+        Jsh.eval("_ls a b", outputStream);
         String result = outputStream.toString().replaceAll("\n", "").replaceAll("\r", "");
         assertEquals(expected, result);
     }
