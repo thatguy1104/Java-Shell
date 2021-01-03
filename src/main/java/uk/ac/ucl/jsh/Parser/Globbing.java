@@ -21,10 +21,8 @@ public class Globbing {
                 result.add(file);
             }
             if (all) {
-                result.remove(file);
                 result.add(file);
             }
-            result.add(file);
         }
         return new ArrayList<>(result);
     }

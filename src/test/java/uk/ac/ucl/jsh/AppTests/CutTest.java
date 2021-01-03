@@ -1,11 +1,17 @@
 package uk.ac.ucl.jsh.AppTests;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import uk.ac.ucl.jsh.Applications.Cut;
+import uk.ac.ucl.jsh.Applications.Ls;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -61,5 +67,38 @@ public class CutTest extends JshTest {
         String result = getEvalResult(arg[1]);
         System.out.println(result);
         assertEquals(arg[1], result);
+    }
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
+    @Test
+    public void test_cut_fileTest() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cut: file does not exist");
+        Cut ls = new Cut();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cut"); args.add("-b"); args.add("1"); args.add("nonexistentfilename.txt");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_cut_ranges() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("Index 0 out of bounds for length 0");
+        Cut ls = new Cut();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cut"); args.add("-b"); args.add("-A"); args.add("text1.txt");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_cut_ranges_2() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cut: file does not exist");
+        Cut ls = new Cut();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cut"); args.add("-b"); args.add("1,2"); args.add("eropmejpo.txt");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 }
