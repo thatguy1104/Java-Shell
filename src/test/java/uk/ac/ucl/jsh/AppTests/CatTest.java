@@ -46,11 +46,4 @@ public class CatTest extends JshTest {
         String result = getEvalResult(cases[1]);
         assertEquals(cases[1], result);
     }
-
-    public void runAllTests() throws IOException {
-        test_cat_simple();
-        test_cat_redirection();
-        test_cat_input_sub();
-        test_cat_multi_file();
-    }
 }

@@ -55,20 +55,11 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test__echo_pipe_2() {
+    public void test_unsafe_cut_echo_pipe_2() {
         String[] arg = {"echo abc | cut -b -1,2-", "abc"};
         Jsh.eval(arg[0], out);
         String result = getEvalResult(arg[1]);
         System.out.println(result);
         assertEquals(arg[1], result);
-    }
-
-    public void runAllTests() {
-        test_cut_simple();
-        test_cut_simple_2();
-        test_cut_simple_3();
-        test_cut_simple_4();
-        test_cut_echo_pipe();
-        test__echo_pipe_2();
     }
 }
