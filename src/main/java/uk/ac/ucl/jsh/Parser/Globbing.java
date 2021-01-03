@@ -37,4 +37,19 @@ public class Globbing {
 
         return results;
     }
+
+    private void process() {
+//        String files = "*.txt";
+//        String currentDirectory = System.getProperty("user.dir") + "/TESTDIR";
+//        ArrayList<File> f = determineType(files, currentDirectory);
+//        System.out.println(f);
+//        String dir = "TESTDIR/*";
+//        String currentDirectory2 = System.getProperty("user.dir");
+//        ArrayList<File> f = determineType(dir, currentDirectory2);
+
+    }
+
+    public static void main(String[] args) {
+        new Globbing().process();
+    }
 }
