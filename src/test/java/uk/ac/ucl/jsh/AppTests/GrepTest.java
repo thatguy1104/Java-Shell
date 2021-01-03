@@ -1,11 +1,18 @@
 package uk.ac.ucl.jsh.AppTests;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import uk.ac.ucl.jsh.Applications.Cut;
+import uk.ac.ucl.jsh.Applications.Grep;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,11 +53,25 @@ public class GrepTest extends JshTest {
         assertEquals(args[1], result);
     }
 
-//    @Test
-//    public void test_5() {
-//        String[] args = {"grep AAA < cat testDir/text1.txt", "AAA"};
-//        Jsh.eval(args[0], out);
-//        String result = getEvalResult(args[1]);
-//        assertEquals(args[1], result);
-//    }
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
+    @Test
+    public void test_grep_fileArg() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("grep: wrong file argument");
+        Grep ls = new Grep();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("grep"); args.add("AAA"); args.add(JshTest.testDirectory + File.separator + "filethatdoesnotexiste.txt");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_grep_fileArg_2() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("grep: wrong number of arguments");
+        Grep ls = new Grep();
+        ArrayList<String> args = new ArrayList<>(Collections.singleton("grep"));
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
 }

@@ -13,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.ac.ucl.jsh.AppTests.*;
 
-
 public class JshTest {
 
     private PipedInputStream in = new PipedInputStream();
@@ -127,10 +126,10 @@ public class JshTest {
         new CatTest();
     }
 
-//    @Test
-//    public void testCd() throws Exception {
-//        new CdTest();
-//    }
+    @Test
+    public void testCd() throws Exception {
+        new CdTest();
+    }
 
     @Test
     public void testCut() throws Exception {
