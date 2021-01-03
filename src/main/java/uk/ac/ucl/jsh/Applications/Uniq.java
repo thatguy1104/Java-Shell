@@ -73,12 +73,12 @@ public class Uniq implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
+        if (args.size() == 1) {
             return "uniq: missing argument";
         } else if (args.size() > 3) {
             return "uniq: too many arguments";
         } else if (args.size() == 3 && !args.get(1).equals("-i")) {
-            return "uniq: wrong argument" + args.get(1);
+            return "uniq: wrong argument " + args.get(1);
         } else {
             return "nothing";
         }
