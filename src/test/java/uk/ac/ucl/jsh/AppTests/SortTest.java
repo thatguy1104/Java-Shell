@@ -89,14 +89,35 @@ public class SortTest extends JshTest {
         sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
-    //@Test TODO
-    public void test_sort_missing_args() throws IOException{
+    @Test
+    public void test_sort_cannot_open() throws IOException{
+        Sort sort = new Sort();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("sort");args.add("target");
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("sort: cannot open target");
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_sort_r_cannot_open() throws IOException{
+        Sort sort = new Sort();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("sort");args.add("-r");args.add("nonExistingTarget");
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("sort: nonExistingTarget does not exist");
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    //@Test TODO WEIRD BUG?
+    public void test_sort_missing_arg() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
         args.add("sort");
         exceptionRule.expect(RuntimeException.class);
-        //exceptionRule.expectMessage("sort: missing arguments");
         sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
+
+
 
 }
