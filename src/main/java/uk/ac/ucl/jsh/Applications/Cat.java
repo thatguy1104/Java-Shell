@@ -45,10 +45,10 @@ public class Cat implements Application {
                     try {
                         writeOut(new Scanner(filePath), output);
                     } catch (FileNotFoundException e) {
-                        throw new IOException("ERROR cat: " + e.getMessage());
+                        return "ERROR cat: " + e.getMessage();
                     }
                 } else {
-                    throw new IOException("ERROR cat: file does not exist");
+                    return "ERROR cat: file does not exist";
                 }
             }
         }

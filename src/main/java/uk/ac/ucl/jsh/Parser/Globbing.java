@@ -2,6 +2,9 @@ package uk.ac.ucl.jsh.Parser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Globbing {
 
@@ -9,7 +12,7 @@ public class Globbing {
         boolean all = false;
         if (input.startsWith("*")) all = true;
 
-        ArrayList<File> result = new ArrayList<>();
+        Set<File> result = new HashSet<>();
         File[] f_list = new File(currentDir).listFiles();
         assert f_list != null;
 
@@ -18,11 +21,10 @@ public class Globbing {
                 result.add(file);
             }
             if (all) {
-                result.remove(file);
-                result.add(new File(System.getProperty("user.dir") + File.separator + file));
+                result.add(file);
             }
         }
-        return result;
+        return new ArrayList<>(result);
     }
 
     public ArrayList<File> determineType(String input, String currentDirectory) {
@@ -38,7 +40,7 @@ public class Globbing {
         return results;
     }
 
-    private void process() {
+//    private void process() {
 //        String files = "*.txt";
 //        String currentDirectory = System.getProperty("user.dir") + "/TESTDIR";
 //        ArrayList<File> f = determineType(files, currentDirectory);
@@ -47,9 +49,9 @@ public class Globbing {
 //        String currentDirectory2 = System.getProperty("user.dir");
 //        ArrayList<File> f = determineType(dir, currentDirectory2);
 
-    }
+//    }
 
-    public static void main(String[] args) {
-        new Globbing().process();
-    }
+//    public static void main(String[] args) {
+//        new Globbing().process();
+//    }
 }

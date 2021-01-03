@@ -242,8 +242,13 @@ public class JshTest {
         new UnsafeUniqTest();
     }
 
-    @Test // TODO
-    public void testUnsafe() throws Exception {
-        // TODO
+    @Test
+    public void testUnsafeUnsafe() throws Exception {
+        new UnsafeUnsafeTest();
+    }
+
+    @Test
+    public void testGlobbing() throws Exception {
+        new GlobTest();
     }
 }
