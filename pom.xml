@@ -41,6 +41,9 @@
         <configuration>
           <excludes>
             <exclude>**/JshGrammar*</exclude>
+            <exclude>**/Call/**</exclude>
+            <exclude>**/CommandLine/**</exclude>
+            <exclude>**/antlr/**</exclude>
           </excludes>
         </configuration>
       </plugin>
