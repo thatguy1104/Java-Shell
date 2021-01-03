@@ -57,12 +57,12 @@ public class Tail implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
+        if (args.size()==1) {
             return "tail: missing arguments";
-        } else if (args.size() != 2 && args.size() != 4) {
-            return "tail: wrong arguments";
         } else if (args.size() == 4 && !args.get(1).equals("-n")) {
             return "tail: wrong argument " + args.get(1);
+        } else if (args.size() != 2 && args.size() != 4) {
+            return "tail: wrong arguments";
         } else {
             return "nothing";
         }
