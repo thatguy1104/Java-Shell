@@ -4,6 +4,7 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -85,5 +86,14 @@ public class UnsafeLsTest extends JshTest {
         Collections.sort(results);
 
         assertArrayEquals(expected.toArray(), results.toArray());
+    }
+
+    @Test
+    public void test_unsafe_nothing() throws IOException {
+        String expected = "_ls: too many arguments";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Jsh.eval("_ls a b", outputStream);
+        String result = outputStream.toString().replaceAll("\n", "").replaceAll("\r", "");
+        assertEquals(expected, result);
     }
 }

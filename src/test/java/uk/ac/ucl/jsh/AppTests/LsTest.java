@@ -1,11 +1,15 @@
 package uk.ac.ucl.jsh.AppTests;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import uk.ac.ucl.jsh.Applications.Ls;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -82,5 +86,28 @@ public class LsTest extends JshTest {
         Collections.sort(results);
 
         assertArrayEquals(expected.toArray(), results.toArray());
+    }
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
+    @Test
+    public void test_ls_argument_error() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("ls: too many arguments");
+        Ls ls = new Ls();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("ls"); args.add("a"); args.add("b");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_ls_directory_error() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("ls: directory does not exist");
+        Ls ls = new Ls();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("ls"); args.add("a");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 }
