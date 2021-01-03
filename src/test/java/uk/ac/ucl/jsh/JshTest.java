@@ -246,4 +246,9 @@ public class JshTest {
     public void testUnsafeUnsafe() throws Exception {
         new UnsafeUnsafeTest();
     }
+
+    @Test
+    public void testGlobbing() throws Exception {
+        new GlobTest();
+    }
 }

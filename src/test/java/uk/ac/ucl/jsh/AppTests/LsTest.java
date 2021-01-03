@@ -5,13 +5,10 @@ import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 public class LsTest extends JshTest {
 
