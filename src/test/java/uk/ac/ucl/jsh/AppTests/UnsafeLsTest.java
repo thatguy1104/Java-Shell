@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class LsTest extends JshTest {
+public class UnsafeLsTest extends JshTest {
 
-    public LsTest() throws IOException {
+    public UnsafeLsTest() throws IOException {
     }
 
     @Test
@@ -30,7 +30,7 @@ public class LsTest extends JshTest {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
-        Jsh.eval("ls", this.out);
+        Jsh.eval("_ls", this.out);
         for (String file_name : expected) {
             results.add(pwdSupplementary(file_name));
         }
@@ -53,7 +53,7 @@ public class LsTest extends JshTest {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
-        Jsh.eval("ls testDir", this.out);
+        Jsh.eval("_ls testDir", this.out);
         for (String file_name : expected) {
             results.add(pwdSupplementary(file_name));
         }
@@ -76,7 +76,7 @@ public class LsTest extends JshTest {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
-        Jsh.eval("ls testDir" + File.separator + "testSubDir", this.out);
+        Jsh.eval("_ls testDir" + File.separator + "testSubDir", this.out);
         for (String file_name : expected) {
             results.add(pwdSupplementary(file_name));
         }

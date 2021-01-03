@@ -8,11 +8,10 @@ import java.util.*;
 
 public class Find implements Application {
 
-    private String stableDirectory;
+    //private String stableDirectory;
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        stableDirectory = currentDirectory;
         String message = argCheck(args);
         if (!message.equals("nothing")) {
             throwError(message, output);
@@ -28,6 +27,7 @@ public class Find implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
+        String stableDirectory = currentDirectory;
         OutputStreamWriter writer = new OutputStreamWriter(output);
         int argSizeCheck = 3;
         String directoryCheck = currentDirectory;
@@ -49,7 +49,7 @@ public class Find implements Application {
             Set<String> result_set = new HashSet<>();
             for (File file : listOfFiles) {
                 if (!file.getName().startsWith(".")) {
-                    HashMap<String, String> all_files = walkFileDirs(file);
+                    HashMap<String, String> all_files = walkFileDirs(file, stableDirectory);
                     result_set.addAll(getCorrectFiles(args, all_files, globbing, directorySpecified, argSizeCheck));
                 }
             }
@@ -136,7 +136,7 @@ public class Find implements Application {
      * Gets all files in a directory an it's subdirectories
      * @return - HashMap
      */
-    private HashMap<String, String> walkFileDirs(File fileDirectory) throws IOException {
+    private HashMap<String, String> walkFileDirs(File fileDirectory, String stableDirectory) throws IOException {
         HashMap<String, String> walk_result = new HashMap<>();
 
         Files.walk(fileDirectory.toPath())

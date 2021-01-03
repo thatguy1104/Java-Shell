@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class Unsafe implements Application {
 
-    private OutputStreamWriter writer;
     private Application application;
 
     @Override
