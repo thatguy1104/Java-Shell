@@ -12,7 +12,7 @@ public class Cat implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        String message = ((input != null && args.size() == 1) ? "nothing" : argCheck(args));
+        String message = input != null && args.size() == 1 ? "nothing" : argCheck(args);
 
         if (!message.equals("nothing")) {
             throwError(message, output);

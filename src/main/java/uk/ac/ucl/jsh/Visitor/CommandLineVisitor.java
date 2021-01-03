@@ -76,39 +76,39 @@ public class CommandLineVisitor extends CommandLineGrammarBaseVisitor<Visitable>
         return new Call(ctx.getText());
     }
 
-    @Override
-    /**
-     Visits the quoted rule from CommandLineGrammar
-     @param ctx The current context from ANTLR being parsed
-     */
-    public Visitable visitQuoted(CommandLineGrammarParser.QuotedContext ctx) {
-        return super.visitQuoted(ctx);
-    }
-
-    @Override
-    /**
-     Visits the single quote rule from CommandLineGrammar
-     @param ctx The current context from ANTLR being parsed
-     */
-    public Visitable visitSingle_quote(CommandLineGrammarParser.Single_quoteContext ctx) {
-        return super.visitSingle_quote(ctx);
-    }
-
-    @Override
-    /**
-     Visits the double quote rule from CommandLineGrammar
-     @param ctx The current context from ANTLR being parsed
-     */
-    public Visitable visitDouble_quote(CommandLineGrammarParser.Double_quoteContext ctx) {
-        return super.visitDouble_quote(ctx);
-    }
-
-    @Override
-    /**
-     Visits the back quote rule from CommandLineGrammar
-     @param ctx The current context from ANTLR being parsed
-     */
-    public Visitable visitBack_quote(CommandLineGrammarParser.Back_quoteContext ctx) {
-        return super.visitBack_quote(ctx);
-    }
+//    @Override
+//    /**
+//     Visits the quoted rule from CommandLineGrammar
+//     @param ctx The current context from ANTLR being parsed
+//     */
+//    public Visitable visitQuoted(CommandLineGrammarParser.QuotedContext ctx) {
+//        return super.visitQuoted(ctx);
+//    }
+//
+//    @Override
+//    /**
+//     Visits the single quote rule from CommandLineGrammar
+//     @param ctx The current context from ANTLR being parsed
+//     */
+//    public Visitable visitSingle_quote(CommandLineGrammarParser.Single_quoteContext ctx) {
+//        return super.visitSingle_quote(ctx);
+//    }
+//
+//    @Override
+//    /**
+//     Visits the double quote rule from CommandLineGrammar
+//     @param ctx The current context from ANTLR being parsed
+//     */
+//    public Visitable visitDouble_quote(CommandLineGrammarParser.Double_quoteContext ctx) {
+//        return super.visitDouble_quote(ctx);
+//    }
+//
+//    @Override
+//    /**
+//     Visits the back quote rule from CommandLineGrammar
+//     @param ctx The current context from ANTLR being parsed
+//     */
+//    public Visitable visitBack_quote(CommandLineGrammarParser.Back_quoteContext ctx) {
+//        return super.visitBack_quote(ctx);
+//    }
 }

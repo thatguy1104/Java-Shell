@@ -93,7 +93,7 @@ public class Echo implements Application {
         int counter = countEmptySpaces(args);
 
         /* Choose appropriate number of spaces between string arguments */
-        String filler = ((counter == 0) ? " " : "");
+        String filler = counter == 0 ? " " : "";
         if (args.contains("`")) {
             filler = "";
             args.remove("`");

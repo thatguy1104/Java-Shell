@@ -17,7 +17,7 @@ public class Grep implements Application {
 
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
-        String message = ((input != null && args.size() == 2) ? "nothing" : argCheck(args));
+        String message = input != null && args.size() == 2 ? "nothing" : argCheck(args);
 
         if (!message.equals("nothing")) {
             throwError(message, output);
@@ -39,7 +39,7 @@ public class Grep implements Application {
         Path[] filePathArray = getFilePaths(currentDirectory, args, args.size() - 1);
         if (filePathArray == null) return "ERROR grep: wrong file argument";
 
-        boolean mutlArgFiles = (args.size() > 3);
+        boolean mutlArgFiles = args.size() > 3;
 
         if (args.size() > 2) {
             for (int i = 2; i < args.size(); i++) {
@@ -91,7 +91,7 @@ public class Grep implements Application {
      */
     private void writeOut(Scanner scn, Pattern pattern, String filePath) throws IOException {
         int dots = isAllDots(pattern);
-        String s = ((filePath != null) ? filePath + ":" : "");
+        String s = (filePath != null) ? filePath + ":" : "";
 
         while (scn.hasNextLine()) {
             String line = scn.nextLine();

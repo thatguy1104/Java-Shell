@@ -40,7 +40,7 @@ public class Uniq implements Application {
         ArrayList<String> new_args = new ArrayList<>();
 
         /* Safety check to limit args going out of bound */
-        if (args.size() == 1 || (args.size() == 2 && args.get(1).equals("-i"))) {
+        if (args.size() == 1 || args.size() == 2 && args.get(1).equals("-i")) {
             Scanner scn = new Scanner(input);
             while (scn.hasNextLine()) {
                 new_args.add(scn.nextLine());
@@ -49,7 +49,7 @@ public class Uniq implements Application {
             writeOut(uniqLines);
         } else {
             /* Filename position in args changes if '-i' is present */
-            String uniqFilename = ((args.size() == 3) ? args.get(2) : args.get(1));
+            String uniqFilename = (args.size() == 3) ? args.get(2) : args.get(1);
             File uniqFile = new File(currDir + File.separator + uniqFilename);
 
             if (uniqFile.exists()) {
@@ -112,7 +112,7 @@ public class Uniq implements Application {
                 boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
 
                 /* compare lines and only save unique adjacent lines*/
-                if (!((row.equalsIgnoreCase(previousRow) && caseIgnore) || (row.equals(previousRow) && (args.size() != 3)))) {
+                if (!(row.equalsIgnoreCase(previousRow) && caseIgnore || row.equals(previousRow) && args.size() != 3)) {
                     uniqLines.add(row);
                 }
         }

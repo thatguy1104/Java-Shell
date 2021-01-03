@@ -36,7 +36,7 @@ public class Sort implements Application {
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
 
-        if (args.size() == 1 || (args.size() == 2 && args.get(1).equals("-r"))) {
+        if (args.size() == 1 || args.size() == 2 && args.get(1).equals("-r")) {
             ArrayList<String> new_args = new ArrayList<>();
             Scanner scn = new Scanner(input);
             while (scn.hasNextLine()) {
@@ -44,7 +44,7 @@ public class Sort implements Application {
             }
             returnSorted(args, new_args);
         } else {
-            String sortArg = ((args.size() == 3) ? args.get(2) : args.get(1));
+            String sortArg = args.size() == 3 ? args.get(2) : args.get(1);
             File filePath = new File(currDir + File.separator + sortArg);
 
             if (filePath.exists()) {

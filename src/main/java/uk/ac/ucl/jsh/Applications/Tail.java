@@ -78,7 +78,7 @@ public class Tail implements Application {
      * @return - void
      */
     private void writeOut(int tailLines, ArrayList<String> storage) throws IOException {
-        int index = ((tailLines <= storage.size()) ? storage.size() - tailLines : 0);
+        int index = tailLines <= storage.size() ? storage.size() - tailLines : 0;
         for (int i = index; i < storage.size(); i++) {
             writer.write(storage.get(i) + Jsh.lineSeparator);
             writer.flush();
