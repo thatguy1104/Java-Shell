@@ -57,7 +57,10 @@ public class Cat implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) return "cat: missing arguments";
+        ArrayList<String> argChecker = new ArrayList<>(args);
+        argChecker.remove(0);
+        //System.out.println(argChecker);
+        if (argChecker.isEmpty()) return "cat: missing arguments";
         else return "nothing";
     }
 
