@@ -1,11 +1,16 @@
 package uk.ac.ucl.jsh.AppTests;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import uk.ac.ucl.jsh.Applications.Sort;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,6 +18,9 @@ public class SortTest extends JshTest {
 
     public SortTest() throws IOException {
     }
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void test_sort() {
@@ -60,4 +68,35 @@ public class SortTest extends JshTest {
         String full_string = getEvalResult(args[1]);
         assertEquals(full_string, args[1]);
     }
+
+    @Test
+    public void test_sort_wrong_nr_args() throws IOException{
+        Sort sort = new Sort();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("sort");args.add("a");args.add("b");args.add("c");
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("sort: wrong number of arguments");
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_sort_wrong_args() throws IOException{
+        Sort sort = new Sort();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("sort");args.add("a");args.add("b");
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("sort: wrong argument a");
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
+    //@Test TODO
+    public void test_sort_missing_args() throws IOException{
+        Sort sort = new Sort();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("sort");
+        exceptionRule.expect(RuntimeException.class);
+        //exceptionRule.expectMessage("sort: missing arguments");
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
 }

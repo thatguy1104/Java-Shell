@@ -99,7 +99,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_empty_args() throws IOException{
+    public void test_uniq_wrong_filename() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("nonExistentFile");

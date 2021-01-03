@@ -65,7 +65,7 @@ public class Sort implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
+        if (args.size() == 1) {
             return "sort: missing arguments";
         } else if (args.size() != 2 && args.size() != 3) {
             return "sort: wrong number of arguments";
