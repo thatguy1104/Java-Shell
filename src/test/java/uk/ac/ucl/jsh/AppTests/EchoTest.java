@@ -42,6 +42,14 @@ public class EchoTest extends JshTest {
     }
 
     @Test
+    public void test_empty_sub() {
+        String[] arg = {"echo ``a", "a"};
+        Jsh.eval(arg[0], this.out);
+        String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], result);
+    }
+
+    @Test
     public void test_complex_input_sub() {
         String[] arg = {"echo \"a `echo \"b\"`\"", "a b"};
         Jsh.eval(arg[0], this.out);

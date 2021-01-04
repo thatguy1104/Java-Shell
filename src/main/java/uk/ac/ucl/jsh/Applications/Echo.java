@@ -26,6 +26,7 @@ public class Echo implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
+        args.remove("");
         writer = new OutputStreamWriter(output);
         ArrayList<String> argArray = new ArrayList<>();
 

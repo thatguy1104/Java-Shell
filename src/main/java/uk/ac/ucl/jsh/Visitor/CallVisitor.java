@@ -50,9 +50,7 @@ public class CallVisitor extends CallGrammarBaseVisitor<ArrayList<String>>{
     public ArrayList<String> visitRedirection(CallGrammarParser.RedirectionContext ctx) {
         ArrayList<String> redirectionArray = new ArrayList<>();
         redirectionArray.add(ctx.getChild(0).getText());
-        if (ctx.argument() != null) {
-            redirectionArray.addAll(visit(ctx.argument()));
-        }
+        redirectionArray.addAll(visit(ctx.argument()));
         return redirectionArray;
     }
 
