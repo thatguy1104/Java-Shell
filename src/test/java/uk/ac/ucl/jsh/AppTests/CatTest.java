@@ -1,10 +1,15 @@
 package uk.ac.ucl.jsh.AppTests;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import uk.ac.ucl.jsh.Applications.Cat;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,5 +50,44 @@ public class CatTest extends JshTest {
         Jsh.eval(cases[0], out);
         String result = getEvalResult(cases[1]);
         assertEquals(cases[1], result);
+    }
+
+    @Test
+    public void test_cat_io() {
+        String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"};
+        Jsh.eval(cases[0], out);
+        String result = getEvalResult(cases[1]);
+        assertEquals(cases[1], result);
+    }
+
+    @Test
+    public void test_cat_double_quote() {
+        String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"};
+        Jsh.eval(cases[0], out);
+        String result = getEvalResult(cases[1]);
+        assertEquals(cases[1], result);
+    }
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
+    @Test
+    public void test_cat_fileTest() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cat: file does not exist");
+        Cat cat = new Cat();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cat"); args.add("nonexistentfilename.txt");
+        cat.mainExec(args, System.getProperty("user.dir"), null, out);
+    }
+
+    @Test
+    public void test_cat_no_args() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cat: missing arguments");
+        Cat cat = new Cat();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cat");
+        cat.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 }
