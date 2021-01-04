@@ -14,7 +14,7 @@ public class Globbing {
 
         Set<File> result = new HashSet<>();
         File[] f_list = new File(currentDir).listFiles();
-        assert f_list != null;
+        //assert f_list != null;
 
         for (File file : f_list) {
             if (file.getName().contains(input.substring(1))) {
