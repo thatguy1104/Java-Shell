@@ -53,25 +53,45 @@ public class GrepTest extends JshTest {
         assertEquals(args[1], result);
     }
 
+    @Test
+    public void test_cat_grep() {
+        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | grep A", "AAA\nAAA"};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
+    public void test_grep_mult_files() {
+        String filepath = JshTest.testDirectory + File.separator;
+        String[] args = {"grep noExistingPattern " + filepath + "text2.txt " + filepath + "text1.txt", ""};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void test_grep_fileArg() throws IOException {
+        Grep grep = new Grep();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("grep"); args.add("AAA"); args.add("filethatdoesnotexiste.txt");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("grep: wrong file argument");
-        Grep ls = new Grep();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("grep"); args.add("AAA"); args.add(JshTest.testDirectory + File.separator + "filethatdoesnotexiste.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        grep.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
+
+
     @Test
-    public void test_grep_fileArg_2() throws IOException {
+    public void test_grep_wrong_nr_args() throws IOException {
+        Grep grep = new Grep();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("grep"); args.add("AAA");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("grep: wrong number of arguments");
-        Grep ls = new Grep();
-        ArrayList<String> args = new ArrayList<>(Collections.singleton("grep"));
-        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        grep.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 }

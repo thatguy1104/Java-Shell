@@ -109,6 +109,4 @@ public class HeadTest extends JshTest {
         exceptionRule.expectMessage("head: wrong argument a");
         head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
-
-
 }
