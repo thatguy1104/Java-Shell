@@ -96,4 +96,25 @@ public class CdTest extends JshTest {
         args.add("cd");
         cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
+
+    @Test
+    public void test_cd_file_but_no_arg() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cd: text1.txt is not an existing directory");
+        Cd cd = new Cd();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cd");args.add("text1.txt");
+        cd.mainExec(args, System.getProperty("user.dir")+File.separator+JshTest.testDirectory, InputStream.nullInputStream(), out);
+    }
+
+    @Test
+    public void test_cd_too_many_args() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cd: too many arguments");
+        Cd cd = new Cd();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cd");args.add("a");args.add("b");
+        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
+
 }
