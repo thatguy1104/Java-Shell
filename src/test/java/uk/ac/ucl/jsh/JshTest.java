@@ -21,6 +21,8 @@ public class JshTest {
     protected static String testDirectory = "testDir";
     protected static String testSubDirectory = "testSubDir";
     protected static String subDirString = testDirectory + File.separator + testSubDirectory;
+    protected static String dotDirectory = ".dotDir";
+    protected static String dotDirString = testDirectory + File.separator + dotDirectory;
 
     public JshTest() throws IOException {
     }
@@ -39,6 +41,12 @@ public class JshTest {
                 throw new IOException("Failed to create directory: " + theDir);
             }
         }
+        theDir = new File(dotDirString);
+        if (!theDir.exists()) {
+            if (!theDir.mkdirs()) {
+                throw new IOException("Failed to create directory: " + theDir);
+            }
+        }
 
         String[][] files_and_contents = {
                 {testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"},
@@ -46,7 +54,8 @@ public class JshTest {
                 {testDirectory + File.separator + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"},
                 {subDirString + File.separator + "text1.txt", "1\n2\n3\n4\n5"},
                 {subDirString + File.separator + "text2.txt", "A\na\nB\nb\nC\nc"},
-                {subDirString + File.separator + "text3.txt", ""}};
+                {subDirString + File.separator + "text3.txt", ""},
+                {dotDirString + File.separator + ".dotFile.csv", "dot"}};
 
         for (String[] files_and_content : files_and_contents) {
             File f = new File(files_and_content[0]);
@@ -66,6 +75,7 @@ public class JshTest {
     @AfterClass
     public static void deleteFiles() throws IOException {
         recursiveDelete(new File(subDirString));
+        recursiveDelete(new File(dotDirString));
         recursiveDelete(new File(testDirectory));
         System.out.println("Files deleted");
     }
