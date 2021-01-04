@@ -50,8 +50,8 @@ public class Cut implements Application {
 
         List<Integer> clean_args = parse_cut_input(concat_args);
 
-        if (clean_args.get(0) == -2) return "ERROR cut: incorrect list ranges";
-        else if (clean_args.get(0) == -1) return "ERROR cut: could not convert arguments";
+//        if (clean_args.get(0) == -2) return "ERROR cut: incorrect list ranges";
+        if (clean_args.get(0) == -1) return "ERROR cut: could not convert arguments";
 
         String file_name = args.get(3);
 
@@ -62,7 +62,7 @@ public class Cut implements Application {
     public String argCheck(ArrayList<String> args) {
         if (args.size() == 1) return "cut: missing arguments";
         else if (args.size() != 2 && args.size() != 4) return "cut: wrong arguments";
-        else if (args.size() == 4 && !args.get(1).equals("-b")) return "cut: wrong argument " + args.get(1);
+        else if (!args.get(1).equals("-b")) return "cut: wrong argument " + args.get(1);
         else return "nothing";
     }
 
@@ -100,12 +100,8 @@ public class Cut implements Application {
         } else {
             return "ERROR cut: file does not exist";
         }
-        try {
-            if (!writeOut(scn, clean_args)) {
-                return "ERROR cut: byte index specified does not exist";
-            }
-        } catch (IOException e) {
-            return "ERROR cut: cannot open " + file_name;
+        if (!writeOut(scn, clean_args)) {
+            return "ERROR cut: byte index specified does not exist";
         }
         return currentDirectory;
     }
@@ -154,14 +150,10 @@ public class Cut implements Application {
      */
     private List<Integer> parse_caseTwo(List<String> inner_range, List<Integer> total_range) {
         List<Integer> final_lst = new ArrayList<>();
-        try {
-            int converted_start = Integer.parseInt(inner_range.get(0));
-            int converted_end = Integer.parseInt(inner_range.get(1));
-            for (int j = converted_start; j <= converted_end; j++) {
-                if (!total_range.contains(j)) final_lst.add(j - 1);
-            }
-        } catch (Exception f) {
-            return null;
+        int converted_start = Integer.parseInt(inner_range.get(0));
+        int converted_end = Integer.parseInt(inner_range.get(1));
+        for (int j = converted_start; j <= converted_end; j++) {
+            if (!total_range.contains(j)) final_lst.add(j - 1);
         }
         return final_lst;
     }
@@ -218,15 +210,12 @@ public class Cut implements Application {
     }
 
     private List<Integer> test(List<String> inner_range, List<Integer> total_range) {
-        switch (inner_range.size()) {
-            case 1: /* For: X- (e.g.: 1-) */
-                List<Integer> case_one = parse_caseOne(inner_range, total_range);
-                total_range = Stream.of(total_range, case_one).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
-                break;
-            case 2: /* For: X-Y, where X < Y (e.g.: 1-3) */
-                List<Integer> case_two = parse_caseTwo(inner_range, total_range);
-                total_range = Stream.of(total_range, case_two).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
-                break;
+        if (inner_range.size() == 1) {
+            List<Integer> case_one = parse_caseOne(inner_range, total_range);
+            total_range = Stream.of(total_range, case_one).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
+        } else {
+            List<Integer> case_two = parse_caseTwo(inner_range, total_range);
+            total_range = Stream.of(total_range, case_two).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
         }
         return total_range;
     }

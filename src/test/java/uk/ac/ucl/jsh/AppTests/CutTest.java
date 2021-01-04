@@ -126,7 +126,7 @@ public class CutTest extends JshTest {
         exceptionRule.expectMessage("cut: missing arguments");
         Cut ls = new Cut();
         ArrayList<String> args = new ArrayList<>();
-         args.add(JshTest.testDirectory + File.separator + "text1.txt");
+        args.add(JshTest.testDirectory + File.separator + "text1.txt");
         ls.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
     }
 
@@ -138,5 +138,15 @@ public class CutTest extends JshTest {
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("12"); args.add(JshTest.testDirectory + File.separator + "text1.txt");
         ls.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + ""), out);
+    }
+
+    @Test
+    public void test_cut_wrong_file3() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("cut: wrong argument " + JshTest.testDirectory + File.separator + "text1.txt");
+        Cut ls = new Cut();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("cut");  args.add(JshTest.testDirectory + File.separator + "text1.txt");
+        ls.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 }
