@@ -100,4 +100,15 @@ public class GrepTest extends JshTest {
         exceptionRule.expectMessage("grep: wrong number of arguments");
         grep.mainExec(args, System.getProperty("user.dir"), null, out);
     }
+
+    @Test
+    public void test_grep_dir_but_not_file() throws IOException {
+        Grep grep = new Grep();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("grep"); args.add("A");args.add("tools");
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("grep: wrong file argument");
+        grep.mainExec(args, System.getProperty("user.dir"), null, out);
+    }
+
 }
