@@ -38,6 +38,7 @@ public class Cat implements Application {
 
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
+        args.remove("`");
         if (args.size() == 1) {
             writeOut(new Scanner(input), output);
         } else {
