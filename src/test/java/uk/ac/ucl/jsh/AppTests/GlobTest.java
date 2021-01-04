@@ -44,7 +44,8 @@ public class GlobTest extends JshTest {
         String[] expected_file_names = {JshTest.testDirectory + File.separator + "text1.txt",
                                         JshTest.testDirectory + File.separator + "text2.txt",
                                         JshTest.testDirectory + File.separator + "text3.txt",
-                                        JshTest.testDirectory + File.separator + JshTest.testSubDirectory};
+                                        JshTest.testDirectory + File.separator + JshTest.testSubDirectory,
+                                        JshTest.testDirectory + File.separator + JshTest.dotDirectory};
         List<File> result = g.determineType(files, JshTest.testDirectory);
 
         List<File> expected = new ArrayList<>();

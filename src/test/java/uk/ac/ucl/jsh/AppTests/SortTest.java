@@ -70,6 +70,14 @@ public class SortTest extends JshTest {
     }
 
     @Test
+    public void test_cat_grep() {
+        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | sort", "AAA\nAAA\nBBB"};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
     public void test_sort_wrong_nr_args() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
@@ -109,13 +117,14 @@ public class SortTest extends JshTest {
         sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
-    //@Test TODO WEIRD BUG?
+    //@Test
     public void test_sort_missing_arg() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
         args.add("sort");
         exceptionRule.expect(RuntimeException.class);
-        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        exceptionRule.expectMessage("sort: missing arguments");
+        sort.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 
 

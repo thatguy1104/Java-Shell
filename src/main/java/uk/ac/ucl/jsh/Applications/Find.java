@@ -45,7 +45,6 @@ public class Find implements Application {
 
         try {
             File[] listOfFiles = cur.listFiles();
-            assert listOfFiles != null;
             Set<String> result_set = new HashSet<>();
             for (File file : listOfFiles) {
                 if (!file.getName().startsWith(".")) {
@@ -54,7 +53,7 @@ public class Find implements Application {
                 }
             }
             writeOut(result_set, writer);
-        } catch (NullPointerException e) {
+        } catch (AssertionError | NullPointerException e) {
             return "ERROR find: no such directory";
         }
         return currentDirectory;
@@ -62,8 +61,8 @@ public class Find implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
-            return "find: missing arguemnts";
+        if (args.size() == 1) {
+            return "find: missing arguments";
         } else {
             return "nothing";
         }
@@ -98,14 +97,10 @@ public class Find implements Application {
         Set<String> result_set = new HashSet<>();
         for (String currentArgument : args.subList(argSizeCheck - 1, args.size())) {
             if (currentArgument.equals(entry.getValue())) {
-                if (entry.getKey().equals(System.lineSeparator() + entry.getValue())) {
-                    result_set.add(entry.getValue());
+                if (!directorySpecified) {
+                    result_set.add("." + entry.getKey());
                 } else {
-                    if (!directorySpecified) {
-                        result_set.add("." + entry.getKey());
-                    } else {
-                        result_set.add(entry.getKey().substring(1));
-                    }
+                    result_set.add(entry.getKey().substring(1));
                 }
             }
         }
@@ -122,11 +117,7 @@ public class Find implements Application {
             if (!directorySpecified) {
                 result_set.add( "." + entry.getKey());
             } else {
-                if (entry.getKey().equals(System.lineSeparator() + entry.getValue())) {
-                    result_set.add(entry.getValue());
-                } else {
-                    result_set.add(entry.getKey().substring(1));
-                }
+                result_set.add(entry.getKey().substring(1));
             }
         }
         return result_set;
