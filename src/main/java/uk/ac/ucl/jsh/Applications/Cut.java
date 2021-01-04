@@ -221,23 +221,12 @@ public class Cut implements Application {
         switch (inner_range.size()) {
             case 1: /* For: X- (e.g.: 1-) */
                 List<Integer> case_one = parse_caseOne(inner_range, total_range);
-                if (case_one == null) {
-                    total_range.set(0, -1);
-                    return total_range;
-                }
-                total_range = Stream.of(total_range, case_one).flatMap(Collection::stream).collect(Collectors.toList());
+                total_range = Stream.of(total_range, case_one).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
                 break;
             case 2: /* For: X-Y, where X < Y (e.g.: 1-3) */
                 List<Integer> case_two = parse_caseTwo(inner_range, total_range);
-                if (case_two == null) {
-                    total_range.set(0, -1);
-                    return total_range;
-                }
-                total_range = Stream.of(total_range, case_two).flatMap(Collection::stream).collect(Collectors.toList());
+                total_range = Stream.of(total_range, case_two).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
                 break;
-            default:
-                total_range.set(0, -2);
-                return total_range;
         }
         return total_range;
     }

@@ -26,7 +26,6 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
         is = getInputStream(tokens, is);
         os = getOutputStream(tokens, os);
         Factory factory = new Factory();
-        assert tokens != null;
         Application app = factory.getApp(tokens.get(0));
         Jsh.currentDirectory = app.mainExec(tokens, currentDirectory, is, os);
         return null;
@@ -40,10 +39,6 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
     }
 
     private InputStream getInputStream(ArrayList<String> tokens, InputStream is) throws IOException {
-        if (countChars(tokens, '<') > 1) {
-            throw new IOException("Number of files exceeding limit for IO");
-        }
-
         try {
             int position = tokens.indexOf("<");
             if (position != -1 && position + 1 < tokens.size()) {
@@ -57,10 +52,6 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
     }
 
     private OutputStream getOutputStream(ArrayList<String> tokens, OutputStream os) throws IOException {
-        if (countChars(tokens, '>') > 1) {
-            throw new IOException("Number of files exceeding limit for IO");
-        }
-
         try {
             int position = tokens.indexOf(">");
             if (position != -1 && position + 1 < tokens.size()) {
@@ -71,15 +62,5 @@ public class AppVisitor extends Jsh implements Visitor<Void> {
             throw new IOException(e.getMessage());
         }
         return os;
-    }
-
-    private int countChars(ArrayList<String> tokens, char elem) {
-        int counter = 0;
-        for (String i : tokens) {
-            for (int j = 0; j < i.length(); j++) {
-                if (i.charAt(j) == elem) counter++;
-            }
-        }
-        return counter;
     }
 }
