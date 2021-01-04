@@ -83,8 +83,6 @@ public class GrepTest extends JshTest {
         grep.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
-
-
     @Test
     public void test_grep_wrong_nr_args() throws IOException {
         Grep grep = new Grep();
