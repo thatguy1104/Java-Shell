@@ -22,7 +22,7 @@ public class JshTest {
     protected static String testSubDirectory = "testSubDir";
     protected static String subDirString = testDirectory + File.separator + testSubDirectory;
     protected static String dotDirectory = ".dotDir";
-    protected static String dotDirString = testDirectory + File.separator + dotDirectory;
+    private static String dotDirString = testDirectory + File.separator + dotDirectory;
 
     public JshTest() throws IOException {
     }
