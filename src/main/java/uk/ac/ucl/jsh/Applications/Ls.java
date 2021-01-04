@@ -34,7 +34,6 @@ public class Ls implements Application {
 
         try {
             File[] listOfFiles = currDir.listFiles();
-            assert listOfFiles != null;
             writeOut(listOfFiles, writer);
 
         } catch (NoSuchFileException e) {
@@ -45,7 +44,7 @@ public class Ls implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (!args.isEmpty() && args.size() > 2) return "ls: too many arguments";
+        if (args.size()!=1 && args.size() > 2) return "ls: too many arguments";
         else return "nothing";
     }
 
@@ -59,17 +58,13 @@ public class Ls implements Application {
      * @return - void
      */
     private void writeOut(File[] listOfFiles, OutputStreamWriter writer) throws IOException {
-        boolean atLeastOnePrinted = false;
         for (File file : listOfFiles) {
             if (!file.getName().startsWith(".")) {
                 writer.write(file.getName() + "\t");
                 writer.flush();
-                atLeastOnePrinted = true;
             }
         }
-        if (atLeastOnePrinted) {
             writer.write(Jsh.lineSeparator);
             writer.flush();
-        }
     }
 }

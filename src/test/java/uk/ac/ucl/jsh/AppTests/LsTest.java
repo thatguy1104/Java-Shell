@@ -110,4 +110,14 @@ public class LsTest extends JshTest {
         args.add("ls"); args.add("a");
         ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
+
+    //@Test
+    public void test_ls_SOMETHING() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("ls: directory does not exist");
+        Ls ls = new Ls();
+        ArrayList<String> args = new ArrayList<>();
+        args.add("ls"); args.add("a");
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+    }
 }
