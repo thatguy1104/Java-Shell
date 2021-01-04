@@ -117,7 +117,7 @@ public class Grep implements Application {
 
         for (int i = 1; i < numOfFiles; i++) {
             Path filePath = currentDir.resolve(args.get(i + 1));
-            boolean invalidDirectory = Files.notExists(filePath) || Files.isDirectory(filePath) || !Files.isReadable(filePath);
+            boolean invalidDirectory = Files.notExists(filePath) || Files.isDirectory(filePath);
             if (invalidDirectory) return null;
             filePathArray[i] = filePath;
         }

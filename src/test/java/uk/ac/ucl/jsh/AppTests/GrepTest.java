@@ -22,7 +22,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_grep_1() {
         String[] args = {"grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -30,7 +30,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_2() {
+    public void test_grep_2() {
         String[] args = {"grep BB " + JshTest.testDirectory + File.separator + "text2.txt", "BBB"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -38,7 +38,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_3() {
+    public void test_grep_3() {
         String[] args = {"grep a " + JshTest.testDirectory + File.separator + "text3.txt", ""};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -46,8 +46,16 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_4() {
+    public void test_grep_4() {
         String[] args = {"grep '...' " + JshTest.testDirectory + File.separator + "text2.txt", "AAA\nBBB\nAAA"};
+        Jsh.eval(args[0], out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
+    public void test_grep_dot_no_match() {
+        String[] args = {"grep '.....' " + JshTest.testDirectory + File.separator + "text2.txt", ""};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
