@@ -131,16 +131,6 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_wrong_file() throws IOException {
-        exceptionRule.expect(FileNotFoundException.class);
-        exceptionRule.expectMessage("testDir (Is a directory)");
-        Cut ls = new Cut();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("cut"); args.add("12"); args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + ""), out);
-    }
-
-    @Test
     public void test_cut_wrong_file3() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: wrong argument " + JshTest.testDirectory + File.separator + "text1.txt");

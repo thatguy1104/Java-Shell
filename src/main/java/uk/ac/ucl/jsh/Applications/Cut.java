@@ -136,7 +136,7 @@ public class Cut implements Application {
         try {
             int converted_elem = Integer.parseInt(inner_range.get(0));
             for (int j = converted_elem + 1; j < num_of_char_per_line; j++) {
-                if (!total_range.contains(j)) final_lst.add(j - 2);
+                final_lst.add(j - 2);
             }
         } catch (Exception f) {
             return null;
@@ -153,7 +153,7 @@ public class Cut implements Application {
         int converted_start = Integer.parseInt(inner_range.get(0));
         int converted_end = Integer.parseInt(inner_range.get(1));
         for (int j = converted_start; j <= converted_end; j++) {
-            if (!total_range.contains(j)) final_lst.add(j - 1);
+            final_lst.add(j - 1);
         }
         return final_lst;
     }

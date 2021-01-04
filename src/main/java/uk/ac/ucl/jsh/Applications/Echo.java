@@ -90,7 +90,6 @@ public class Echo implements Application {
      * @return - void
      */
     private void writeOut(ArrayList<String> args) throws IOException {
-        boolean atLeastOnePrinted = false;
         int counter = countEmptySpaces(args);
 
         /* Choose appropriate number of spaces between string arguments */
@@ -106,13 +105,10 @@ public class Echo implements Application {
 
         for (int i = 1; i < args.size(); i++) {
             writer.write(args.get(i) + filler);
-            atLeastOnePrinted = true;
         }
 
         /* Print final new-line character onto the output stream */
-        if (atLeastOnePrinted) {
-            writer.write(Jsh.lineSeparator);
-        }
+        writer.write(Jsh.lineSeparator);
         writer.flush();
     }
 
