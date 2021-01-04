@@ -98,7 +98,6 @@ public class JshTest {
     protected String pwdSupplementary(String contents) {
         StringBuilder result = new StringBuilder();
         String[] words = contents.split("\\s+");
-
         IntStream.range(0, words.length).forEach(i -> {
             String line = scn.next();
             result.append(line);
@@ -111,10 +110,8 @@ public class JshTest {
 
     protected String getEvalResult(String file_contents) {
         if (file_contents.equals("")) return file_contents;
-
         List<String> ok = Stream.of(file_contents.split("\n")).map(String::new).collect(Collectors.toList());
         int size = ok.size();
-
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < size; i++) {
             String line = scn.next();

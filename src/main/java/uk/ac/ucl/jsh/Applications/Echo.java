@@ -65,7 +65,7 @@ public class Echo implements Application {
             int splitPosition = checkArg.indexOf(".");
             fileType = checkArg.substring(splitPosition);
             diffDirectory = checkArg.substring(0, splitPosition - 2);
-            directoryCheck = currentDirectory + "/" + diffDirectory;
+            directoryCheck = currentDirectory + File.separator + diffDirectory;
         }
         return supportProcess(fileType, directoryCheck, currentDirectory);
     }

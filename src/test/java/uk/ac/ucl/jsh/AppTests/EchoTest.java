@@ -58,7 +58,7 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_glob() {
+    public void test_glob_file_extension() {
         String testCase = "cd testDir; echo *.txt; cd ..";
         Jsh.eval(testCase, out);
         String evalCase = "text1.txt text2.txt text3.txt";
@@ -66,6 +66,34 @@ public class EchoTest extends JshTest {
         Set<String> expectedSet = new HashSet<>(Arrays.asList(expectedArray));
         String result = pwdSupplementary(evalCase);
         String[] resultArray = result.split(" ");
+        Set<String> resultSet = new HashSet<>(Arrays.asList(resultArray));
+        assertEquals(expectedSet, resultSet);
+    }
+
+    @Test
+    public void test_glob_directory() {
+        String testCase = "echo testDir/*.txt";
+        Jsh.eval(testCase, out);
+        String evalCase = testDirectory + File.separator + "text1.txt " +
+                          testDirectory + File.separator + "text2.txt " +
+                          testDirectory + File.separator + "text3.txt";
+        String[] expectedArray = evalCase.split(" ");
+        Set<String> expectedSet = new HashSet<>(Arrays.asList(expectedArray));
+        String result = pwdSupplementary(evalCase);
+        String[] resultArray = result.split(" ");
+        Set<String> resultSet = new HashSet<>(Arrays.asList(resultArray));
+        assertEquals(expectedSet, resultSet);
+    }
+
+    @Test
+    public void test_echo_pipe() {
+        String testCase = "cat testDir/text1.txt | echo";
+        Jsh.eval(testCase, out);
+        String evalCase = "abcdefghi\nofeijnwio";
+        String[] expectedArray = evalCase.split("\n");
+        Set<String> expectedSet = new HashSet<>(Arrays.asList(expectedArray));
+        String result = getEvalResult(evalCase);
+        String[] resultArray = result.split("\n");
         Set<String> resultSet = new HashSet<>(Arrays.asList(resultArray));
         assertEquals(expectedSet, resultSet);
     }
