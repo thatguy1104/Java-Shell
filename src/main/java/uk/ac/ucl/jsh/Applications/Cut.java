@@ -93,10 +93,10 @@ public class Cut implements Application {
     private String process(String currentDirectory, List<Integer> clean_args, String file_name) throws IOException {
         File currFile = new File(currentDirectory + File.separator + file_name);
         Scanner scn;
-        if (currFile.exists() && !pipe) {
-            scn = new Scanner(Paths.get(currentDirectory + File.separator + file_name));
-        } else if (pipe) {
+        if (pipe) {
             scn = new Scanner(file_name);
+        } else if (currFile.exists()) {
+            scn = new Scanner(Paths.get(currentDirectory + File.separator + file_name));
         } else {
             return "ERROR cut: file does not exist";
         }
