@@ -5,9 +5,12 @@ import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -104,5 +107,30 @@ public class EchoTest extends JshTest {
         String[] resultArray = result.split("\n");
         Set<String> resultSet = new HashSet<>(Arrays.asList(resultArray));
         assertEquals(expectedSet, resultSet);
+    }
+
+    @Test
+    public void test_output_redirection() throws FileNotFoundException {
+        String[] args = {"echo aaa > testDir/testSubDir/text3.txt", "aaa"};
+        Jsh.eval(args[0], this.out);
+        String fileLocation = testDirectory + File.separator + testSubDirectory + File.separator + "text3.txt";
+        String data = "";
+        try {
+            File redirectionFile = new File(fileLocation);
+            Scanner myReader = new Scanner(redirectionFile);
+            while (myReader.hasNextLine()) {
+                data = data + myReader.nextLine() + "\n";
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        data = data.replace("\n", "").replace("\r", "").replace(" ", "");
+        System.out.println(data);
+        assertEquals(args[1], data);
+        PrintWriter writer = new PrintWriter(fileLocation);
+        writer.print("");
+        writer.close();
     }
 }
