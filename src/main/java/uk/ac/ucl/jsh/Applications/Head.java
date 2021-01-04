@@ -42,7 +42,7 @@ public class Head implements Application {
 
     @Override
     public String argCheck(ArrayList<String> args) {
-        if (args.isEmpty()) {
+        if (args.size() == 1) {
             return "head: missing arguments";
         } else if (args.size() != 2 && args.size() != 4) {
             return "head: wrong arguments";

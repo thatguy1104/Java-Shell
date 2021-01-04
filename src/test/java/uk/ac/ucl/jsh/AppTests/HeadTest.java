@@ -28,7 +28,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_7() {
+    public void test_head_n_7() {
         String[] args = {"head -n 7 " + testDirectory + File.separator + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb"};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
@@ -36,7 +36,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_0() {
+    public void test_head_n_0() {
         String[] args = {"head -n 0 " + testDirectory + File.separator + "text1.txt", ""};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
@@ -54,6 +54,14 @@ public class HeadTest extends JshTest {
     @Test
     public void test_head_subdir_2() {
         String[] args = {"head -n 2 " + subDirString + File.separator + "text2.txt", "A\na"};
+        Jsh.eval(args[0], this.out);
+        String result = getEvalResult(args[1]);
+        assertEquals(args[1], result);
+    }
+
+    @Test
+    public void test_cat_head() {
+        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | head", "AAA\nBBB\nAAA"};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
@@ -92,16 +100,6 @@ public class HeadTest extends JshTest {
         head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
-    //@Test TODO
-    public void test_head_nonexistentFile() throws IOException{
-        Head head = new Head();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("head");args.add("nonexistentFile");
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("head: nonexistentFile does not exist");
-        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
-    }
-
     @Test
     public void test_head_missing_head_count() throws IOException{
         Head head = new Head();
@@ -111,5 +109,6 @@ public class HeadTest extends JshTest {
         exceptionRule.expectMessage("head: wrong argument a");
         head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
+
 
 }
