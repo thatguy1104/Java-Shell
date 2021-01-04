@@ -50,7 +50,7 @@ public class Jsh {
                             eval(cmdline, System.out);
                         }
                     } catch (Exception e) {
-                        System.out.println("jsh: " + e.getMessage());
+                        throw new RuntimeException(e);
                     }
                 }
             }
