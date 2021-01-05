@@ -50,7 +50,6 @@ public class Cut implements Application {
 
         List<Integer> clean_args = parse_cut_input(concat_args);
 
-//        if (clean_args.get(0) == -2) return "ERROR cut: incorrect list ranges";
         if (clean_args.get(0) == -1) return "ERROR cut: could not convert arguments";
 
         String file_name = args.get(3);
