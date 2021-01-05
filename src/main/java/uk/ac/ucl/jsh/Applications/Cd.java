@@ -32,7 +32,6 @@ public class Cd implements Application {
             return "ERROR cd: " + dirString + " is not an existing directory";
         }
         currDir = dir.getCanonicalPath();
-
         return currDir;
     }
 

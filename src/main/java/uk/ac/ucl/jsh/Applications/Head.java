@@ -13,11 +13,9 @@ public class Head implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-
         if (input != null && args.size() == 1) {
             message = "nothing";
         }
-
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {

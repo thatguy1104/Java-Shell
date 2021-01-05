@@ -29,9 +29,7 @@ public class Ls implements Application {
 
         /* Assign the current directory if no path is specified */
         File currDir = (args.size() == 1) ? new File(currentDirectory) : new File(args.get(1));
-
         if (!currDir.exists()) return "ERROR ls: directory does not exist";
-
         try {
             File[] listOfFiles = currDir.listFiles();
             writeOut(listOfFiles, writer);

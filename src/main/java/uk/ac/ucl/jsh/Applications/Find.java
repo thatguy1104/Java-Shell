@@ -8,8 +8,6 @@ import java.util.*;
 
 public class Find implements Application {
 
-    //private String stableDirectory;
-
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
@@ -43,6 +41,7 @@ public class Find implements Application {
 
         cur = new File(directoryCheck);
 
+        //TODO explain in a comment what this does
         try {
             File[] listOfFiles = cur.listFiles();
             Set<String> result_set = new HashSet<>();
@@ -129,7 +128,6 @@ public class Find implements Application {
      */
     private HashMap<String, String> walkFileDirs(File fileDirectory, String stableDirectory) throws IOException {
         HashMap<String, String> walk_result = new HashMap<>();
-
         Files.walk(fileDirectory.toPath())
                 .filter(path -> !Files.isDirectory(path))
                 .forEach(path -> walk_result.put(path.toString().substring(stableDirectory.length()), path.getFileName().toString()));
