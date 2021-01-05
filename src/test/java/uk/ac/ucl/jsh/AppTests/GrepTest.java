@@ -7,9 +7,7 @@ import uk.ac.ucl.jsh.Applications.Grep;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -18,62 +16,66 @@ public class GrepTest extends JshTest {
 
     public GrepTest() throws IOException {
     }
+    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_grep_simple_1() {
         String[] args = {"grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
-        Jsh.eval(args[0], out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_grep_simple_2() {
         String[] args = {"grep BB " + JshTest.testDirectory + File.separator + "text2.txt", "BBB"};
-        Jsh.eval(args[0], out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_grep_nothing() {
-        String[] args = {"grep a " + JshTest.testDirectory + File.separator + "text3.txt", ""};
-        Jsh.eval(args[0], out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        String[] args = {"grep aa " + JshTest.testDirectory + File.separator + "text3.txt", ""};
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_grep_anything() {
-        String[] args = {"grep '...' " + JshTest.testDirectory + File.separator + "text2.txt", "AAA\nBBB\nAAA"};
-        Jsh.eval(args[0], out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        String[] args = {"grep '...' " + JshTest.testDirectory + File.separator + "text2.txt", "AAA" + System.getProperty("line.separator") +
+                                                                                               "BBB" + System.getProperty("line.separator") +
+                                                                                               "AAA"};
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_grep_dot_no_match() {
         String[] args = {"grep '.....' " + JshTest.testDirectory + File.separator + "text2.txt", ""};
-        Jsh.eval(args[0], out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_cat_grep() {
-        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | grep A", "AAA\nAAA"};
-        Jsh.eval(args[0], this.out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | grep A", "AAA" + System.getProperty("line.separator") +
+                                                                                                 "AAA"};
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_grep_mult_files() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"grep noExistingPattern " + filepath + "text2.txt " + filepath + "text1.txt", ""};
-        Jsh.eval(args[0], this.out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Rule

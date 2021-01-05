@@ -17,53 +17,58 @@ public class CutTest extends JshTest {
     public CutTest() throws IOException {
     }
 
+    OutputStream outs = new ByteArrayOutputStream();
+
     @Test
     public void test_cut_simple() {
-        String[] arg = {"cut -b 1 " + JshTest.testDirectory + File.separator + "text1.txt", "a\no"};
-        Jsh.eval(arg[0], out);
-        String result = getEvalResult(arg[1]);
-        assertEquals(arg[1], result);
+        String[] arg = {"cut -b 1 " + JshTest.testDirectory + File.separator + "text1.txt", "a" + System.getProperty("line.separator") +
+                                                                                            "o"};
+        Jsh.eval(arg[0], outs);
+        //String result = getEvalResult(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_cut_simple_2() {
-        String[] arg = {"cut -b 1,2 " + JshTest.testDirectory + File.separator + "text1.txt", "ab\nof"};
-        Jsh.eval(arg[0], out);
-        String result = getEvalResult(arg[1]);
-        assertEquals(arg[1], result);
+        String[] arg = {"cut -b 1,2 " + JshTest.testDirectory + File.separator + "text1.txt", "ab" + System.getProperty("line.separator") +
+                                                                                              "of"};
+        Jsh.eval(arg[0], outs);
+        //String result = getEvalResult(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_cut_simple_3() {
-        String[] arg = {"cut -b 1- " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"};
-        Jsh.eval(arg[0], out);
-        String result = getEvalResult(arg[1]);
-        assertEquals(arg[1], result);
+        String[] arg = {"cut -b 1- " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
+                                                                                             "ofeijnwio"};
+        Jsh.eval(arg[0], outs);
+        //String result = getEvalResult(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_cut_simple_4() {
-        String[] arg = {"cut -b 1,3-4 " + JshTest.testDirectory + File.separator + "text1.txt", "acd\noei"};
-        Jsh.eval(arg[0], out);
-        String result = getEvalResult(arg[1]);
-        assertEquals(arg[1], result);
+        String[] arg = {"cut -b 1,3-4 " + JshTest.testDirectory + File.separator + "text1.txt", "acd" + System.getProperty("line.separator") +
+                                                                                                "oei"};
+        Jsh.eval(arg[0], outs);
+        //String result = getEvalResult(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_cut_echo_pipe() {
         String[] arg = {"echo abc | cut -b 1", "a"};
-        Jsh.eval(arg[0], out);
-        String result = getEvalResult(arg[1]);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = getEvalResult(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_unsafe_cut_echo_pipe_2() {
+    public void test_cut_echo_pipe_2() {
         String[] arg = {"echo abc | cut -b -1,2-", "abc"};
-        Jsh.eval(arg[0], out);
-        String result = getEvalResult(arg[1]);
-        System.out.println(result);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = getEvalResult(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Rule

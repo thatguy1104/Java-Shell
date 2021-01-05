@@ -16,54 +16,60 @@ public class CatTest extends JshTest {
     public CatTest() throws IOException {
     }
 
+    OutputStream outs = new ByteArrayOutputStream();
+
     @Test
     public void test_cat_simple() throws IOException {
         String file_name = JshTest.testDirectory + File.separator + "text1.txt";
-        Jsh.eval("cat " + file_name, out);
-        String result = getEvalResult(readFile(file_name));
+        Jsh.eval("cat " + file_name, outs);
+        //String result = getEvalResult(readFile(file_name));
         String expected = readFile(file_name);
-        assertEquals(expected, result);
+        assertEquals(expected, outs.toString().trim());
     }
 
     @Test
     public void test_cat_redirection() throws IOException {
         String fileName = JshTest.testDirectory + File.separator + "text2.txt";
-        Jsh.eval("cat < " + fileName, out);
-        String result = getEvalResult(readFile(fileName));
+        Jsh.eval("cat < " + fileName, outs);
+        //String result = getEvalResult(readFile(fileName));
         String expected = readFile(fileName);
-        assertEquals(expected, result);
+        assertEquals(expected, outs.toString().trim());
     }
 
     @Test
     public void test_cat_input_sub() {
         String[] cases = {"echo `cat testDir/text1.txt`", "abcdefghiofeijnwio"};
-        Jsh.eval(cases[0], out);
-        String result = pwdSupplementary(cases[1]);
-        assertEquals(cases[1], result);
+        Jsh.eval(cases[0], outs);
+        //String result = pwdSupplementary(cases[1]);
+        assertEquals(cases[1], outs.toString().trim());
     }
 
     @Test
     public void test_cat_multi_file() {
-        String[] cases = {"cat testDir/text1.txt testDir/text2.txt", "abcdefghi\nofeijnwio\nAAA\nBBB\nAAA"};
-        Jsh.eval(cases[0], out);
-        String result = getEvalResult(cases[1]);
-        assertEquals(cases[1], result);
+        String[] cases = {"cat testDir/text1.txt testDir/text2.txt", "abcdefghi" + System.getProperty("line.separator") +
+                                                                     "ofeijnwio" + System.getProperty("line.separator") +
+                                                                     "AAA" + System.getProperty("line.separator") +
+                                                                     "BBB" + System.getProperty("line.separator") +
+                                                                     "AAA"};
+        Jsh.eval(cases[0], outs);
+        //String result = getEvalResult(cases[1]);
+        assertEquals(cases[1], outs.toString().trim());
     }
 
     @Test
     public void test_cat_io() {
-        String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"};
-        Jsh.eval(cases[0], out);
-        String result = getEvalResult(cases[1]);
-        assertEquals(cases[1], result);
+        String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") + "ofeijnwio"};
+        Jsh.eval(cases[0], outs);
+        //String result = getEvalResult(cases[1]);
+        assertEquals(cases[1], outs.toString().trim());
     }
 
     @Test
     public void test_cat_double_quote() {
-        String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi\nofeijnwio"};
-        Jsh.eval(cases[0], out);
-        String result = getEvalResult(cases[1]);
-        assertEquals(cases[1], result);
+        String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator")+ "ofeijnwio"};
+        Jsh.eval(cases[0], outs);
+        //String result = getEvalResult(cases[1]);
+        assertEquals(cases[1], outs.toString().trim());
     }
 
     @Rule

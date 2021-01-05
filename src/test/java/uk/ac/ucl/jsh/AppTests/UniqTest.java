@@ -7,9 +7,7 @@ import uk.ac.ucl.jsh.Applications.Uniq;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -19,58 +17,83 @@ public class UniqTest extends JshTest {
     public UniqTest() throws IOException {
     }
 
+    OutputStream outs = new ByteArrayOutputStream();
+
     @Test
     public void test_uniq_simple() {
         String filepath = JshTest.testDirectory + File.separator;
-        String[] args = {"uniq " + filepath + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"uniq " + filepath + "text3.txt", "AAA" + System.getProperty("line.separator") +
+                                                           "BBB" + System.getProperty("line.separator") +
+                                                           "AAA" + System.getProperty("line.separator") +
+                                                           "CCC" + System.getProperty("line.separator") +
+                                                           "ccc" + System.getProperty("line.separator") +
+                                                           "a" + System.getProperty("line.separator") +
+                                                           "b" + System.getProperty("line.separator") +
+                                                           "c" + System.getProperty("line.separator") +
+                                                           "d" + System.getProperty("line.separator") +
+                                                           "e" + System.getProperty("line.separator") +
+                                                           "f" + System.getProperty("line.separator") +
+                                                           "g" + System.getProperty("line.separator") +
+                                                           "h" + System.getProperty("line.separator") +
+                                                           "i"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_uniq_empty() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq " + filepath + "text3.txt", ""};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_uniq_i() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
-        String[] args = {"uniq -i " + filepath + "text2.txt", "A\nB\nC"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"uniq -i " + filepath + "text2.txt", "A" + System.getProperty("line.separator") +
+                                                              "B" + System.getProperty("line.separator") +
+                                                              "C"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_uniq_stdin() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
-        String[] args = {"uniq < " + filepath + "text2.txt", "A\na\nB\nb\nC\nc"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"uniq < " + filepath + "text2.txt", "A" + System.getProperty("line.separator") +
+                                                             "a" + System.getProperty("line.separator") +
+                                                             "B" + System.getProperty("line.separator") +
+                                                             "b" + System.getProperty("line.separator") +
+                                                             "C" + System.getProperty("line.separator") +
+                                                             "c"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_uniq_stdin_i() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
-        String[] args = {"uniq -i < " + filepath + "text2.txt", "A\nB\nC"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"uniq -i < " + filepath + "text2.txt", "A" + System.getProperty("line.separator") +
+                                                                "B" + System.getProperty("line.separator") +
+                                                                "C"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_tail_pipe_uniq_i() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
-        String[] args = {"tail -n 4 " + filepath + "text2.txt | uniq -i", "B\nC"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"tail -n 4 " + filepath + "text2.txt | uniq -i", "B" + System.getProperty("line.separator") +
+                                                                          "C"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Rule

@@ -3,7 +3,9 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,43 +14,45 @@ public class UnsafeEchoTest extends JshTest {
     public UnsafeEchoTest() throws IOException {
     }
 
+    OutputStream outs = new ByteArrayOutputStream();
+
     @Test
     public void test_unsafe_simple_1() {
         String[] arg = {"_echo hello world", "hello world"};
-        Jsh.eval(arg[0], this.out);
-        String result = pwdSupplementary(arg[1]);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_unsafe_simple_2() {
         String[] arg = {"_echo foo", "foo"};
-        Jsh.eval(arg[0], this.out);
-        String result = pwdSupplementary(arg[1]);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_unsafe_input_sub() {
         String[] arg = {"`_echo _echo` foo", "foo"};
-        Jsh.eval(arg[0], this.out);
-        String result = pwdSupplementary(arg[1]);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_complex_unsafe_input_sub() {
         String[] arg = {"_echo \"a `_echo \"b\"`\"", "a b"};
-        Jsh.eval(arg[0], this.out);
-        String result = pwdSupplementary(arg[1]);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
     public void test_unsafe_double_quotes() {
         String[] arg = {"_echo \"a b\"", "a b"};
-        Jsh.eval(arg[0], this.out);
-        String result = pwdSupplementary(arg[1]);
-        assertEquals(arg[1], result);
+        Jsh.eval(arg[0], outs);
+        //String result = pwdSupplementary(arg[1]);
+        assertEquals(arg[1], outs.toString().trim());
     }
 }
