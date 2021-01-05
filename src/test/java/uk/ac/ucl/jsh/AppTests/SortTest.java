@@ -14,10 +14,8 @@ import static org.junit.Assert.assertEquals;
 
 public class SortTest extends JshTest {
 
-    public SortTest() throws IOException {
+    public SortTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_sort_simple() {
@@ -25,7 +23,6 @@ public class SortTest extends JshTest {
         String[] args = {"sort " + filepath +  "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                             "ofeijnwio"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -35,7 +32,6 @@ public class SortTest extends JshTest {
         String[] args = {"sort -r " + filepath + "text1.txt", "ofeijnwio" + System.getProperty("line.separator") +
                                                               "abcdefghi"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -57,7 +53,6 @@ public class SortTest extends JshTest {
                                                                 "h" + System.getProperty("line.separator") +
                                                                 "i"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -66,7 +61,6 @@ public class SortTest extends JshTest {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"sort " + filepath +  "text3.txt", ""};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -76,7 +70,6 @@ public class SortTest extends JshTest {
                                                                                                "AAA" + System.getProperty("line.separator") +
                                                                                                "BBB"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -90,7 +83,7 @@ public class SortTest extends JshTest {
         args.add("sort");args.add("a");args.add("b");args.add("c");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("sort: wrong number of arguments");
-        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -100,7 +93,7 @@ public class SortTest extends JshTest {
         args.add("sort");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("sort: wrong argument a");
-        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -110,7 +103,7 @@ public class SortTest extends JshTest {
         args.add("sort");args.add("target");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("sort: cannot open target");
-        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -120,6 +113,6 @@ public class SortTest extends JshTest {
         args.add("sort");args.add("-r");args.add("nonExistingTarget");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("sort: nonExistingTarget does not exist");
-        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 }

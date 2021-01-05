@@ -18,7 +18,7 @@ public class CdTest extends JshTest {
 
     private String currDir = System.getProperty("user.dir");
 
-    public CdTest() throws IOException {
+    public CdTest() {
     }
 
     @Test
@@ -27,17 +27,17 @@ public class CdTest extends JshTest {
         ArrayList<String> aCase = new ArrayList<>(Collections.singleton("cd"));
         aCase.add(toFolder);
         String result_dir = currDir + File.separator + toFolder;
-        String new_dir = new Factory().getApp("cd").exec(aCase, currDir, null, this.out);
+        String new_dir = new Factory().getApp("cd").exec(aCase, currDir, null, outs);
         assertEquals(result_dir, new_dir);
     }
 
     @Test
     public void test_change_back() throws IOException {
         String[] args = {"cd", "src"};
-        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
+        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, outs);
 
         String[] args_2 = {"cd", ".."};
-        String new_dir_2 = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args_2)), new_dir, null, this.out);
+        String new_dir_2 = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args_2)), new_dir, null, outs);
 
         assertEquals(currDir, new_dir_2);
     }
@@ -52,7 +52,7 @@ public class CdTest extends JshTest {
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
         args.add("cd"); args.add("nonexistingdirectory");
-        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class CdTest extends JshTest {
         exceptionRule.expectMessage("cd: missing argument");
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
-        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class CdTest extends JshTest {
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
         args.add("cd");
-        cd.mainExec(args, System.getProperty("user.dir"), new FileInputStream("nonexistingfile.txt"), out);
+        cd.mainExec(args, System.getProperty("user.dir"), new FileInputStream("nonexistingfile.txt"), outs);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class CdTest extends JshTest {
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
         args.add("cd");args.add("text1.txt");
-        cd.mainExec(args, System.getProperty("user.dir")+File.separator+JshTest.testDirectory, InputStream.nullInputStream(), out);
+        cd.mainExec(args, System.getProperty("user.dir")+File.separator+JshTest.testDirectory, InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -91,6 +91,6 @@ public class CdTest extends JshTest {
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
         args.add("cd");args.add("a");args.add("b");
-        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 }

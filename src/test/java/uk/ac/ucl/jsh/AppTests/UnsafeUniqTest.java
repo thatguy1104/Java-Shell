@@ -3,19 +3,14 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import static org.junit.Assert.assertEquals;
 
 public class UnsafeUniqTest extends JshTest {
 
-    public UnsafeUniqTest() throws IOException {
+    public UnsafeUniqTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_uniq() {
@@ -35,7 +30,6 @@ public class UnsafeUniqTest extends JshTest {
                                                             "h" + System.getProperty("line.separator") +
                                                             "i"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -44,7 +38,6 @@ public class UnsafeUniqTest extends JshTest {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"_uniq " + filepath + "text3.txt", ""};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -55,7 +48,6 @@ public class UnsafeUniqTest extends JshTest {
                                                                "B" + System.getProperty("line.separator") +
                                                                "C"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -65,7 +57,6 @@ public class UnsafeUniqTest extends JshTest {
         String[] args = {"tail -n 4 " + filepath + "text2.txt | _uniq -i", "B" + System.getProperty("line.separator") +
                                                                            "C"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 }

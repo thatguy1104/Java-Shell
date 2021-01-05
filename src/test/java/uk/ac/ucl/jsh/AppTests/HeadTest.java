@@ -14,16 +14,13 @@ import static org.junit.Assert.assertEquals;
 
 public class HeadTest extends JshTest {
 
-    public HeadTest() throws IOException {
+    public HeadTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_head_simple() throws IOException {
         String[] args = {"head " + testDirectory + File.separator + "text1.txt", readFile(testDirectory + File.separator + "text1.txt")};
-        Jsh.eval(args[0], this.outs);
-        //String result = getEvalResult(args[1]);
+        Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -37,7 +34,6 @@ public class HeadTest extends JshTest {
                                                                                       "a" + System.getProperty("line.separator") +
                                                                                       "b"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -45,7 +41,6 @@ public class HeadTest extends JshTest {
     public void test_head_n_0() {
         String[] args = {"head -n 0 " + testDirectory + File.separator + "text1.txt", ""};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -57,7 +52,6 @@ public class HeadTest extends JshTest {
                                                                                 "4" + System.getProperty("line.separator") +
                                                                                 "5"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -66,7 +60,6 @@ public class HeadTest extends JshTest {
         String[] args = {"head -n 2 " + subDirString + File.separator + "text2.txt", "A" + System.getProperty("line.separator") +
                                                                                      "a"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -76,7 +69,6 @@ public class HeadTest extends JshTest {
                                                                                                "BBB" + System.getProperty("line.separator") +
                                                                                                "AAA"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -90,7 +82,7 @@ public class HeadTest extends JshTest {
         args.add("head");args.add("a");args.add("b");args.add("c");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("head: wrong argument a");
-        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -100,7 +92,7 @@ public class HeadTest extends JshTest {
         args.add("head");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("head: wrong arguments");
-        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -110,7 +102,7 @@ public class HeadTest extends JshTest {
         args.add("head");args.add("a");args.add("b");args.add("c");args.add("d");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("head: wrong arguments");
-        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -120,6 +112,6 @@ public class HeadTest extends JshTest {
         args.add("head");args.add("-n");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("head: wrong argument a");
-        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        head.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 }

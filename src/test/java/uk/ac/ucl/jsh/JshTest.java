@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -15,16 +13,14 @@ import uk.ac.ucl.jsh.AppTests.*;
 
 public class JshTest {
 
-    private PipedInputStream in = new PipedInputStream();
-    protected OutputStream out = new PipedOutputStream(in);
-    private Scanner scn = new Scanner(in);
+    protected OutputStream outs = new ByteArrayOutputStream();
     protected static String testDirectory = "testDir";
     protected static String testSubDirectory = "testSubDir";
     protected static String subDirString = testDirectory + File.separator + testSubDirectory;
     protected static String dotDirectory = ".dotDir";
     private static String dotDirString = testDirectory + File.separator + dotDirectory;
 
-    public JshTest() throws IOException {
+    public JshTest() {
     }
 
     @BeforeClass
@@ -93,34 +89,6 @@ public class JshTest {
     protected String readFile(String file_name) throws IOException {
         List<String> contents = Files.readAllLines(Paths.get(file_name));
         return contents.stream().map(String::valueOf).collect(Collectors.joining(System.getProperty("line.separator")));
-    }
-
-    protected String pwdSupplementary(String contents) {
-        StringBuilder result = new StringBuilder();
-        String[] words = contents.split("\\s+");
-        IntStream.range(0, words.length).forEach(i -> {
-            String line = scn.next();
-            result.append(line);
-            if (i != words.length - 1) {
-                result.append(" ");
-            }
-        });
-        return result.toString();
-    }
-
-    protected String getEvalResult(String file_contents) {
-        if (file_contents.equals("")) return file_contents;
-        List<String> ok = Stream.of(file_contents.split("\n")).map(String::new).collect(Collectors.toList());
-        int size = ok.size();
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < size; i++) {
-            String line = scn.next();
-            result.append(line);
-            if (i != size - 1) {
-                result.append("\n");
-            }
-        }
-        return result.toString();
     }
 
     @Test

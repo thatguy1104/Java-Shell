@@ -3,25 +3,20 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import static org.junit.Assert.assertEquals;
 
 public class UnsafeHeadTest extends JshTest {
 
-    public UnsafeHeadTest() throws IOException {
+    public UnsafeHeadTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_head_simple() throws IOException {
         String[] args = {"_head " + testDirectory + File.separator + "text1.txt", readFile(testDirectory + File.separator + "text1.txt")};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -35,7 +30,6 @@ public class UnsafeHeadTest extends JshTest {
                                                                                        "a" + System.getProperty("line.separator") +
                                                                                        "b"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -43,7 +37,6 @@ public class UnsafeHeadTest extends JshTest {
     public void test_unsafe_head_0() {
         String[] args = {"_head -n 0 " + testDirectory + File.separator + "text1.txt", ""};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -55,7 +48,6 @@ public class UnsafeHeadTest extends JshTest {
                                                                                  "4" + System.getProperty("line.separator") +
                                                                                  "5"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -64,7 +56,6 @@ public class UnsafeHeadTest extends JshTest {
         String[] args = {"_head -n 2 " + subDirString + File.separator + "text2.txt", "A" + System.getProperty("line.separator") +
                                                                                       "a"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 }

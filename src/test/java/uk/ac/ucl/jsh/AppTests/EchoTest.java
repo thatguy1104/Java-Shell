@@ -14,16 +14,13 @@ import static org.junit.Assert.assertEquals;
 
 public class EchoTest extends JshTest {
 
-    public EchoTest() throws IOException {
+    public EchoTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_simple_1() {
         String[] arg = {"echo hello world", "hello world"};
         Jsh.eval(arg[0], outs);
-        //String result = pwdSupplementary(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -31,7 +28,6 @@ public class EchoTest extends JshTest {
     public void test_simple_2() {
         String[] arg = {"echo foo", "foo"};
         Jsh.eval(arg[0], outs);
-        //String result = pwdSupplementary(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -39,7 +35,6 @@ public class EchoTest extends JshTest {
     public void test_input_sub() {
         String[] arg = {"`echo echo` foo", "foo"};
         Jsh.eval(arg[0], outs);
-        //String result = pwdSupplementary(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -47,7 +42,6 @@ public class EchoTest extends JshTest {
     public void test_empty_sub() {
         String[] arg = {"echo ``a", "a"};
         Jsh.eval(arg[0], outs);
-        //String result = pwdSupplementary(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -55,7 +49,6 @@ public class EchoTest extends JshTest {
     public void test_complex_input_sub() {
         String[] arg = {"echo \"a `echo \"b\"`\"", "a b"};
         Jsh.eval(arg[0], outs);
-        //String result = pwdSupplementary(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -63,7 +56,6 @@ public class EchoTest extends JshTest {
     public void test_double_quotes() {
         String[] arg = {"echo \"a b\"", "a b"};
         Jsh.eval(arg[0], outs);
-        //String result = pwdSupplementary(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -111,7 +103,7 @@ public class EchoTest extends JshTest {
     @Test
     public void test_output_redirection() throws FileNotFoundException {
         String[] args = {"echo aaa > testDir/testSubDir/text3.txt", "aaa"};
-        Jsh.eval(args[0], this.out);
+        Jsh.eval(args[0], outs);
         String fileLocation = testDirectory + File.separator + testSubDirectory + File.separator + "text3.txt";
         String data = "";
         try {
@@ -125,7 +117,6 @@ public class EchoTest extends JshTest {
             e.printStackTrace();
         }
         data = data.replace(System.getProperty("line.separator"), "").replace(" ", "");
-        //data = data.replace("\n", "").replace("\r", "").replace(" ", "");
         assertEquals(args[1], data);
         PrintWriter writer = new PrintWriter(fileLocation);
         writer.print("");

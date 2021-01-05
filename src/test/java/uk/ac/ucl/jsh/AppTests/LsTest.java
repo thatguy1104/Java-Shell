@@ -14,10 +14,8 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class LsTest extends JshTest {
 
-    public LsTest() throws IOException {
+    public LsTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_ls_current_directory() {
@@ -32,9 +30,6 @@ public class LsTest extends JshTest {
         }
 
         Jsh.eval("ls", outs);
-//        for (String file_name : expected) {
-//            results.add(pwdSupplementary(file_name));
-//        }
         results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
@@ -56,9 +51,6 @@ public class LsTest extends JshTest {
         }
 
         Jsh.eval("ls testDir", outs);
-//        for (String file_name : expected) {
-//            results.add(pwdSupplementary(file_name));
-//        }
         results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
@@ -80,9 +72,6 @@ public class LsTest extends JshTest {
         }
 
         Jsh.eval("ls testDir" + File.separator + "testSubDir", outs);
-//        for (String file_name : expected) {
-//            results.add(pwdSupplementary(file_name));
-//        }
         results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
@@ -101,7 +90,7 @@ public class LsTest extends JshTest {
         Ls ls = new Ls();
         ArrayList<String> args = new ArrayList<>();
         args.add("ls"); args.add("a"); args.add("b");
-        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -111,6 +100,6 @@ public class LsTest extends JshTest {
         Ls ls = new Ls();
         ArrayList<String> args = new ArrayList<>();
         args.add("ls"); args.add("a");
-        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 }

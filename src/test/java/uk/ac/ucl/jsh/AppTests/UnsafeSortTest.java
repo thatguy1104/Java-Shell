@@ -3,19 +3,14 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import static org.junit.Assert.assertEquals;
 
 public class UnsafeSortTest extends JshTest {
 
-    public UnsafeSortTest() throws IOException {
+    public UnsafeSortTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_sort() {
@@ -23,7 +18,6 @@ public class UnsafeSortTest extends JshTest {
         String[] args = {"_sort " + filepath +  "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                              "ofeijnwio"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -33,7 +27,6 @@ public class UnsafeSortTest extends JshTest {
         String[] args = {"_sort -r " + filepath + "text1.txt", "ofeijnwio" + System.getProperty("line.separator") +
                                                                "abcdefghi"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -42,7 +35,6 @@ public class UnsafeSortTest extends JshTest {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"_sort " + filepath +  "text3.txt", ""};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 }

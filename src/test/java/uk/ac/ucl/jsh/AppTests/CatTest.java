@@ -13,16 +13,13 @@ import static org.junit.Assert.assertEquals;
 
 public class CatTest extends JshTest {
 
-    public CatTest() throws IOException {
+    public CatTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_cat_simple() throws IOException {
         String file_name = JshTest.testDirectory + File.separator + "text1.txt";
         Jsh.eval("cat " + file_name, outs);
-        //String result = getEvalResult(readFile(file_name));
         String expected = readFile(file_name);
         assertEquals(expected, outs.toString().trim());
     }
@@ -31,7 +28,6 @@ public class CatTest extends JshTest {
     public void test_cat_redirection() throws IOException {
         String fileName = JshTest.testDirectory + File.separator + "text2.txt";
         Jsh.eval("cat < " + fileName, outs);
-        //String result = getEvalResult(readFile(fileName));
         String expected = readFile(fileName);
         assertEquals(expected, outs.toString().trim());
     }
@@ -40,7 +36,6 @@ public class CatTest extends JshTest {
     public void test_cat_input_sub() {
         String[] cases = {"echo `cat testDir/text1.txt`", "abcdefghiofeijnwio"};
         Jsh.eval(cases[0], outs);
-        //String result = pwdSupplementary(cases[1]);
         assertEquals(cases[1], outs.toString().trim());
     }
 
@@ -52,7 +47,6 @@ public class CatTest extends JshTest {
                                                                      "BBB" + System.getProperty("line.separator") +
                                                                      "AAA"};
         Jsh.eval(cases[0], outs);
-        //String result = getEvalResult(cases[1]);
         assertEquals(cases[1], outs.toString().trim());
     }
 
@@ -60,7 +54,6 @@ public class CatTest extends JshTest {
     public void test_cat_io() {
         String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") + "ofeijnwio"};
         Jsh.eval(cases[0], outs);
-        //String result = getEvalResult(cases[1]);
         assertEquals(cases[1], outs.toString().trim());
     }
 
@@ -68,7 +61,6 @@ public class CatTest extends JshTest {
     public void test_cat_double_quote() {
         String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator")+ "ofeijnwio"};
         Jsh.eval(cases[0], outs);
-        //String result = getEvalResult(cases[1]);
         assertEquals(cases[1], outs.toString().trim());
     }
 
@@ -82,7 +74,7 @@ public class CatTest extends JshTest {
         Cat cat = new Cat();
         ArrayList<String> args = new ArrayList<>();
         args.add("cat"); args.add("nonexistentfilename.txt");
-        cat.mainExec(args, System.getProperty("user.dir"), null, out);
+        cat.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 
     @Test
@@ -92,6 +84,6 @@ public class CatTest extends JshTest {
         Cat cat = new Cat();
         ArrayList<String> args = new ArrayList<>();
         args.add("cat");
-        cat.mainExec(args, System.getProperty("user.dir"), null, out);
+        cat.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 }

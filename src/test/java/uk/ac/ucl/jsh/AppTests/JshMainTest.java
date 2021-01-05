@@ -11,7 +11,7 @@ import java.io.*;
 
 
 public class JshMainTest extends JshTest {
-    public JshMainTest() throws IOException {
+    public JshMainTest() {
     }
 
     @Rule

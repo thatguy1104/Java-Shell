@@ -3,18 +3,12 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import static org.junit.Assert.assertEquals;
 
 public class UnsafeUnsafeTest extends JshTest {
 
-    public UnsafeUnsafeTest() throws IOException {
+    public UnsafeUnsafeTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_nothing() {

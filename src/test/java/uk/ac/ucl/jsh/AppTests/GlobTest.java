@@ -4,7 +4,6 @@ import uk.ac.ucl.jsh.JshTest;
 import uk.ac.ucl.jsh.Parser.Globbing;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +14,7 @@ public class GlobTest extends JshTest {
 
     private Globbing g = new Globbing();
 
-    public GlobTest() throws IOException {
+    public GlobTest() {
     }
 
     @Test

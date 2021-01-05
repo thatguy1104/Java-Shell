@@ -4,10 +4,7 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,10 +13,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeFindTest extends JshTest {
 
-    public UnsafeFindTest() throws IOException {
+    public UnsafeFindTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_find() {

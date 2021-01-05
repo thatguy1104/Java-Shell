@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ucl.jsh.AppTests.TailTest
 -------------------------------------------------------------------------------
-Tests run: 37, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.197 s - in uk.ac.ucl.jsh.AppTests.TailTest
+Tests run: 37, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.164 s - in uk.ac.ucl.jsh.AppTests.TailTest

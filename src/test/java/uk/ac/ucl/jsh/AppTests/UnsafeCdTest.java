@@ -15,7 +15,7 @@ public class UnsafeCdTest extends JshTest {
 
     private String currDir = System.getProperty("user.dir");
 
-    public UnsafeCdTest() throws IOException {
+    public UnsafeCdTest() {
     }
 
     @Test
@@ -24,7 +24,7 @@ public class UnsafeCdTest extends JshTest {
         ArrayList<String> aCase = new ArrayList<>(Collections.singleton("_cd"));
         aCase.add(toFolder);
         String result_dir = currDir + File.separator + toFolder;
-        String new_dir = new Factory().getApp("_cd").exec(aCase, currDir, null, this.out);
+        String new_dir = new Factory().getApp("_cd").exec(aCase, currDir, null, outs);
         assertEquals(result_dir, new_dir);
     }
 }

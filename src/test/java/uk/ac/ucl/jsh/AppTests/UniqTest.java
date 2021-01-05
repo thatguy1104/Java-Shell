@@ -14,10 +14,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UniqTest extends JshTest {
 
-    public UniqTest() throws IOException {
+    public UniqTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_uniq_simple() {
@@ -37,7 +35,6 @@ public class UniqTest extends JshTest {
                                                            "h" + System.getProperty("line.separator") +
                                                            "i"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -46,7 +43,6 @@ public class UniqTest extends JshTest {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq " + filepath + "text3.txt", ""};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -57,7 +53,6 @@ public class UniqTest extends JshTest {
                                                               "B" + System.getProperty("line.separator") +
                                                               "C"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -71,7 +66,6 @@ public class UniqTest extends JshTest {
                                                              "C" + System.getProperty("line.separator") +
                                                              "c"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -82,7 +76,6 @@ public class UniqTest extends JshTest {
                                                                 "B" + System.getProperty("line.separator") +
                                                                 "C"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -92,7 +85,6 @@ public class UniqTest extends JshTest {
         String[] args = {"tail -n 4 " + filepath + "text2.txt | uniq -i", "B" + System.getProperty("line.separator") +
                                                                           "C"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -106,7 +98,7 @@ public class UniqTest extends JshTest {
         args.add("uniq");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("uniq: wrong argument a");
-        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -116,7 +108,7 @@ public class UniqTest extends JshTest {
         args.add("uniq");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("uniq: wrong argument a");
-        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -126,7 +118,7 @@ public class UniqTest extends JshTest {
         args.add("uniq");args.add("nonExistentFile");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("uniq: nonExistentFile does not exist");
-        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -136,7 +128,7 @@ public class UniqTest extends JshTest {
         args.add("uniq");args.add("target");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("uniq: cannot open target");
-        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -146,6 +138,6 @@ public class UniqTest extends JshTest {
         args.add("uniq");args.add("a");args.add("b");args.add("c");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("uniq: too many arguments");
-        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 }
