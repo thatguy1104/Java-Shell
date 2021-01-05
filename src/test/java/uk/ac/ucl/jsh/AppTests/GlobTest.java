@@ -20,7 +20,7 @@ public class GlobTest extends JshTest {
     }
 
     @Test
-    public void globTest() {
+    public void test_glob_file_type() {
         String files = "*.txt";
         String[] expected_file_names = {JshTest.testDirectory + File.separator + "text1.txt",
                                         JshTest.testDirectory + File.separator + "text2.txt",
@@ -39,7 +39,7 @@ public class GlobTest extends JshTest {
     }
 
     @Test
-    public void globTest_2() {
+    public void test_glob_directory() {
         String files = JshTest.testDirectory + File.separator + "*";
         String[] expected_file_names = {JshTest.testDirectory + File.separator + "text1.txt",
                                         JshTest.testDirectory + File.separator + "text2.txt",

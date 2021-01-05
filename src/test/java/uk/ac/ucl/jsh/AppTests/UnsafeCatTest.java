@@ -22,15 +22,6 @@ public class UnsafeCatTest extends JshTest {
         assertEquals(expected, result);
     }
 
-//    @Test
-//    public void test_unsafe_cat_redirection() throws IOException {
-//        String fileName = JshTest.testDirectory + File.separator + "text2.txt";
-//        Jsh.eval("_cat < " + fileName, out);
-//        String result = getEvalResult(readFile(fileName));
-//        String expected = readFile(fileName);
-//        assertEquals(expected, result);
-//    }
-
     @Test
     public void test_unsafe_cat_input_sub() {
         String[] cases = {"echo `_cat testDir/text1.txt`", "abcdefghiofeijnwio"};

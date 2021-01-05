@@ -15,7 +15,6 @@ public class Sort implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-
         if (input != null && args.size() == 1) {
             message = "nothing";
         }
@@ -36,6 +35,7 @@ public class Sort implements Application {
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
 
+        // Todo, comment what this if statement does
         if (args.size() == 1 || args.size() == 2 && args.get(1).equals("-r")) {
             ArrayList<String> new_args = new ArrayList<>();
             Scanner scn = new Scanner(input);

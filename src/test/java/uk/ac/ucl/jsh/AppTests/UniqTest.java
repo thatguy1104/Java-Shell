@@ -18,14 +18,11 @@ import static org.junit.Assert.assertEquals;
 
 public class UniqTest extends JshTest {
 
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
-
     public UniqTest() throws IOException {
     }
 
     @Test
-    public void test_uniq() {
+    public void test_uniq_simple() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"uniq " + filepath + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb\nc\nd\ne\nf\ng\nh\ni"};
         Jsh.eval(args[0], this.out);
@@ -78,8 +75,11 @@ public class UniqTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
     @Test
-    public void test_uniq_error() throws IOException{
+    public void test_uniq_argument_error() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("a");args.add("b");
@@ -89,7 +89,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_wrong_args2() throws IOException{
+    public void test_uniq_argument_error2() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("a");args.add("b");
@@ -115,15 +115,6 @@ public class UniqTest extends JshTest {
         args.add("uniq");args.add("target");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("uniq: cannot open target");
-        uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
-    }
-
-    @Test
-    public void test_uniq_no_args() throws IOException{
-        Uniq uniq = new Uniq();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("uniq");
-        exceptionRule.expect(RuntimeException.class);
         uniq.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 

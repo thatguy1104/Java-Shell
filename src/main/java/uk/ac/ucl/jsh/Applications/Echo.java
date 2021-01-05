@@ -15,7 +15,6 @@ public class Echo implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = argCheck(args);
-
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -29,7 +28,6 @@ public class Echo implements Application {
         args.remove("");
         writer = new OutputStreamWriter(output);
         ArrayList<String> argArray = new ArrayList<>();
-
         if (args.size() == 1) {
             writeOut(new Scanner(input));
         } else {

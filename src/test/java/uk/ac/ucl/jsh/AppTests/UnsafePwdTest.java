@@ -14,7 +14,7 @@ public class UnsafePwdTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_unsafe_pwd() {
         String aCase = "_pwd";
         String expected = System.getProperty("user.dir");
         Jsh.eval(aCase, this.out);

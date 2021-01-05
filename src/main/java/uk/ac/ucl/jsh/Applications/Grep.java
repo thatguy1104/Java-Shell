@@ -18,7 +18,6 @@ public class Grep implements Application {
     @Override
     public String mainExec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         String message = input != null && args.size() == 2 ? "nothing" : argCheck(args);
-
         if (!message.equals("nothing")) {
             throwError(message, output);
         } else {
@@ -39,6 +38,7 @@ public class Grep implements Application {
         Path[] filePathArray = getFilePaths(currentDirectory, args, args.size() - 1);
         if (filePathArray == null) return "ERROR grep: wrong file argument";
 
+        // TODO what is this boolean, add commetn explaining what it represents
         boolean mutlArgFiles = args.size() > 3;
 
         if (args.size() > 2) {
@@ -114,7 +114,6 @@ public class Grep implements Application {
     private Path[] getFilePaths(String currentDirectory, ArrayList<String> args, int numOfFiles) {
         Path[] filePathArray = new Path[numOfFiles];
         Path currentDir = Paths.get(currentDirectory);
-
         for (int i = 1; i < numOfFiles; i++) {
             Path filePath = currentDir.resolve(args.get(i + 1));
             boolean invalidDirectory = Files.notExists(filePath) || Files.isDirectory(filePath);

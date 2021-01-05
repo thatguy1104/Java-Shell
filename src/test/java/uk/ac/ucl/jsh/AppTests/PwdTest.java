@@ -14,7 +14,7 @@ public class PwdTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_pwd() {
         String aCase = "pwd";
         String expected = System.getProperty("user.dir");
         Jsh.eval(aCase, this.out);

@@ -44,21 +44,4 @@ public class UnsafeCutTest extends JshTest {
         String result = getEvalResult(arg[1]);
         assertEquals(arg[1], result);
     }
-
-//    @Test
-//    public void test_unsafe_cut_echo_pipe() {
-//        String[] arg = {"echo abc | _cut -b 1", "a"};
-//        Jsh.eval(arg[0], out);
-//        String result = getEvalResult(arg[1]);
-//        assertEquals(arg[1], result);
-//    }
-//
-//    @Test
-//    public void test_unsafe_cut_echo_pipe_2() {
-//        String[] arg = {"echo abc | _cut -b -1,2-", "abc"};
-//        Jsh.eval(arg[0], out);
-//        String result = getEvalResult(arg[1]);
-//        System.out.println(result);
-//        assertEquals(arg[1], result);
-//    }
 }

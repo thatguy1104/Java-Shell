@@ -25,7 +25,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find() {
+    public void test_find_simple() {
         String testCase = "cd testDir; find -name text1.txt; cd ..";
         Jsh.eval(testCase, out);
         String evalCase = "." + File.separator + "text1.txt\n" +

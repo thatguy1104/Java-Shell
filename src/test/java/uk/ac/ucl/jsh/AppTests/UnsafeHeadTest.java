@@ -14,7 +14,7 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_simple() throws IOException {
+    public void test_unsafe_head_simple() throws IOException {
         String[] args = {"_head " + testDirectory + File.separator + "text1.txt", readFile(testDirectory + File.separator + "text1.txt")};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
@@ -22,7 +22,7 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_7() {
+    public void test_unsafe_head_7() {
         String[] args = {"_head -n 7 " + testDirectory + File.separator + "text3.txt", "AAA\nBBB\nAAA\nCCC\nccc\na\nb"};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
@@ -30,7 +30,7 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_0() {
+    public void test_unsafe_head_0() {
         String[] args = {"_head -n 0 " + testDirectory + File.separator + "text1.txt", ""};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
@@ -38,7 +38,7 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_subdir() {
+    public void test_unsafe_head_subdir() {
         String[] args = {"_head " + subDirString + File.separator + "text1.txt", "1\n2\n3\n4\n5"};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
@@ -46,7 +46,7 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_subdir_2() {
+    public void test_unsafe_head_subdir_2() {
         String[] args = {"_head -n 2 " + subDirString + File.separator + "text2.txt", "A\na"};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);

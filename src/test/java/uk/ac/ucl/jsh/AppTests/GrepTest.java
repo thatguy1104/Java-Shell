@@ -22,7 +22,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_grep_1() {
+    public void test_grep_simple_1() {
         String[] args = {"grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -30,7 +30,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_grep_2() {
+    public void test_grep_simple_2() {
         String[] args = {"grep BB " + JshTest.testDirectory + File.separator + "text2.txt", "BBB"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -38,7 +38,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_grep_3() {
+    public void test_grep_nothing() {
         String[] args = {"grep a " + JshTest.testDirectory + File.separator + "text3.txt", ""};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -46,7 +46,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_grep_4() {
+    public void test_grep_anything() {
         String[] args = {"grep '...' " + JshTest.testDirectory + File.separator + "text2.txt", "AAA\nBBB\nAAA"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -82,7 +82,7 @@ public class GrepTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_grep_fileArg() throws IOException {
+    public void test_grep_file_arg() throws IOException {
         Grep grep = new Grep();
         ArrayList<String> args = new ArrayList<>();
         args.add("grep"); args.add("AAA"); args.add("filethatdoesnotexiste.txt");
