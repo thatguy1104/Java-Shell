@@ -42,14 +42,7 @@ public class Find implements Application {
         cur = new File(directoryCheck);
 
         try {
-            File[] listOfFiles = cur.listFiles();
-            Set<String> result_set = new HashSet<>();
-            for (File file : listOfFiles) {
-                if (!file.getName().startsWith(".")) {
-                    HashMap<String, String> all_files = walkFileDirs(file, stableDirectory);
-                    result_set.addAll(getCorrectFiles(args, all_files, globbing, directorySpecified, argSizeCheck));
-                }
-            }
+            Set<String> result_set = new HashSet<>(checkDirectories(args, argSizeCheck, cur, stableDirectory, globbing, directorySpecified));
             writeOut(result_set, writer);
         } catch (AssertionError | NullPointerException e) {
             return "ERROR find: no such directory";
@@ -69,6 +62,22 @@ public class Find implements Application {
     @Override
     public void throwError(String message, OutputStream output) {
         throw new RuntimeException(message);
+    }
+
+    /**
+     * Runs the process of checking the directories that don't start with a dot
+     * @return - Set
+     */
+    private Set<String> checkDirectories(ArrayList<String> args, int argSizeCheck, File cur, String stableDirectory, Boolean globbing, Boolean directorySpecified) throws IOException {
+        File[] listOfFiles = cur.listFiles();
+        Set<String> result_set = new HashSet<>();
+        for (File file : listOfFiles) {
+            if (!file.getName().startsWith(".")) {
+                HashMap<String, String> all_files = walkFileDirs(file, stableDirectory);
+                result_set.addAll(getCorrectFiles(args, all_files, globbing, directorySpecified, argSizeCheck));
+            }
+        }
+        return result_set;
     }
 
     /**
