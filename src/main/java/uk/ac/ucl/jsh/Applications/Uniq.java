@@ -112,7 +112,7 @@ public class Uniq implements Application {
                 boolean caseIgnore = args.size() >= 2 && args.get(1).equals("-i");
 
                 /* compare lines and only save unique adjacent lines*/
-                if (!((row.equalsIgnoreCase(previousRow) && caseIgnore) || row.equals(previousRow))) {
+                if (!(row.equalsIgnoreCase(previousRow) && caseIgnore || row.equals(previousRow))) {
                     uniqLines.add(row);
                 }
         }

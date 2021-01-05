@@ -41,19 +41,14 @@ public class Cut implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-
         String concat_args = Stream.of(args.get(2)
                 .replaceAll("[^-?0-9]+", " ")
                 .split(" "))
                 .map (String::new)
                 .collect(Collectors.joining(", "));
-
         List<Integer> clean_args = parse_cut_input(concat_args);
-
         if (clean_args.get(0) == -1) return "ERROR cut: could not convert arguments";
-
         String file_name = args.get(3);
-
         return process(currentDirectory, clean_args, file_name);
     }
 
@@ -128,7 +123,7 @@ public class Cut implements Application {
      * Function to process cases of argument of type: e.g. 1- or 5-
      * @return - list of valid integer ranges
      */
-    private List<Integer> parse_caseOne(List<String> inner_range, List<Integer> total_range) {
+    private List<Integer> parse_caseOne(List<String> inner_range) {
         List<Integer> final_lst = new ArrayList<>();
         int num_of_char_per_line = 1000;
 
@@ -147,7 +142,7 @@ public class Cut implements Application {
      * Function to process cases of argument of type: e.g. 1-3 or 4-9
      * @return - list of valid integer ranges
      */
-    private List<Integer> parse_caseTwo(List<String> inner_range, List<Integer> total_range) {
+    private List<Integer> parse_caseTwo(List<String> inner_range) {
         List<Integer> final_lst = new ArrayList<>();
         int converted_start = Integer.parseInt(inner_range.get(0));
         int converted_end = Integer.parseInt(inner_range.get(1));
@@ -208,12 +203,13 @@ public class Cut implements Application {
         return total_range;
     }
 
+    //TODO ADD COMMENT WHAT DOES THIS METHOD DO?
     private List<Integer> test(List<String> inner_range, List<Integer> total_range) {
         if (inner_range.size() == 1) {
-            List<Integer> case_one = parse_caseOne(inner_range, total_range);
+            List<Integer> case_one = parse_caseOne(inner_range);
             total_range = Stream.of(total_range, case_one).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
         } else {
-            List<Integer> case_two = parse_caseTwo(inner_range, total_range);
+            List<Integer> case_two = parse_caseTwo(inner_range);
             total_range = Stream.of(total_range, case_two).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
         }
         return total_range;
