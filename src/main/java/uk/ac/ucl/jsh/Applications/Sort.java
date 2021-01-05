@@ -35,7 +35,7 @@ public class Sort implements Application {
     public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
 
-        // Todo, comment what this if statement does
+        /* Check argument validity, check for existence of the reverse character */
         if (args.size() == 1 || args.size() == 2 && args.get(1).equals("-r")) {
             ArrayList<String> new_args = new ArrayList<>();
             Scanner scn = new Scanner(input);

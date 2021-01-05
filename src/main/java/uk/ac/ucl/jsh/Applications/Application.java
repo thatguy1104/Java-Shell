@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface Application {
 
     /**
-     * //TODO - comments
+     * Main executing method for an application
      * @param args Commandline arguments
      * @param currDir Current directory
      * @param input Used instead of args when input redirection present
@@ -18,7 +18,7 @@ public interface Application {
     String mainExec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException;
 
     /**
-     * //TODO - comments
+     * Secondary main method for running an application, does main processing of argument checks and writing out to an output stream
      * @param args Commandline arguments
      * @param currentDirectory Current directory
      * @param input Used instead of args when input redirection present

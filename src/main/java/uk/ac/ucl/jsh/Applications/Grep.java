@@ -38,7 +38,7 @@ public class Grep implements Application {
         Path[] filePathArray = getFilePaths(currentDirectory, args, args.size() - 1);
         if (filePathArray == null) return "ERROR grep: wrong file argument";
 
-        // TODO what is this boolean, add commetn explaining what it represents
+        /* If multiple files present as an argument */
         boolean mutlArgFiles = args.size() > 3;
 
         if (args.size() > 2) {
