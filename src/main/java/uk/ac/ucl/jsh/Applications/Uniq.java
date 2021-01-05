@@ -45,7 +45,6 @@ public class Uniq implements Application {
             while (scn.hasNextLine()) {
                 new_args.add(scn.nextLine());
             }
-            scn.close();
             ArrayList<String> uniqLines = returnUniqLines(new_args, args);
             writeOut(uniqLines);
         } else {

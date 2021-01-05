@@ -42,7 +42,6 @@ public class Tail implements Application {
             while (scn.hasNextLine()) {
                 new_args.add(scn.nextLine());
             }
-            scn.close();
             writeOut(tailLines, new_args);
         } else {
             endResult = normalInput(args, tailLines, currentDirectory);

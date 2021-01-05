@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="uk.ac.ucl.jsh.AppTests.LsTest" time="0.276" tests="32" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="uk.ac.ucl.jsh.AppTests.LsTest" time="0.141" tests="32" errors="0" skipped="0" failures="0">
   <properties>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
     <property name="java.specification.version" value="11"/>
@@ -14,7 +14,7 @@
     <property name="os.name" value="Linux"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/local/openjdk-11/lib"/>
-    <property name="sun.java.command" value="/workspaces/CW/target/surefire/surefirebooter8893319282786292708.jar /workspaces/CW/target/surefire 2021-01-05T13-19-21_556-jvmRun1 surefire1407368761902429594tmp surefire_07239721281870006612tmp"/>
+    <property name="sun.java.command" value="/workspaces/CW/target/surefire/surefirebooter7647705060210347010.jar /workspaces/CW/target/surefire 2021-01-05T14-50-18_927-jvmRun1 surefire2506418034088553093tmp surefire_07705450101064816978tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/workspaces/CW/target/test-classes:/workspaces/CW/target/classes:/root/.m2/repository/junit/junit/4.12/junit-4.12.jar:/root/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/root/.m2/repository/org/antlr/antlr4-runtime/4.7/antlr4-runtime-4.7.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="/workspaces/CW/target/surefire/surefirebooter8893319282786292708.jar"/>
+    <property name="surefire.real.class.path" value="/workspaces/CW/target/surefire/surefirebooter7647705060210347010.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="11.0.8+10"/>
     <property name="user.name" value="root"/>
@@ -56,36 +56,36 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="test_ls_argument_error" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.074"/>
-  <testcase name="test_ls_specified_subDirectory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.048"/>
-  <testcase name="test_ls_currentDirectory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.002"/>
-  <testcase name="test_ls_specified_directory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.008"/>
-  <testcase name="test_ls_directory_error" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="test_ls_current_directory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.002"/>
+  <testcase name="test_ls_argument_error" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
+  <testcase name="test_ls_specified_subDirectory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
+  <testcase name="test_ls_specified_directory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.002"/>
+  <testcase name="test_ls_directory_error" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
   <testcase name="testUnsafeUnsafe" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
-  <testcase name="testUnsafeEcho" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
+  <testcase name="testUnsafeEcho" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testUnsafeFind" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
-  <testcase name="testUnsafeGrep" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
+  <testcase name="testUnsafeGrep" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testUnsafeHead" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testUnsafeSort" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testUnsafeTail" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testUnsafeUniq" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testFactory" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
-  <testcase name="testCat" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
-  <testcase name="testCut" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.002"/>
+  <testcase name="testCat" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testCut" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
   <testcase name="testPwd" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testEcho" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
-  <testcase name="testFind" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.003"/>
-  <testcase name="testGrep" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testFind" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testGrep" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
   <testcase name="testHead" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testSort" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testTail" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testUniq" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
-  <testcase name="testCd" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
+  <testcase name="testCd" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testLs" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
-  <testcase name="testUnsafeCat" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
-  <testcase name="testUnsafeCut" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testUnsafeCat" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testUnsafeCut" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
   <testcase name="testUnsafePwd" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
   <testcase name="testGlobbing" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
-  <testcase name="testUnsafeCd" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
-  <testcase name="testUnsafeLs" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testUnsafeCd" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0"/>
+  <testcase name="testUnsafeLs" classname="uk.ac.ucl.jsh.AppTests.LsTest" time="0.001"/>
 </testsuite>

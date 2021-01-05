@@ -42,7 +42,6 @@ public class Sort implements Application {
             while (scn.hasNextLine()) {
                 new_args.add(scn.nextLine());
             }
-            scn.close();
             returnSorted(args, new_args);
         } else {
             String sortArg = args.size() == 3 ? args.get(2) : args.get(1);

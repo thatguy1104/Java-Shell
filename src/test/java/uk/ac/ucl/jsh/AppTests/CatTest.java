@@ -1,9 +1,7 @@
 package uk.ac.ucl.jsh.AppTests;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.runners.JUnit38ClassRunner;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import uk.ac.ucl.jsh.Applications.Cat;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
@@ -13,7 +11,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(JUnit38ClassRunner.class)
 public class CatTest extends JshTest {
 
     public CatTest() throws IOException {
@@ -21,7 +18,6 @@ public class CatTest extends JshTest {
 
     @Test
     public void test_cat_simple() throws IOException {
-        OutputStream out = new ByteArrayOutputStream();
         String file_name = JshTest.testDirectory + File.separator + "text1.txt";
         Jsh.eval("cat " + file_name, out);
         String result = getEvalResult(readFile(file_name));
