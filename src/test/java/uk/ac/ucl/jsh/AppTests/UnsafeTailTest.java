@@ -12,16 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeTailTest extends JshTest {
 
-    public UnsafeTailTest() throws IOException {
+    public UnsafeTailTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_tail_n_0() {
         String[] args = {"_tail -n 0 " + JshTest.testDirectory + File.separator + "text2.txt", ""};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -29,7 +26,6 @@ public class UnsafeTailTest extends JshTest {
     public void test_unsafe_tail_n_1() {
         String[] args = {"_tail -n 1 " + JshTest.testDirectory + File.separator + "text1.txt", "ofeijnwio"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -39,7 +35,6 @@ public class UnsafeTailTest extends JshTest {
                                                                                                "BBB" + System.getProperty("line.separator") +
                                                                                                "AAA"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -49,7 +44,6 @@ public class UnsafeTailTest extends JshTest {
                                                                                                "h" + System.getProperty("line.separator") +
                                                                                                "i"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 }

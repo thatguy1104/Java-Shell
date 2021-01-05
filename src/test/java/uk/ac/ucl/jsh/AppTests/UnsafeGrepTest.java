@@ -12,16 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeGrepTest extends JshTest {
 
-    public UnsafeGrepTest() throws IOException {
+    public UnsafeGrepTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_grep_simple1() {
         String[] args = {"_grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -29,7 +26,6 @@ public class UnsafeGrepTest extends JshTest {
     public void test_unsafe_grep_simple2() {
         String[] args = {"_grep BB " + JshTest.testDirectory + File.separator + "text2.txt", "BBB"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -37,7 +33,6 @@ public class UnsafeGrepTest extends JshTest {
     public void test_unsafe_grep_nothing() {
         String[] args = {"_grep aa " + JshTest.testDirectory + File.separator + "text3.txt", ""};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -47,7 +42,6 @@ public class UnsafeGrepTest extends JshTest {
                                                                                                 "BBB" + System.getProperty("line.separator") +
                                                                                                 "AAA"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 }

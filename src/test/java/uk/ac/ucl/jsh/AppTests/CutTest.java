@@ -14,17 +14,14 @@ import static org.junit.Assert.assertEquals;
 
 public class CutTest extends JshTest {
 
-    public CutTest() throws IOException {
+    public CutTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_cut_simple() {
         String[] arg = {"cut -b 1 " + JshTest.testDirectory + File.separator + "text1.txt", "a" + System.getProperty("line.separator") +
                                                                                             "o"};
         Jsh.eval(arg[0], outs);
-        //String result = getEvalResult(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -33,7 +30,6 @@ public class CutTest extends JshTest {
         String[] arg = {"cut -b 1,2 " + JshTest.testDirectory + File.separator + "text1.txt", "ab" + System.getProperty("line.separator") +
                                                                                               "of"};
         Jsh.eval(arg[0], outs);
-        //String result = getEvalResult(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -42,7 +38,6 @@ public class CutTest extends JshTest {
         String[] arg = {"cut -b 1- " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                                                              "ofeijnwio"};
         Jsh.eval(arg[0], outs);
-        //String result = getEvalResult(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -51,7 +46,6 @@ public class CutTest extends JshTest {
         String[] arg = {"cut -b 1,3-4 " + JshTest.testDirectory + File.separator + "text1.txt", "acd" + System.getProperty("line.separator") +
                                                                                                 "oei"};
         Jsh.eval(arg[0], outs);
-        //String result = getEvalResult(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -59,7 +53,6 @@ public class CutTest extends JshTest {
     public void test_cut_echo_pipe() {
         String[] arg = {"echo abc | cut -b 1", "a"};
         Jsh.eval(arg[0], outs);
-        //String result = getEvalResult(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -67,7 +60,6 @@ public class CutTest extends JshTest {
     public void test_cut_echo_pipe_2() {
         String[] arg = {"echo abc | cut -b -1,2-", "abc"};
         Jsh.eval(arg[0], outs);
-        //String result = getEvalResult(arg[1]);
         assertEquals(arg[1], outs.toString().trim());
     }
 
@@ -81,7 +73,7 @@ public class CutTest extends JshTest {
         Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("-b"); args.add("1"); args.add("nonexistentfilename.txt");
-        cut.mainExec(args, System.getProperty("user.dir"), null, out);
+        cut.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 
     @Test
@@ -91,7 +83,7 @@ public class CutTest extends JshTest {
         Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("1,2"); args.add("text1.txt");
-        cut.mainExec(args, System.getProperty("user.dir"), null, out);
+        cut.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 
     @Test
@@ -101,7 +93,7 @@ public class CutTest extends JshTest {
         Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("-b"); args.add("1, -1, 0, -0"); args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
+        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), outs);
     }
 
     @Test
@@ -111,7 +103,7 @@ public class CutTest extends JshTest {
         Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("-b"); args.add("-0"); args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
+        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), outs);
     }
 
     @Test
@@ -121,7 +113,7 @@ public class CutTest extends JshTest {
         Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
+        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), outs);
     }
 
     @Test
@@ -131,6 +123,6 @@ public class CutTest extends JshTest {
         Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut");  args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        cut.mainExec(args, System.getProperty("user.dir"), null, out);
+        cut.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 }

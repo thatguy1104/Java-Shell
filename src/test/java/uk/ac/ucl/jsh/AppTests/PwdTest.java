@@ -12,17 +12,14 @@ import static org.junit.Assert.assertEquals;
 
 public class PwdTest extends JshTest {
 
-    public PwdTest() throws IOException {
+    public PwdTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_pwd() {
         String aCase = "pwd";
         String expected = System.getProperty("user.dir");
         Jsh.eval(aCase, outs);
-        //String result = pwdSupplementary(expected);
         assertEquals(expected, outs.toString().trim());
     }
 }

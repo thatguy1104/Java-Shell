@@ -11,10 +11,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeUnsafeTest extends JshTest {
 
-    public UnsafeUnsafeTest() throws IOException {
+    public UnsafeUnsafeTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_nothing() {

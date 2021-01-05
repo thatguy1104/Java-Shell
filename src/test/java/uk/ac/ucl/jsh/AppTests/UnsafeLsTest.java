@@ -15,10 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeLsTest extends JshTest {
 
-    public UnsafeLsTest() throws IOException {
+    public UnsafeLsTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_ls_current_directory() {
@@ -33,9 +31,6 @@ public class UnsafeLsTest extends JshTest {
         }
 
         Jsh.eval("_ls", outs);
-//        for (String file_name : expected) {
-//            results.add(pwdSupplementary(file_name));
-//        }
         results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
@@ -57,9 +52,6 @@ public class UnsafeLsTest extends JshTest {
         }
 
         Jsh.eval("_ls testDir", outs);
-//        for (String file_name : expected) {
-//            results.add(pwdSupplementary(file_name));
-//        }
         results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
@@ -81,9 +73,6 @@ public class UnsafeLsTest extends JshTest {
         }
 
         Jsh.eval("_ls testDir" + File.separator + "testSubDir", outs);
-//        for (String file_name : expected) {
-//            results.add(pwdSupplementary(file_name));
-//        }
         results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
@@ -95,9 +84,8 @@ public class UnsafeLsTest extends JshTest {
     @Test
     public void test_unsafe_ls_nothing() {
         String expected = "_ls: too many arguments";
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Jsh.eval("_ls a b", outputStream);
-        String result = outputStream.toString().replaceAll("\n", "").replaceAll("\r", "");
+        Jsh.eval("_ls a b", outs);
+        String result = outs.toString().strip();
         assertEquals(expected, result);
     }
 }

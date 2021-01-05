@@ -12,16 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeCatTest extends JshTest {
 
-    public UnsafeCatTest() throws IOException {
+    public UnsafeCatTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_cat_simple() throws IOException {
         String file_name = JshTest.testDirectory + File.separator + "text1.txt";
         Jsh.eval("_cat " + file_name, outs);
-        //String result = getEvalResult(readFile(file_name));
         String expected = readFile(file_name);
         assertEquals(expected, outs.toString().trim());
     }
@@ -30,7 +27,6 @@ public class UnsafeCatTest extends JshTest {
     public void test_unsafe_cat_input_sub() {
         String[] cases = {"echo `_cat testDir/text1.txt`", "abcdefghiofeijnwio"};
         Jsh.eval(cases[0], outs);
-        //String result = pwdSupplementary(cases[1]);
         assertEquals(cases[1], outs.toString().trim());
     }
 
@@ -42,7 +38,6 @@ public class UnsafeCatTest extends JshTest {
                                                                       "BBB" + System.getProperty("line.separator") +
                                                                       "AAA"};
         Jsh.eval(cases[0], outs);
-        //String result = getEvalResult(cases[1]);
         assertEquals(cases[1], outs.toString().trim());
     }
 }

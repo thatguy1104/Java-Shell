@@ -15,7 +15,7 @@ public class GlobTest extends JshTest {
 
     private Globbing g = new Globbing();
 
-    public GlobTest() throws IOException {
+    public GlobTest() {
     }
 
     @Test

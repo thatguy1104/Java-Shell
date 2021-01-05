@@ -14,16 +14,13 @@ import static org.junit.Assert.assertEquals;
 
 public class TailTest extends JshTest {
 
-    public TailTest() throws IOException {
+    public TailTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_tail_n_0() {
         String[] args = {"tail -n 0 " + JshTest.testDirectory + File.separator + "text2.txt", ""};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -31,7 +28,6 @@ public class TailTest extends JshTest {
     public void test_tail_n_1() {
         String[] args = {"tail -n 1 " + JshTest.testDirectory + File.separator + "text1.txt", "ofeijnwio"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -41,7 +37,6 @@ public class TailTest extends JshTest {
                                                                                               "BBB" + System.getProperty("line.separator") +
                                                                                               "AAA"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -51,7 +46,6 @@ public class TailTest extends JshTest {
                                                                                               "h" + System.getProperty("line.separator") +
                                                                                               "i"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -61,7 +55,6 @@ public class TailTest extends JshTest {
                                                                                                "BBB" + System.getProperty("line.separator") +
                                                                                                "AAA"};
         Jsh.eval(args[0], outs);
-        //String full_string = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -75,7 +68,7 @@ public class TailTest extends JshTest {
         args.add("tail");args.add("a");args.add("b");args.add("c");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("tail: wrong argument a");
-        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -85,7 +78,7 @@ public class TailTest extends JshTest {
         args.add("tail");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("tail: wrong arguments");
-        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -95,7 +88,7 @@ public class TailTest extends JshTest {
         args.add("tail");args.add("a");args.add("b");args.add("c");args.add("d");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("tail: wrong arguments");
-        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -105,7 +98,7 @@ public class TailTest extends JshTest {
         args.add("tail");args.add("nonexistentFile");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("tail: nonexistentFile does not exist");
-        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -115,6 +108,6 @@ public class TailTest extends JshTest {
         args.add("tail");args.add("-n");args.add("a");args.add("b");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("tail: wrong argument a");
-        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 }

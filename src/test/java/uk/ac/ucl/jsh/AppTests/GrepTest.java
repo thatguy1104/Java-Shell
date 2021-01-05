@@ -14,15 +14,13 @@ import static org.junit.Assert.assertEquals;
 
 public class GrepTest extends JshTest {
 
-    public GrepTest() throws IOException {
+    public GrepTest() {
     }
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_grep_simple_1() {
         String[] args = {"grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -30,7 +28,6 @@ public class GrepTest extends JshTest {
     public void test_grep_simple_2() {
         String[] args = {"grep BB " + JshTest.testDirectory + File.separator + "text2.txt", "BBB"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -38,7 +35,6 @@ public class GrepTest extends JshTest {
     public void test_grep_nothing() {
         String[] args = {"grep aa " + JshTest.testDirectory + File.separator + "text3.txt", ""};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -48,7 +44,6 @@ public class GrepTest extends JshTest {
                                                                                                "BBB" + System.getProperty("line.separator") +
                                                                                                "AAA"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -56,7 +51,6 @@ public class GrepTest extends JshTest {
     public void test_grep_dot_no_match() {
         String[] args = {"grep '.....' " + JshTest.testDirectory + File.separator + "text2.txt", ""};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -65,7 +59,6 @@ public class GrepTest extends JshTest {
         String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | grep A", "AAA" + System.getProperty("line.separator") +
                                                                                                  "AAA"};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -74,7 +67,6 @@ public class GrepTest extends JshTest {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"grep noExistingPattern " + filepath + "text2.txt " + filepath + "text1.txt", ""};
         Jsh.eval(args[0], outs);
-        //String result = getEvalResult(args[1]);
         assertEquals(args[1], outs.toString().trim());
     }
 
@@ -88,7 +80,7 @@ public class GrepTest extends JshTest {
         args.add("grep"); args.add("AAA"); args.add("filethatdoesnotexiste.txt");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("grep: wrong file argument");
-        grep.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
+        grep.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), outs);
     }
 
     @Test
@@ -98,7 +90,7 @@ public class GrepTest extends JshTest {
         args.add("grep"); args.add("AAA");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("grep: wrong number of arguments");
-        grep.mainExec(args, System.getProperty("user.dir"), null, out);
+        grep.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 
     @Test
@@ -108,7 +100,7 @@ public class GrepTest extends JshTest {
         args.add("grep"); args.add("A");args.add("tools");
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("grep: wrong file argument");
-        grep.mainExec(args, System.getProperty("user.dir"), null, out);
+        grep.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 
 }

@@ -20,10 +20,8 @@ import static org.junit.Assert.assertEquals;
 
 public class FindTest extends JshTest {
 
-    public FindTest() throws IOException {
+    public FindTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_find_simple() {
@@ -122,7 +120,7 @@ public class FindTest extends JshTest {
         Find find = new Find();
         ArrayList<String> args = new ArrayList<>();
         args.add("find");
-        find.mainExec(args, System.getProperty("user.dir"), null, out);
+        find.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 
     @Test
@@ -132,6 +130,6 @@ public class FindTest extends JshTest {
         Find find = new Find();
         ArrayList<String> args = new ArrayList<>();
         args.add("find"); args.add("hello"); args.add("-name"); args.add("text1.txt");
-        find.mainExec(args, System.getProperty("user.dir"), null, out);
+        find.mainExec(args, System.getProperty("user.dir"), null, outs);
     }
 }

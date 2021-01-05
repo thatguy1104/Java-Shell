@@ -16,10 +16,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafeFindTest extends JshTest {
 
-    public UnsafeFindTest() throws IOException {
+    public UnsafeFindTest() {
     }
-
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_find() {

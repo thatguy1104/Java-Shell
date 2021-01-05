@@ -11,17 +11,15 @@ import static org.junit.Assert.assertEquals;
 
 public class UnsafePwdTest extends JshTest {
 
-    public UnsafePwdTest() throws IOException {
+    public UnsafePwdTest() {
     }
 
-    OutputStream outs = new ByteArrayOutputStream();
 
     @Test
     public void test_unsafe_pwd() {
         String aCase = "_pwd";
         String expected = System.getProperty("user.dir");
         Jsh.eval(aCase, outs);
-        //String result = pwdSupplementary(expected);
         assertEquals(expected, outs.toString().trim());
     }
 }
