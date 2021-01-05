@@ -1,4 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ucl.jsh.AppTests.FindTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in uk.ac.ucl.jsh.AppTests.FindTest
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.018 s <<< FAILURE! - in uk.ac.ucl.jsh.AppTests.FindTest
+uk.ac.ucl.jsh.AppTests.FindTest  Time elapsed: 0.018 s  <<< ERROR!
+java.io.IOException: Failed to create file
+
+uk.ac.ucl.jsh.AppTests.FindTest  Time elapsed: 0.018 s  <<< ERROR!
+java.io.IOException
+

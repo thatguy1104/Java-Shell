@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ucl.jsh.AppTests.CdTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.016 s <<< FAILURE! - in uk.ac.ucl.jsh.AppTests.CdTest
-test_1(uk.ac.ucl.jsh.AppTests.CdTest)  Time elapsed: 0.015 s  <<< ERROR!
-java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
-	at uk.ac.ucl.jsh.AppTests.CdTest.test_1(CdTest.java:27)
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.267 s <<< FAILURE! - in uk.ac.ucl.jsh.AppTests.CdTest
+uk.ac.ucl.jsh.AppTests.CdTest  Time elapsed: 0.267 s  <<< ERROR!
+java.io.IOException: Failed to create file
+
+uk.ac.ucl.jsh.AppTests.CdTest  Time elapsed: 0.267 s  <<< ERROR!
+java.io.IOException
 

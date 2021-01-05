@@ -196,15 +196,18 @@ public class Cut implements Application {
             } catch (Exception e) {
                 elem = elem.replaceAll("[^?0-9]+", " ");
                 List<String> inner_range = Arrays.asList(elem.trim().split(" "));
-                total_range = test(inner_range, total_range);
+                total_range = parse_cut_supplementary(inner_range, total_range);
                 return total_range;
             }
         }
         return total_range;
     }
 
-    //TODO ADD COMMENT WHAT DOES THIS METHOD DO?
-    private List<Integer> test(List<String> inner_range, List<Integer> total_range) {
+    /**
+     * Supporting method for parse_cut, uses logic cases to set an appropriate case range
+     * @return - appropriate valid integer ranges
+     */
+    private List<Integer> parse_cut_supplementary(List<String> inner_range, List<Integer> total_range) {
         if (inner_range.size() == 1) {
             List<Integer> case_one = parse_caseOne(inner_range);
             total_range = Stream.of(total_range, case_one).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());

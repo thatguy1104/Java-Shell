@@ -41,7 +41,6 @@ public class Find implements Application {
 
         cur = new File(directoryCheck);
 
-        //TODO explain in a comment what this does
         try {
             File[] listOfFiles = cur.listFiles();
             Set<String> result_set = new HashSet<>();

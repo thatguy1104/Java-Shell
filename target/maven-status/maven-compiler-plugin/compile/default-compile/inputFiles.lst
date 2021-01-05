@@ -9,14 +9,10 @@
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Pipe.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Jsh.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarListener.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarCallVisitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Sort.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarBaseVisitor.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarBaseVisitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/CallVisitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarLexer.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarLexer.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarParser.java
 /workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarBaseVisitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Grep.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Head.java
@@ -31,7 +27,6 @@
 /workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarLexer.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Visitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/Call/CallGrammarVisitor.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarListener.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Seq.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Visitable.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Unsafe.java
@@ -48,11 +43,8 @@
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Cut.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarBaseVisitor.java
 /workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CommandLineGrammarVisitor.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarCallBaseVisitor.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarVisitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Applications/Ls.java
 /workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/.antlr/CallGrammarParser.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Visitor/Call.java
-/workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/antlr2/JshGrammarBaseListener.java
 /workspaces/CW/target/generated-sources/antlr4/uk/ac/ucl/jsh/JshGrammarVisitor.java
 /workspaces/CW/src/main/java/uk/ac/ucl/jsh/Parser/CommandLine/CommandLineGrammarParser.java
