@@ -52,7 +52,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_cat_tail() {
+    public void test_cat_pipe_tail() {
         String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | tail", "AAA\nBBB\nAAA"};
         Jsh.eval(args[0], this.out);
         String full_string = getEvalResult(args[1]);
@@ -61,15 +61,6 @@ public class TailTest extends JshTest {
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
-
-    //@Test TODO DEBUG SAME AS OTHERS
-    public void test_tail_no_args() throws IOException{
-        Tail tail = new Tail();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("tail");
-        exceptionRule.expect(RuntimeException.class);
-        tail.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
-    }
 
     @Test
     public void test_tail_four_args_without_n() throws IOException{
@@ -102,7 +93,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_nonexistentFile() throws IOException{
+    public void test_tail_nonexistent_file() throws IOException{
         Tail tail = new Tail();
         ArrayList<String> args = new ArrayList<>();
         args.add("tail");args.add("nonexistentFile");

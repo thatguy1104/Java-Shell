@@ -20,7 +20,7 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_currentDirectory() {
+    public void test_ls_current_directory() {
         File f = new File(System.getProperty("user.dir"));
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
@@ -43,7 +43,7 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_specified_directory() {
+    public void test_unsafe_ls_specified_directory() {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory);
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
@@ -66,7 +66,7 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_specified_subDirectory() {
+    public void test_unsafe_ls_specified_sub_directory() {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory + File.separator + JshTest.testSubDirectory);
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
@@ -89,7 +89,7 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_nothing() throws IOException {
+    public void test_unsafe_ls_nothing() {
         String expected = "_ls: too many arguments";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Jsh.eval("_ls a b", outputStream);

@@ -18,7 +18,7 @@ public class UnsafeUnsafeTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_nothing() throws IOException {
+    public void test_unsafe_nothing() {
         String expected = "_cat: missing arguments";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Jsh.eval("_cat", outputStream);
@@ -27,7 +27,7 @@ public class UnsafeUnsafeTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_error() throws IOException {
+    public void test_unsafe_error() {
         String expected = "_cat: file does not exist";
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Jsh.eval("_cat yes.txt", outputStream);

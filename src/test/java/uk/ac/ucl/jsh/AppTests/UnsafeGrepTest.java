@@ -14,7 +14,7 @@ public class UnsafeGrepTest extends JshTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_unsafe_grep_simple1() {
         String[] args = {"_grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -22,7 +22,7 @@ public class UnsafeGrepTest extends JshTest {
     }
 
     @Test
-    public void test_2() {
+    public void test_unsafe_grep_simple2() {
         String[] args = {"_grep BB " + JshTest.testDirectory + File.separator + "text2.txt", "BBB"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -30,7 +30,7 @@ public class UnsafeGrepTest extends JshTest {
     }
 
     @Test
-    public void test_3() {
+    public void test_unsafe_grep_nothing() {
         String[] args = {"_grep a " + JshTest.testDirectory + File.separator + "text3.txt", ""};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
@@ -38,18 +38,10 @@ public class UnsafeGrepTest extends JshTest {
     }
 
     @Test
-    public void test_4() {
+    public void test_unsafe_grep_anything() {
         String[] args = {"_grep '...' " + JshTest.testDirectory + File.separator + "text2.txt", "AAA\nBBB\nAAA"};
         Jsh.eval(args[0], out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
     }
-
-//    @Test
-//    public void test_5() {
-//        String[] args = {"_grep AAA < cat testDir/text1.txt", "AAA"};
-//        Jsh.eval(args[0], out);
-//        String result = getEvalResult(args[1]);
-//        assertEquals(args[1], result);
-//    }
 }

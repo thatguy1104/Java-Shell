@@ -123,7 +123,6 @@ public class EchoTest extends JshTest {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
         data = data.replace("\n", "").replace("\r", "").replace(" ", "");

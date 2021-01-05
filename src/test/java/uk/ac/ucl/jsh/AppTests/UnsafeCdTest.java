@@ -23,7 +23,7 @@ public class UnsafeCdTest extends JshTest {
     }
 
     @Test
-    public void testUnsafeChangeDir() throws IOException {
+    public void test_unsafe_change_dir() throws IOException {
         String toFolder = "src";
         ArrayList<String> aCase = new ArrayList<>(Collections.singleton("_cd"));
         aCase.add(toFolder);
@@ -31,13 +31,4 @@ public class UnsafeCdTest extends JshTest {
         String new_dir = new Factory().getApp("_cd").exec(aCase, currDir, null, this.out);
         assertEquals(result_dir, new_dir);
     }
-
-//    @Test
-//    public void testUnsafeChangeBack() throws IOException {
-//        String[] args = {"cd", ".."};
-//        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
-//        int checker = currDir.lastIndexOf(File.separator);
-//        String actualDirectory = currDir.substring(0, checker);
-//        assertEquals(actualDirectory, new_dir);
-//    }
 }

@@ -20,7 +20,7 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_currentDirectory() {
+    public void test_ls_current_directory() {
         File f = new File(System.getProperty("user.dir"));
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
@@ -103,16 +103,6 @@ public class LsTest extends JshTest {
 
     @Test
     public void test_ls_directory_error() throws IOException {
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("ls: directory does not exist");
-        Ls ls = new Ls();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("ls"); args.add("a");
-        ls.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
-    }
-
-    //@Test
-    public void test_ls_SOMETHING() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("ls: directory does not exist");
         Ls ls = new Ls();

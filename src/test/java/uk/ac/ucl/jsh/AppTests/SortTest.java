@@ -19,11 +19,8 @@ public class SortTest extends JshTest {
     public SortTest() throws IOException {
     }
 
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
-
     @Test
-    public void test_sort() {
+    public void test_sort_simple() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"sort " + filepath +  "text1.txt", "abcdefghi\nofeijnwio"};
         Jsh.eval(args[0], this.out);
@@ -58,24 +55,16 @@ public class SortTest extends JshTest {
         assertEquals(full_string, args[1]);
     }
 
-    //@Test //TODO ERROR
-    public void test_substitution_sort_find_r() {
-        //String filepath = JshTest.testDirectory;
-        String filepath2 = JshTest.testDirectory + File.separator + JshTest.testSubDirectory;
-        String[] args = {"cat `find " + filepath2 + " -name '*.txt'` | sort -r", "1\n2\n3\n4\n5\nA\nB\nC\na\nb\nc"};
-        //String[] args = {"cat `find " + filepath + " -name '*.txt'` | sort -r", "1\n2\n3\n4\n5\nA\nAAA\nAAA\nAAA\nAAA\nB\nBBB\nBBB\nC\nCCC\na\na\nabcdefghi\nb\nb\nc\nc\nccc\nd\ne\nf\ng\nh\ni\nofeijnwio"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
-    }
-
     @Test
-    public void test_cat_grep() {
+    public void test_cat_pipe_sort() {
         String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | sort", "AAA\nAAA\nBBB"};
         Jsh.eval(args[0], this.out);
         String result = getEvalResult(args[1]);
         assertEquals(args[1], result);
     }
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void test_sort_wrong_nr_args() throws IOException{
@@ -116,17 +105,4 @@ public class SortTest extends JshTest {
         exceptionRule.expectMessage("sort: nonExistingTarget does not exist");
         sort.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
-
-    //@Test
-    public void test_sort_missing_arg() throws IOException{
-        Sort sort = new Sort();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("sort");
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("sort: missing arguments");
-        sort.mainExec(args, System.getProperty("user.dir"), null, out);
-    }
-
-
-
 }

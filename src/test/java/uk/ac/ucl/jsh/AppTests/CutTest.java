@@ -74,69 +74,59 @@ public class CutTest extends JshTest {
     public void test_cut_fileTest() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: file does not exist");
-        Cut ls = new Cut();
+        Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("-b"); args.add("1"); args.add("nonexistentfilename.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), null, out);
-    }
-
-    @Test
-    public void test_cut_ranges() throws IOException {
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("Index 0 out of bounds for length 0");
-        Cut ls = new Cut();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("cut"); args.add("-b"); args.add("-A"); args.add("text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), null, out);
+        cut.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 
     @Test
     public void test_cut_wrong_args() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: wrong arguments");
-        Cut ls = new Cut();
+        Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("1,2"); args.add("text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), null, out);
+        cut.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 
     @Test
     public void test_cut_byte_index() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: byte index specified does not exist");
-        Cut ls = new Cut();
+        Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("-b"); args.add("1, -1, 0, -0"); args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
+        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
     }
 
     @Test
     public void test_cut_zero_arg() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: could not convert arguments");
-        Cut ls = new Cut();
+        Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut"); args.add("-b"); args.add("-0"); args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
+        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
     }
 
     @Test
     public void test_cut_missing_args() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: missing arguments");
-        Cut ls = new Cut();
+        Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
+        cut.mainExec(args, System.getProperty("user.dir"), new FileInputStream(JshTest.testDirectory + File.separator + "text1.txt"), out);
     }
 
     @Test
     public void test_cut_wrong_file3() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: wrong argument " + JshTest.testDirectory + File.separator + "text1.txt");
-        Cut ls = new Cut();
+        Cut cut = new Cut();
         ArrayList<String> args = new ArrayList<>();
         args.add("cut");  args.add(JshTest.testDirectory + File.separator + "text1.txt");
-        ls.mainExec(args, System.getProperty("user.dir"), null, out);
+        cut.mainExec(args, System.getProperty("user.dir"), null, out);
     }
 }

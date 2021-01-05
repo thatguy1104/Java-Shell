@@ -21,25 +21,25 @@ public class JshMainTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void mainTest() {
+    public void test_main_echo_arg() {
         String[] args = {"echo", "hello world"};
         Jsh.main(args);
     }
 
     @Test
-    public void mainTest_2() {
+    public void test_main_echo_nothing() {
         String[] args = {"echo"};
         Jsh.main(args);
     }
 
     @Test
-    public void mainTest_two_args_without_c() {
+    public void test_main_two_args_without_c() {
         String[] args = {"-c", "two"};
         Jsh.main(args);
     }
 
     @Test(expected = RuntimeException.class)
-    public void mainTest_cmd_exception() {
+    public void test_main_cmd_exception() {
         String input = "ls noExitingFile\nls noExitingFile\nls noExitingFile\nls noExitingFile\nls noExitingFile\nls noExitingFile\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
@@ -49,7 +49,7 @@ public class JshMainTest extends JshTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void mainTest_empty_cmd() {
+    public void test_main_empty_cmd() {
         String input = "\n\n\n\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
@@ -59,7 +59,7 @@ public class JshMainTest extends JshTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void mainTest_empty_cmd_space() {
+    public void test_main_empty_cmd_space() {
         String input = "\n \n \n \n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);

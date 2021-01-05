@@ -22,7 +22,7 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void testChangeDir() throws IOException {
+    public void test_change_dir() throws IOException {
         String toFolder = "src";
         ArrayList<String> aCase = new ArrayList<>(Collections.singleton("cd"));
         aCase.add(toFolder);
@@ -32,7 +32,7 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void testChangeBack() throws IOException {
+    public void test_change_back() throws IOException {
         String[] args = {"cd", "src"};
         String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, this.out);
 
@@ -44,16 +44,6 @@ public class CdTest extends JshTest {
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
-
-    @Test
-    public void test_cd_no_args() throws IOException {
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("Index 1 out of bounds for length 1");
-        Cd cd = new Cd();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("cd");
-        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
-    }
 
     @Test
     public void test_cd_exception() throws IOException {
@@ -74,27 +64,14 @@ public class CdTest extends JshTest {
         cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Test
     public void test_cd_file_not_found() throws IOException {
-        exception.expect(FileNotFoundException.class);
-        exception.expectMessage("nonexistingfile.txt (No such file or directory)");
+        exceptionRule.expect(FileNotFoundException.class);
+        exceptionRule.expectMessage("nonexistingfile.txt (No such file or directory)");
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
         args.add("cd");
         cd.mainExec(args, System.getProperty("user.dir"), new FileInputStream("nonexistingfile.txt"), out);
-    }
-
-    @Test
-    public void test_cd_other() throws IOException {
-        exceptionRule.expect(RuntimeException.class);
-        exceptionRule.expectMessage("Index 1 out of bounds for length 1");
-        Cd cd = new Cd();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("cd");
-        cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
 
     @Test
@@ -116,5 +93,4 @@ public class CdTest extends JshTest {
         args.add("cd");args.add("a");args.add("b");
         cd.mainExec(args, System.getProperty("user.dir"), InputStream.nullInputStream(), out);
     }
-
 }
