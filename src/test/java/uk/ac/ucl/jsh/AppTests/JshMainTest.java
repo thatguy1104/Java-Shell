@@ -1,7 +1,6 @@
 package uk.ac.ucl.jsh.AppTests;
 
-import org.junit.After;
-import org.junit.Before;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -9,8 +8,6 @@ import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.*;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 
 public class JshMainTest extends JshTest {

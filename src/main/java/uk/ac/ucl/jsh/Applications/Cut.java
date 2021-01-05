@@ -76,6 +76,7 @@ public class Cut implements Application {
             while (scn.hasNextLine()) {
                 result.add(scn.nextLine());
             }
+            scn.close();
         }
         return result;
     }

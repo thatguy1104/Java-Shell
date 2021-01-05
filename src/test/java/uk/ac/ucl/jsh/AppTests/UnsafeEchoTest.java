@@ -3,7 +3,6 @@ import org.junit.Test;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;

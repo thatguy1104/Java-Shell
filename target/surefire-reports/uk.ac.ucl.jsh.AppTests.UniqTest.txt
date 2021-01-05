@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ucl.jsh.AppTests.UniqTest
 -------------------------------------------------------------------------------
-Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.256 s - in uk.ac.ucl.jsh.AppTests.UniqTest
+Tests run: 38, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.158 s - in uk.ac.ucl.jsh.AppTests.UniqTest

@@ -1,6 +1,5 @@
 package uk.ac.ucl.jsh.AppTests;
 import org.junit.Test;
-import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 import uk.ac.ucl.jsh.Parser.Globbing;
 

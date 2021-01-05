@@ -1,19 +1,15 @@
 package uk.ac.ucl.jsh.AppTests;
 
 import org.junit.Test;
-import uk.ac.ucl.jsh.Applications.Find;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class UnsafeFindTest extends JshTest {
