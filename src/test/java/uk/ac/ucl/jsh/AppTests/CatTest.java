@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.internal.runners.JUnit38ClassRunner;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import uk.ac.ucl.jsh.Applications.Cat;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;

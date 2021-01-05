@@ -5,13 +5,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import uk.ac.ucl.jsh.Applications.Uniq;
 import uk.ac.ucl.jsh.Jsh;
-import uk.ac.ucl.jsh.JshGrammarParser;
 import uk.ac.ucl.jsh.JshTest;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
