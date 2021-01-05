@@ -7,9 +7,7 @@ import uk.ac.ucl.jsh.Applications.Ls;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -19,22 +17,25 @@ public class LsTest extends JshTest {
     public LsTest() throws IOException {
     }
 
+    OutputStream outs = new ByteArrayOutputStream();
+
     @Test
     public void test_ls_current_directory() {
         File f = new File(System.getProperty("user.dir"));
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
-        List<String> results = new ArrayList<>();
+        List<String> results;
 
         assert f_list != null;
         for (File file : f_list) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
-        Jsh.eval("ls", this.out);
-        for (String file_name : expected) {
-            results.add(pwdSupplementary(file_name));
-        }
+        Jsh.eval("ls", outs);
+//        for (String file_name : expected) {
+//            results.add(pwdSupplementary(file_name));
+//        }
+        results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
         Collections.sort(results);
@@ -47,17 +48,18 @@ public class LsTest extends JshTest {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory);
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
-        List<String> results = new ArrayList<>();
+        List<String> results;
 
         assert f_list != null;
         for (File file : f_list) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
-        Jsh.eval("ls testDir", this.out);
-        for (String file_name : expected) {
-            results.add(pwdSupplementary(file_name));
-        }
+        Jsh.eval("ls testDir", outs);
+//        for (String file_name : expected) {
+//            results.add(pwdSupplementary(file_name));
+//        }
+        results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
         Collections.sort(results);
@@ -70,17 +72,18 @@ public class LsTest extends JshTest {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory + File.separator + JshTest.testSubDirectory);
         File[] f_list = f.listFiles();
         List<String> expected = new ArrayList<>();
-        List<String> results = new ArrayList<>();
+        List<String> results;
 
         assert f_list != null;
         for (File file : f_list) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
-        Jsh.eval("ls testDir" + File.separator + "testSubDir", this.out);
-        for (String file_name : expected) {
-            results.add(pwdSupplementary(file_name));
-        }
+        Jsh.eval("ls testDir" + File.separator + "testSubDir", outs);
+//        for (String file_name : expected) {
+//            results.add(pwdSupplementary(file_name));
+//        }
+        results = Arrays.asList(outs.toString().trim().split("\\s+"));
 
         Collections.sort(expected);
         Collections.sort(results);

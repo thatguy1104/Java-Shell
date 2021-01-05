@@ -92,7 +92,7 @@ public class JshTest {
 
     protected String readFile(String file_name) throws IOException {
         List<String> contents = Files.readAllLines(Paths.get(file_name));
-        return contents.stream().map(String::valueOf).collect(Collectors.joining("\n"));
+        return contents.stream().map(String::valueOf).collect(Collectors.joining(System.getProperty("line.separator")));
     }
 
     protected String pwdSupplementary(String contents) {

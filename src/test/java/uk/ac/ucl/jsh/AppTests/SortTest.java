@@ -7,9 +7,7 @@ import uk.ac.ucl.jsh.Applications.Sort;
 import uk.ac.ucl.jsh.Jsh;
 import uk.ac.ucl.jsh.JshTest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -19,48 +17,67 @@ public class SortTest extends JshTest {
     public SortTest() throws IOException {
     }
 
+    OutputStream outs = new ByteArrayOutputStream();
+
     @Test
     public void test_sort_simple() {
         String filepath = JshTest.testDirectory + File.separator;
-        String[] args = {"sort " + filepath +  "text1.txt", "abcdefghi\nofeijnwio"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"sort " + filepath +  "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
+                                                            "ofeijnwio"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_sort_r() {
         String filepath = JshTest.testDirectory + File.separator;
-        String[] args = {"sort -r " + filepath + "text1.txt", "ofeijnwio\nabcdefghi"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"sort -r " + filepath + "text1.txt", "ofeijnwio" + System.getProperty("line.separator") +
+                                                              "abcdefghi"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_sort_r_stdin() {
         String filepath = JshTest.testDirectory + File.separator;
-        String[] args = {"sort -r <" + filepath +  "text3.txt", "AAA\nAAA\nBBB\nCCC\na\nb\nc\nccc\nd\ne"};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        String[] args = {"sort -r <" + filepath +  "text3.txt", "AAA" + System.getProperty("line.separator") +
+                                                                "AAA" + System.getProperty("line.separator") +
+                                                                "BBB" + System.getProperty("line.separator") +
+                                                                "CCC" + System.getProperty("line.separator") +
+                                                                "a" + System.getProperty("line.separator") +
+                                                                "b" + System.getProperty("line.separator") +
+                                                                "c" + System.getProperty("line.separator") +
+                                                                "ccc" + System.getProperty("line.separator") +
+                                                                "d" + System.getProperty("line.separator") +
+                                                                "e" + System.getProperty("line.separator") +
+                                                                "f" + System.getProperty("line.separator") +
+                                                                "g" + System.getProperty("line.separator") +
+                                                                "h" + System.getProperty("line.separator") +
+                                                                "i"};
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_sort_empty() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"sort " + filepath +  "text3.txt", ""};
-        Jsh.eval(args[0], this.out);
-        String full_string = getEvalResult(args[1]);
-        assertEquals(full_string, args[1]);
+        Jsh.eval(args[0], outs);
+        //String full_string = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
     public void test_cat_pipe_sort() {
-        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | sort", "AAA\nAAA\nBBB"};
-        Jsh.eval(args[0], this.out);
-        String result = getEvalResult(args[1]);
-        assertEquals(args[1], result);
+        String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | sort", "AAA" + System.getProperty("line.separator") +
+                                                                                               "AAA" + System.getProperty("line.separator") +
+                                                                                               "BBB"};
+        Jsh.eval(args[0], outs);
+        //String result = getEvalResult(args[1]);
+        assertEquals(args[1], outs.toString().trim());
     }
 
     @Rule
