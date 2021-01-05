@@ -41,20 +41,14 @@ public class Cut implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-
         String concat_args = Stream.of(args.get(2)
                 .replaceAll("[^-?0-9]+", " ")
                 .split(" "))
                 .map (String::new)
                 .collect(Collectors.joining(", "));
-
         List<Integer> clean_args = parse_cut_input(concat_args);
-
-//        if (clean_args.get(0) == -2) return "ERROR cut: incorrect list ranges";
         if (clean_args.get(0) == -1) return "ERROR cut: could not convert arguments";
-
         String file_name = args.get(3);
-
         return process(currentDirectory, clean_args, file_name);
     }
 
@@ -209,6 +203,7 @@ public class Cut implements Application {
         return total_range;
     }
 
+    //TODO ADD COMMENT WHAT DOES THIS METHOD DO?
     private List<Integer> test(List<String> inner_range, List<Integer> total_range) {
         if (inner_range.size() == 1) {
             List<Integer> case_one = parse_caseOne(inner_range, total_range);
