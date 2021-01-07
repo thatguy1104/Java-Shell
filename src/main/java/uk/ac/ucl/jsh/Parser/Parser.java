@@ -19,7 +19,7 @@ public class Parser {
         return new CommandLineVisitor().visitStart(compile_unit);
     }
 
-    public static ArrayList<String> parseCallCommand(String callCommand) {
+    public static ArrayList<String> parseCallCommand (String callCommand) {
         CallGrammarLexer lexer = new CallGrammarLexer(CharStreams.fromString(callCommand));
         CallGrammarParser parser = new CallGrammarParser(new CommonTokenStream(lexer));
         CallGrammarParser.StartContext compile_unit = parser.start();

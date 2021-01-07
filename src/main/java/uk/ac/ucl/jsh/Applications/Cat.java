@@ -71,7 +71,7 @@ public class Cat implements Application {
 
     /**
     * Function to print to a specified output stream
-    * @return - void
+    * @exception IOException thrown if there is an error with OutputStreamWriter
     */
     private void writeOut(Scanner scn, OutputStream output) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);

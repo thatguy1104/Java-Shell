@@ -52,7 +52,6 @@ public class Echo implements Application {
 
     /**
      * Function to perform check for globbing or multiple file arguments
-     * @return - ArrayList of files
      */
     private ArrayList<String> process(String checkArg, String currentDirectory) {
         String directoryCheck, fileType, diffDirectory;
@@ -70,12 +69,11 @@ public class Echo implements Application {
     }
 
     /**
-     * Support function for the process method, iterates through files
-     * @return - ArrayList of file names
+     * Support function for the process method, iterates through globbed files in a specific directory
      */
-    private ArrayList<String> supportProcess(String fileType, String directoryCheck, String currDir) {
+    private ArrayList<String> supportProcess(String fileType, String dirToCheck, String currDir) {
         ArrayList<String> result = new ArrayList<>();
-        ArrayList<File> listOfFiles = new ArrayList<>(globbing.globFiles(fileType, directoryCheck));
+        ArrayList<File> listOfFiles = new ArrayList<>(globbing.globFiles(fileType, dirToCheck));
         for (File fileName : listOfFiles) {
             String relativeFile = fileName.toString().substring(currDir.length() + 1);
             result.add(relativeFile);
@@ -85,7 +83,7 @@ public class Echo implements Application {
 
     /**
      * Function to check for proper formatting and print to a specified output stream using ArrayList
-     * @return - void
+     * @exception IOException throws exception in case of error with OutputStreamWriter
      */
     private void writeOut(ArrayList<String> args) throws IOException {
         int counter = countEmptySpaces(args);
@@ -112,7 +110,6 @@ public class Echo implements Application {
 
     /**
      * Function to count elements representing an empty space
-     * @return - integer
      */
     private int countEmptySpaces(ArrayList<String> args) {
         int result = 0;
@@ -124,7 +121,6 @@ public class Echo implements Application {
 
     /**
      * Function to print to a specified output stream using Scanner contents
-     * @return - void
      */
     private void writeOut(Scanner scn) throws IOException {
         while (scn.hasNextLine()) {

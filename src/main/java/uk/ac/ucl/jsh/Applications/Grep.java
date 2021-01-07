@@ -73,7 +73,6 @@ public class Grep implements Application {
 
     /**
      * Function to return number of dots present in a grep pattern (wildcards)
-     * @return - number of dots in a pattern in an integer data type
      */
     private int isAllDots(Pattern pattern) {
         int result = 0;
@@ -87,7 +86,7 @@ public class Grep implements Application {
 
     /**
      * Function to match lines and write them to an output stream
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
     private void writeOut(Scanner scn, Pattern pattern, String filePath) throws IOException {
         int dots = isAllDots(pattern);
@@ -109,7 +108,6 @@ public class Grep implements Application {
 
     /**
      * Function to get directory pathway for the specified file name arguments
-     * @return - path type array
      */
     private Path[] getFilePaths(String currentDirectory, ArrayList<String> args, int numOfFiles) {
         Path[] filePathArray = new Path[numOfFiles];

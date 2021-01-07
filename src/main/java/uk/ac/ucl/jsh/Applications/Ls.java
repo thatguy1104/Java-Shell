@@ -53,7 +53,7 @@ public class Ls implements Application {
 
     /**
      * Function to print the list of files to a specified output stream
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
     private void writeOut(File[] listOfFiles, OutputStreamWriter writer) throws IOException {
         for (File file : listOfFiles) {
@@ -62,7 +62,7 @@ public class Ls implements Application {
                 writer.flush();
             }
         }
-            writer.write(Jsh.lineSeparator);
-            writer.flush();
+        writer.write(Jsh.lineSeparator);
+        writer.flush();
     }
 }

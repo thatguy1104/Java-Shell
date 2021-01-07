@@ -35,7 +35,7 @@ public class Uniq implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
         ArrayList<String> new_args = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class Uniq implements Application {
         } else {
             /* Filename position in args changes if '-i' is present */
             String uniqFilename = (args.size() == 3) ? args.get(2) : args.get(1);
-            File uniqFile = new File(currDir + File.separator + uniqFilename);
+            File uniqFile = new File(currentDirectory + File.separator + uniqFilename);
 
             if (uniqFile.exists()) {
                 try {
@@ -69,7 +69,7 @@ public class Uniq implements Application {
                 return "ERROR uniq: " + uniqFilename + " does not exist";
             }
         }
-        return currDir;
+        return currentDirectory;
     }
 
     @Override
@@ -92,7 +92,6 @@ public class Uniq implements Application {
 
     /**
      * Find the unique lines and store them into an ArrayList to return
-     * @return - ArrayList
      */
     private ArrayList<String> returnUniqLines(ArrayList<String> lines, ArrayList<String> args) {
 
@@ -122,7 +121,7 @@ public class Uniq implements Application {
 
     /**
      * Function to print the Array of unique lines
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
     private void writeOut(ArrayList<String> uniqLines) throws IOException {
         for (String uniqLine : uniqLines) {

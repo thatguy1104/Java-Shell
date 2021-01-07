@@ -66,7 +66,6 @@ public class Find implements Application {
 
     /**
      * Runs the process of checking the directories that don't start with a dot
-     * @return - Set
      */
     private Set<String> checkDirectories(ArrayList<String> args, int argSizeCheck, File cur, String stableDirectory, Boolean globbing, Boolean directorySpecified) throws IOException {
         File[] listOfFiles = cur.listFiles();
@@ -82,72 +81,68 @@ public class Find implements Application {
 
     /**
      * Calls the relevant method to find the correct files in the list of all files
-     * @return - Set
      */
-    private Set<String> getCorrectFiles(ArrayList<String> args, HashMap<String, String> all_files, Boolean globbing, Boolean directorySpecified, int argSizeCheck){
-        Set<String> result_set = new HashSet<>();
+    private Set<String> getCorrectFiles(ArrayList<String> args, HashMap<String, String> all_files, Boolean globbing, Boolean directorySpecified, int argSizeCheck) {
+        Set<String> resultSet = new HashSet<>();
         for (Map.Entry<String, String> entry : all_files.entrySet()) {
             if (!globbing) {
-                result_set.addAll(caseSingleName(args, entry, directorySpecified, argSizeCheck));
+                resultSet.addAll(caseSingleName(args, entry, directorySpecified, argSizeCheck));
             } else {
-                result_set.addAll(caseGlobbing(args, entry, directorySpecified));
+                resultSet.addAll(caseGlobbing(args, entry, directorySpecified));
             }
         }
-        return result_set;
+        return resultSet;
     }
 
     /**
      * Finds the files with a specified matching name
-     * @return - Set
      */
     private Set<String> caseSingleName(ArrayList<String> args, Map.Entry<String, String> entry, Boolean directorySpecified, int argSizeCheck) {
-        Set<String> result_set = new HashSet<>();
+        Set<String> resultSet = new HashSet<>();
         for (String currentArgument : args.subList(argSizeCheck - 1, args.size())) {
             if (currentArgument.equals(entry.getValue())) {
                 if (!directorySpecified) {
-                    result_set.add("." + entry.getKey());
+                    resultSet.add("." + entry.getKey());
                 } else {
-                    result_set.add(entry.getKey().substring(1));
+                    resultSet.add(entry.getKey().substring(1));
                 }
             }
         }
-        return result_set;
+        return resultSet;
     }
 
     /**
      * Finds all the files with the specified file extension
-     * @return - Set
      */
-    private Set<String> caseGlobbing(ArrayList<String> args, Map.Entry<String, String> entry, Boolean directorySpecified){
-        Set<String> result_set = new HashSet<>();
+    private Set<String> caseGlobbing(ArrayList<String> args, Map.Entry<String, String> entry, Boolean directorySpecified) {
+        Set<String> resultSet = new HashSet<>();
         if (args.get(args.size() - 1).substring(2).equals(entry.getValue().substring(entry.getValue().length() - args.get(args.size() - 1).substring(2).length()))) {
             if (!directorySpecified) {
-                result_set.add( "." + entry.getKey());
+                resultSet.add( "." + entry.getKey());
             } else {
-                result_set.add(entry.getKey().substring(1));
+                resultSet.add(entry.getKey().substring(1));
             }
         }
-        return result_set;
+        return resultSet;
     }
 
     /**
      * Gets all files in a directory an it's subdirectories
-     * @return - HashMap
      */
     private HashMap<String, String> walkFileDirs(File fileDirectory, String stableDirectory) throws IOException {
-        HashMap<String, String> walk_result = new HashMap<>();
+        HashMap<String, String> walkResult = new HashMap<>();
         Files.walk(fileDirectory.toPath())
                 .filter(path -> !Files.isDirectory(path))
-                .forEach(path -> walk_result.put(path.toString().substring(stableDirectory.length()), path.getFileName().toString()));
-        return walk_result;
+                .forEach(path -> walkResult.put(path.toString().substring(stableDirectory.length()), path.getFileName().toString()));
+        return walkResult;
     }
 
     /**
      * Prints the resulting set to specified output
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
-    private void writeOut(Set<String> result_set, OutputStreamWriter writer) throws IOException {
-        for (String item : result_set) {
+    private void writeOut(Set<String> resultSet, OutputStreamWriter writer) throws IOException {
+        for (String item : resultSet) {
             writer.write(item + Jsh.lineSeparator);
             writer.flush();
         }

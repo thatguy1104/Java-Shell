@@ -58,7 +58,7 @@ public class Head implements Application {
 
     /**
      * Function to print the correct number of lines to a specified output stream
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
     private void writeOut(Scanner scn, OutputStreamWriter writer, int headLines) throws IOException {
         int counter = 0;
@@ -71,7 +71,6 @@ public class Head implements Application {
 
     /**
      * Checks if there is a number of lines specified
-     * @return - int
      */
     private int changeHeadLines(ArrayList<String> args) {
         int headLines = 10;
@@ -87,7 +86,7 @@ public class Head implements Application {
 
     /**
      * Gets the correct number of lines and calls the WriteOut method with relevant parameters
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter in the writeOut method
      */
     private void getCorrectLines(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output, int headLines) throws IOException {
         OutputStreamWriter writer = new OutputStreamWriter(output);

@@ -32,7 +32,7 @@ public class Sort implements Application {
     }
 
     @Override
-    public String exec(ArrayList<String> args, String currDir, InputStream input, OutputStream output) throws IOException {
+    public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         this.writer = new OutputStreamWriter(output);
 
         /* Check argument validity, check for existence of the reverse character */
@@ -46,7 +46,7 @@ public class Sort implements Application {
             returnSorted(args, new_args);
         } else {
             String sortArg = args.size() == 3 ? args.get(2) : args.get(1);
-            File filePath = new File(currDir + File.separator + sortArg);
+            File filePath = new File(currentDirectory + File.separator + sortArg);
 
             if (filePath.exists()) {
                 try {
@@ -61,7 +61,7 @@ public class Sort implements Application {
                 return "ERROR sort: " + sortArg + " does not exist";
             }
         }
-        return currDir;
+        return currentDirectory;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Sort implements Application {
 
     /**
      * Function to process arguments and call writeOut method to output results
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter in the writeOut method
      */
     private void returnSorted(ArrayList<String> args, ArrayList<String> lines) throws IOException {
         List<String> sortedLines;
@@ -105,7 +105,7 @@ public class Sort implements Application {
 
     /**
      * Function to write String s to a designated output stream
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
     private void writeOut(String s) throws IOException {
         this.writer.write(s + Jsh.lineSeparator);

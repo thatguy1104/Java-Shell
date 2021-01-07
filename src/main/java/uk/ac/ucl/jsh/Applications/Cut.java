@@ -46,10 +46,10 @@ public class Cut implements Application {
                 .split(" "))
                 .map (String::new)
                 .collect(Collectors.joining(", "));
-        List<Integer> clean_args = parse_cut_input(concat_args);
-        if (clean_args.get(0) == -1) return "ERROR cut: could not convert arguments";
+        List<Integer> cleanArgs = parseCutInput(concat_args);
+        if (cleanArgs.get(0) == -1) return "ERROR cut: could not convert arguments";
         String file_name = args.get(3);
-        return process(currentDirectory, clean_args, file_name);
+        return process(currentDirectory, cleanArgs, file_name);
     }
 
     @Override
@@ -83,19 +83,20 @@ public class Cut implements Application {
 
     /**
      * Function to process existence of input stream contents
+     * @exception IOException throws exception in case of scanner error
      * @return - either an error in case of invalid file argument or current directory
      */
-    private String process(String currentDirectory, List<Integer> clean_args, String file_name) throws IOException {
-        File currFile = new File(currentDirectory + File.separator + file_name);
+    private String process(String currentDirectory, List<Integer> cleanArgs, String fileName) throws IOException {
+        File currFile = new File(currentDirectory + File.separator + fileName);
         Scanner scn;
         if (pipe) {
-            scn = new Scanner(file_name);
+            scn = new Scanner(fileName);
         } else if (currFile.exists()) {
-            scn = new Scanner(Paths.get(currentDirectory + File.separator + file_name));
+            scn = new Scanner(Paths.get(currentDirectory + File.separator + fileName));
         } else {
             return "ERROR cut: file does not exist";
         }
-        if (!writeOut(scn, clean_args)) {
+        if (!writeOut(scn, cleanArgs)) {
             return "ERROR cut: byte index specified does not exist";
         }
         return currentDirectory;
@@ -103,18 +104,19 @@ public class Cut implements Application {
 
     /**
      * Function to print to a specified output stream
+     * @exception IOException throws exception in case of OutputStreamWriter failure
      * @return - boolean value representing whether or not the operation has been successful
      */
-    private boolean writeOut(Scanner scn, List<Integer> clean_args) throws IOException {
+    private boolean writeOut(Scanner scn, List<Integer> validRange) throws IOException {
         while (scn.hasNextLine()) {
             String line = scn.nextLine();
-            ArrayList<Character> separated_bytes = new ArrayList<>();
-            for (int i : clean_args) {
+            ArrayList<Character> separatedBytes = new ArrayList<>();
+            for (int i : validRange) {
                 if (i < 0) return false; /* invalid character index */
-                else if (i < line.length()) separated_bytes.add(line.charAt(i));
+                else if (i < line.length()) separatedBytes.add(line.charAt(i));
             }
-            String resulting_line = separated_bytes.stream().map(String::valueOf).collect(Collectors.joining());
-            writer.write(resulting_line + Jsh.lineSeparator);
+            String resultingLine = separatedBytes.stream().map(String::valueOf).collect(Collectors.joining());
+            writer.write(resultingLine + Jsh.lineSeparator);
             writer.flush();
         }
         return true;
@@ -124,50 +126,50 @@ public class Cut implements Application {
      * Function to process cases of argument of type: e.g. 1- or 5-
      * @return - list of valid integer ranges
      */
-    private List<Integer> parse_caseOne(List<String> inner_range) {
-        List<Integer> final_lst = new ArrayList<>();
-        int num_of_char_per_line = 1000;
+    private List<Integer> parseCaseOne(List<String> innerRange) {
+        List<Integer> finalList = new ArrayList<>();
+        int numOfCharPerLine = 1000;
 
         try {
-            int converted_elem = Integer.parseInt(inner_range.get(0));
-            for (int j = converted_elem + 1; j < num_of_char_per_line; j++) {
-                final_lst.add(j - 2);
+            int convertedElem = Integer.parseInt(innerRange.get(0));
+            for (int j = convertedElem + 1; j < numOfCharPerLine; j++) {
+                finalList.add(j - 2);
             }
         } catch (Exception f) {
             return null;
         }
-        return final_lst;
+        return finalList;
     }
 
     /**
      * Function to process cases of argument of type: e.g. 1-3 or 4-9
      * @return - list of valid integer ranges
      */
-    private List<Integer> parse_caseTwo(List<String> inner_range) {
-        List<Integer> final_lst = new ArrayList<>();
-        int converted_start = Integer.parseInt(inner_range.get(0));
-        int converted_end = Integer.parseInt(inner_range.get(1));
-        for (int j = converted_start; j <= converted_end; j++) {
-            final_lst.add(j - 1);
+    private List<Integer> parseCaseTwo(List<String> innerRange) {
+        List<Integer> finalList = new ArrayList<>();
+        int convertedStart = Integer.parseInt(innerRange.get(0));
+        int convertedEnd = Integer.parseInt(innerRange.get(1));
+        for (int j = convertedStart; j <= convertedEnd; j++) {
+            finalList.add(j - 1);
         }
-        return final_lst;
+        return finalList;
     }
 
     /**
      * Function to process cases of argument of type: e.g. 1,2 or 3,7,10
      * @return - list of valid integer ranges
      */
-    private List<Integer> parse_caseZero(String elem) {
-        List<Integer> final_lst = new ArrayList<>();
-        int int_elem = Integer.parseInt(elem);
-        if (int_elem < 0) {
-            for (int i = 1; i <= Math.abs(int_elem); i++) {
-                final_lst.add(i - 1);
+    private List<Integer> parseCaseZero(String elem) {
+        List<Integer> finalList = new ArrayList<>();
+        int intElem = Integer.parseInt(elem);
+        if (intElem < 0) {
+            for (int i = 1; i <= Math.abs(intElem); i++) {
+                finalList.add(i - 1);
             }
         } else {
-            final_lst.add(int_elem - 1);
+            finalList.add(intElem - 1);
         }
-        return final_lst;
+        return finalList;
     }
 
     /**
@@ -186,36 +188,36 @@ public class Cut implements Application {
      * Function parse cut case input
      * @return - final list of valid integer ranges
      */
-    private List<Integer> parse_cut_input(String str) {
-        List<String> line_args = lineArgument(str);
-        List<Integer> total_range = new ArrayList<>();
+    private List<Integer> parseCutInput(String str) {
+        List<String> lineArgs = lineArgument(str);
+        List<Integer> totalRange = new ArrayList<>();
 
         /* Parse each element to extend arguments where necessary */
-        for (String elem : line_args) {
+        for (String elem : lineArgs) {
             try {
-                total_range = Stream.of(total_range, parse_caseZero(elem)).flatMap(Collection::stream).collect(Collectors.toList());
+                totalRange = Stream.of(totalRange, parseCaseZero(elem)).flatMap(Collection::stream).collect(Collectors.toList());
             } catch (Exception e) {
                 elem = elem.replaceAll("[^?0-9]+", " ");
-                List<String> inner_range = Arrays.asList(elem.trim().split(" "));
-                total_range = parse_cut_supplementary(inner_range, total_range);
-                return total_range;
+                List<String> innerRange = Arrays.asList(elem.trim().split(" "));
+                totalRange = parseCutSupplementary(innerRange, totalRange);
+                return totalRange;
             }
         }
-        return total_range;
+        return totalRange;
     }
 
     /**
      * Supporting method for parse_cut, uses logic cases to set an appropriate case range
      * @return - appropriate valid integer ranges
      */
-    private List<Integer> parse_cut_supplementary(List<String> inner_range, List<Integer> total_range) {
-        if (inner_range.size() == 1) {
-            List<Integer> case_one = parse_caseOne(inner_range);
-            total_range = Stream.of(total_range, case_one).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
+    private List<Integer> parseCutSupplementary(List<String> innerRange, List<Integer> totalRange) {
+        if (innerRange.size() == 1) {
+            List<Integer> caseOne = parseCaseOne(innerRange);
+            totalRange = Stream.of(totalRange, caseOne).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
         } else {
-            List<Integer> case_two = parse_caseTwo(inner_range);
-            total_range = Stream.of(total_range, case_two).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
+            List<Integer> caseTwo = parseCaseTwo(innerRange);
+            totalRange = Stream.of(totalRange, caseTwo).filter(Objects::nonNull).flatMap(Collection::stream).collect(Collectors.toList());
         }
-        return total_range;
+        return totalRange;
     }
 }

@@ -1,0 +1,15 @@
+uk/ac/ucl/jsh/AppTests/UnsafeUniqTest.class
+uk/ac/ucl/jsh/AppTests/JshMainTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeCdTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeEchoTest.class
+uk/ac/ucl/jsh/AppTests/GlobTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeUnsafeTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeGrepTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeLsTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeSortTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeHeadTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeCatTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeTailTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeFindTest.class
+uk/ac/ucl/jsh/AppTests/UnsafePwdTest.class
+uk/ac/ucl/jsh/AppTests/UnsafeCutTest.class

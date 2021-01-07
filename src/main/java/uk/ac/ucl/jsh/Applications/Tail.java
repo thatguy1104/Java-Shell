@@ -33,17 +33,17 @@ public class Tail implements Application {
     @Override
     public String exec(ArrayList<String> args, String currentDirectory, InputStream input, OutputStream output) throws IOException {
         writer = new OutputStreamWriter(output);
-        ArrayList<String> new_args = new ArrayList<>();
+        ArrayList<String> newArgs = new ArrayList<>();
         int tailLines = 10;
         String endResult;
 
         if (args.size() == 1) {
             Scanner scn = new Scanner(input);
             while (scn.hasNextLine()) {
-                new_args.add(scn.nextLine());
+                newArgs.add(scn.nextLine());
             }
             scn.close();
-            writeOut(tailLines, new_args);
+            writeOut(tailLines, newArgs);
         } else {
             endResult = normalInput(args, tailLines, currentDirectory);
             if (!endResult.equals("SUCCESS")) {
@@ -74,7 +74,7 @@ public class Tail implements Application {
 
     /**
      * Function to print the correct number of lines from an ArrayList
-     * @return - void
+     * @exception IOException throws exception in case of OutputStreamWriter
      */
     private void writeOut(int tailLines, ArrayList<String> storage) throws IOException {
         int index = tailLines <= storage.size() ? storage.size() - tailLines : 0;
@@ -86,7 +86,7 @@ public class Tail implements Application {
 
     /**
      * Handles the case for a normal input: calls the methods to get the correct lines
-     * @return - String
+     * @exception IOException throws exception inside the getCorrectLines method
      */
     private String normalInput(ArrayList<String> args, int tailLines, String currentDirectory) throws IOException {
         String tailArg;
@@ -108,7 +108,6 @@ public class Tail implements Application {
 
     /**
      * Checks if there is a number of lines specified
-     * @return - int
      */
     private int changeTailLines(ArrayList<String> args) {
         int tailLines;
@@ -122,7 +121,7 @@ public class Tail implements Application {
 
     /**
      * Gets the correct number of lines and calls the WriteOut method with relevant parameters
-     * @return - String
+     * @exception IOException throws exception in case of OutputStreamWriter in writeOut method
      */
     private String getCorrectLines(int tailLines, String tailArg, String currentDirectory) throws IOException {
         File tailFile = new File(currentDirectory + File.separator + tailArg);
