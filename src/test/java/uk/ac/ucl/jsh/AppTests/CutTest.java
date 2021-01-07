@@ -18,7 +18,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_simple() {
+    public void testCutSimple() {
         String[] arg = {"cut -b 1 " + JshTest.testDirectory + File.separator + "text1.txt", "a" + System.getProperty("line.separator") +
                                                                                             "o"};
         Jsh.eval(arg[0], outs);
@@ -26,7 +26,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_simple_2() {
+    public void testCutSimple2() {
         String[] arg = {"cut -b 1,2 " + JshTest.testDirectory + File.separator + "text1.txt", "ab" + System.getProperty("line.separator") +
                                                                                               "of"};
         Jsh.eval(arg[0], outs);
@@ -34,7 +34,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_simple_3() {
+    public void testCutSimple3() {
         String[] arg = {"cut -b 1- " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                                                              "ofeijnwio"};
         Jsh.eval(arg[0], outs);
@@ -42,7 +42,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_simple_4() {
+    public void testCutSimple4() {
         String[] arg = {"cut -b 1,3-4 " + JshTest.testDirectory + File.separator + "text1.txt", "acd" + System.getProperty("line.separator") +
                                                                                                 "oei"};
         Jsh.eval(arg[0], outs);
@@ -50,14 +50,14 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_echo_pipe() {
+    public void testCutEchoPipe() {
         String[] arg = {"echo abc | cut -b 1", "a"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_cut_echo_pipe_2() {
+    public void testCutEchoPipe2() {
         String[] arg = {"echo abc | cut -b -1,2-", "abc"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
@@ -67,7 +67,7 @@ public class CutTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_cut_fileTest() throws IOException {
+    public void testCutFileTest() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: file does not exist");
         Cut cut = new Cut();
@@ -77,7 +77,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_wrong_args() throws IOException {
+    public void testCutWrongArgs() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: wrong arguments");
         Cut cut = new Cut();
@@ -87,7 +87,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_byte_index() throws IOException {
+    public void testCutByteIndex() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: byte index specified does not exist");
         Cut cut = new Cut();
@@ -97,7 +97,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_zero_arg() throws IOException {
+    public void testCutZeroArg() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: could not convert arguments");
         Cut cut = new Cut();
@@ -107,7 +107,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_missing_args() throws IOException {
+    public void testCutMissingArgs() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: missing arguments");
         Cut cut = new Cut();
@@ -117,7 +117,7 @@ public class CutTest extends JshTest {
     }
 
     @Test
-    public void test_cut_wrong_file3() throws IOException {
+    public void testCutWrongFile3() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cut: wrong argument " + JshTest.testDirectory + File.separator + "text1.txt");
         Cut cut = new Cut();

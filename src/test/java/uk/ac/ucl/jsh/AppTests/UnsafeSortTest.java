@@ -13,7 +13,7 @@ public class UnsafeSortTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_sort() {
+    public void testUnsafeSortSimple() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"_sort " + filepath +  "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                              "ofeijnwio"};
@@ -22,7 +22,7 @@ public class UnsafeSortTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_sort_r() {
+    public void testUnsafeSortR() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"_sort -r " + filepath + "text1.txt", "ofeijnwio" + System.getProperty("line.separator") +
                                                                "abcdefghi"};
@@ -31,7 +31,7 @@ public class UnsafeSortTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_sort_empty() {
+    public void testUnsafeSortEmpty() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"_sort " + filepath +  "text3.txt", ""};
         Jsh.eval(args[0], outs);

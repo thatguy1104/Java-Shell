@@ -17,7 +17,7 @@ public class UnsafeFindTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_find() {
+    public void testUnsafeFindSimple() {
         String testCase = "cd testDir; _find -name text1.txt; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "." + File.separator + "text1.txt\n" +
@@ -31,7 +31,7 @@ public class UnsafeFindTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_find_dir() {
+    public void testUnsafeFindDir() {
         String testCase = "_find testDir -name text1.txt";
         Jsh.eval(testCase, outs);
         String evalCase = testDirectory + File.separator + testSubDirectory + File.separator + "text1.txt\n" +
@@ -45,7 +45,7 @@ public class UnsafeFindTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_find_glob() {
+    public void testUnsafeFindGlob() {
         String testCase = "cd testDir; _find -name *.txt; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "." + File.separator + testSubDirectory + File.separator + "text3.txt\n" +
@@ -63,7 +63,7 @@ public class UnsafeFindTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_find_dir_glob() {
+    public void testUnsafeFindDirGlob() {
         String testCase = "_find testDir/testSubDir -name *.txt";
         Jsh.eval(testCase, outs);
         String evalCase = testDirectory + File.separator + testSubDirectory + File.separator + "text2.txt\n" +
@@ -78,7 +78,7 @@ public class UnsafeFindTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_find_subDir() {
+    public void testUnsafeFindSubDir() {
         String testCase = "cd testDir/testSubDir; _find -name text1.txt; cd ..; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "." + File.separator + "text1.txt";

@@ -11,7 +11,7 @@ public class UnsafeUnsafeTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_nothing() {
+    public void testUnsafeNothing() {
         String expected = "_cat: missing arguments";
         Jsh.eval("_cat", outs);
         String result = outs.toString().replaceAll(System.getProperty("line.separator"), "");
@@ -19,7 +19,7 @@ public class UnsafeUnsafeTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_error() {
+    public void testUnsafeError() {
         String expected = "_cat: file does not exist";
         Jsh.eval("_cat yes.txt", outs);
         String result = outs.toString().replaceAll(System.getProperty("line.separator"), "");

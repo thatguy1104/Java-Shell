@@ -18,21 +18,21 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_n_0() {
+    public void testTailN0() {
         String[] args = {"tail -n 0 " + JshTest.testDirectory + File.separator + "text2.txt", ""};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
-    public void test_tail_n_1() {
+    public void testTailN1() {
         String[] args = {"tail -n 1 " + JshTest.testDirectory + File.separator + "text1.txt", "ofeijnwio"};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
-    public void test_tail_n_3_caps() {
+    public void testTailN3Caps() {
         String[] args = {"tail -n 3 " + JshTest.testDirectory + File.separator + "text2.txt", "AAA" + System.getProperty("line.separator") +
                                                                                               "BBB" + System.getProperty("line.separator") +
                                                                                               "AAA"};
@@ -41,7 +41,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_n_3() {
+    public void testTailN3() {
         String[] args = {"tail -n 3 " + JshTest.testDirectory + File.separator + "text3.txt", "g" + System.getProperty("line.separator") +
                                                                                               "h" + System.getProperty("line.separator") +
                                                                                               "i"};
@@ -50,7 +50,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_cat_pipe_tail() {
+    public void testCatPipeTail() {
         String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | tail", "AAA" + System.getProperty("line.separator") +
                                                                                                "BBB" + System.getProperty("line.separator") +
                                                                                                "AAA"};
@@ -62,7 +62,7 @@ public class TailTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_tail_four_args_without_n() throws IOException{
+    public void testTailFourArgsWithoutN() throws IOException{
         Tail tail = new Tail();
         ArrayList<String> args = new ArrayList<>();
         args.add("tail");args.add("a");args.add("b");args.add("c");
@@ -72,7 +72,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_three_args() throws IOException{
+    public void testTailThreeArgs() throws IOException{
         Tail tail = new Tail();
         ArrayList<String> args = new ArrayList<>();
         args.add("tail");args.add("a");args.add("b");
@@ -82,7 +82,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_five_args() throws IOException{
+    public void testTailFiveArgs() throws IOException{
         Tail tail = new Tail();
         ArrayList<String> args = new ArrayList<>();
         args.add("tail");args.add("a");args.add("b");args.add("c");args.add("d");
@@ -92,7 +92,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_nonexistent_file() throws IOException{
+    public void testTailNonexistentFile() throws IOException{
         Tail tail = new Tail();
         ArrayList<String> args = new ArrayList<>();
         args.add("tail");args.add("nonexistentFile");
@@ -102,7 +102,7 @@ public class TailTest extends JshTest {
     }
 
     @Test
-    public void test_tail_missing_tail_count() throws IOException{
+    public void testTailMissingTailCount() throws IOException{
         Tail tail = new Tail();
         ArrayList<String> args = new ArrayList<>();
         args.add("tail");args.add("-n");args.add("a");args.add("b");

@@ -18,15 +18,15 @@ public class GlobTest extends JshTest {
     }
 
     @Test
-    public void test_glob_file_type() {
+    public void testGlobFileType() {
         String files = "*.txt";
-        String[] expected_file_names = {JshTest.testDirectory + File.separator + "text1.txt",
+        String[] expectedFileNames = {JshTest.testDirectory + File.separator + "text1.txt",
                                         JshTest.testDirectory + File.separator + "text2.txt",
                                         JshTest.testDirectory + File.separator + "text3.txt"};
         List<File> result = g.determineType(files, JshTest.testDirectory);
 
         List<File> expected = new ArrayList<>();
-        for (String file : expected_file_names) {
+        for (String file : expectedFileNames) {
             expected.add(new File(file));
         }
 
@@ -37,9 +37,9 @@ public class GlobTest extends JshTest {
     }
 
     @Test
-    public void test_glob_directory() {
+    public void testGlobDirectory() {
         String files = JshTest.testDirectory + File.separator + "*";
-        String[] expected_file_names = {JshTest.testDirectory + File.separator + "text1.txt",
+        String[] expectedFileNames = {JshTest.testDirectory + File.separator + "text1.txt",
                                         JshTest.testDirectory + File.separator + "text2.txt",
                                         JshTest.testDirectory + File.separator + "text3.txt",
                                         JshTest.testDirectory + File.separator + JshTest.testSubDirectory,
@@ -47,7 +47,7 @@ public class GlobTest extends JshTest {
         List<File> result = g.determineType(files, JshTest.testDirectory);
 
         List<File> expected = new ArrayList<>();
-        for (String file : expected_file_names) {
+        for (String file : expectedFileNames) {
             expected.add(new File(file));
         }
 

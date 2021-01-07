@@ -18,49 +18,49 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_simple_1() {
+    public void testSimple1() {
         String[] arg = {"echo hello world", "hello world"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_simple_2() {
+    public void testSimple2() {
         String[] arg = {"echo foo", "foo"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_input_sub() {
+    public void testInputSub() {
         String[] arg = {"`echo echo` foo", "foo"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_empty_sub() {
+    public void testEmptySub() {
         String[] arg = {"echo ``a", "a"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_complex_input_sub() {
+    public void testComplexInputSub() {
         String[] arg = {"echo \"a `echo \"b\"`\"", "a b"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_double_quotes() {
+    public void testDoubleQuotes() {
         String[] arg = {"echo \"a b\"", "a b"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_glob_file_extension() {
+    public void testGlobFileExtension() {
         String testCase = "cd testDir; echo *.txt; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "text1.txt text2.txt text3.txt";
@@ -73,7 +73,7 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_glob_directory() {
+    public void testGlobDirectory() {
         String testCase = "echo testDir/*.txt";
         Jsh.eval(testCase, outs);
         String evalCase = testDirectory + File.separator + "text1.txt " +
@@ -88,7 +88,7 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_echo_pipe() {
+    public void testEchoPipe() {
         String testCase = "cat testDir/text1.txt | echo";
         Jsh.eval(testCase, outs);
         String evalCase = "abcdefghi" + System.getProperty("line.separator") + "ofeijnwio";
@@ -101,7 +101,7 @@ public class EchoTest extends JshTest {
     }
 
     @Test
-    public void test_output_redirection() throws FileNotFoundException {
+    public void testOutputRedirection() throws FileNotFoundException {
         String[] args = {"echo aaa > testDir/testSubDir/text3.txt", "aaa"};
         Jsh.eval(args[0], outs);
         String fileLocation = testDirectory + File.separator + testSubDirectory + File.separator + "text3.txt";

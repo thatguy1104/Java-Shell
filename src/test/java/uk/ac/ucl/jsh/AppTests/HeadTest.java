@@ -18,14 +18,14 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_simple() throws IOException {
+    public void testHeadSimple() throws IOException {
         String[] args = {"head " + testDirectory + File.separator + "text1.txt", readFile(testDirectory + File.separator + "text1.txt")};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
-    public void test_head_n_7() {
+    public void testHeadN7() {
         String[] args = {"head -n 7 " + testDirectory + File.separator + "text3.txt", "AAA" + System.getProperty("line.separator") +
                                                                                       "BBB" + System.getProperty("line.separator") +
                                                                                       "AAA" + System.getProperty("line.separator") +
@@ -38,14 +38,14 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_n_0() {
+    public void testHeadN0() {
         String[] args = {"head -n 0 " + testDirectory + File.separator + "text1.txt", ""};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
-    public void test_head_subdir() {
+    public void testHeadSubdir() {
         String[] args = {"head " + subDirString + File.separator + "text1.txt", "1" + System.getProperty("line.separator") +
                                                                                 "2" + System.getProperty("line.separator") +
                                                                                 "3" + System.getProperty("line.separator") +
@@ -56,7 +56,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_subdir_2() {
+    public void testHeadSubdir2() {
         String[] args = {"head -n 2 " + subDirString + File.separator + "text2.txt", "A" + System.getProperty("line.separator") +
                                                                                      "a"};
         Jsh.eval(args[0], outs);
@@ -64,7 +64,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_cat_head() {
+    public void testCatHead() {
         String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | head", "AAA" + System.getProperty("line.separator") +
                                                                                                "BBB" + System.getProperty("line.separator") +
                                                                                                "AAA"};
@@ -76,7 +76,7 @@ public class HeadTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_head_four_args_without_n() throws IOException{
+    public void testHeadFourArgsWithoutN() throws IOException{
         Head head = new Head();
         ArrayList<String> args = new ArrayList<>();
         args.add("head");args.add("a");args.add("b");args.add("c");
@@ -86,7 +86,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_three_args() throws IOException{
+    public void testHeadThreeArgs() throws IOException{
         Head head = new Head();
         ArrayList<String> args = new ArrayList<>();
         args.add("head");args.add("a");args.add("b");
@@ -96,7 +96,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_five_args() throws IOException{
+    public void testHeadFiveArgs() throws IOException{
         Head head = new Head();
         ArrayList<String> args = new ArrayList<>();
         args.add("head");args.add("a");args.add("b");args.add("c");args.add("d");
@@ -106,7 +106,7 @@ public class HeadTest extends JshTest {
     }
 
     @Test
-    public void test_head_missing_head_count() throws IOException{
+    public void testHeadMissingHeadCount() throws IOException{
         Head head = new Head();
         ArrayList<String> args = new ArrayList<>();
         args.add("head");args.add("-n");args.add("a");args.add("b");

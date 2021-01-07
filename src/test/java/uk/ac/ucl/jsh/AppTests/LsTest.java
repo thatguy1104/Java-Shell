@@ -18,14 +18,14 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_current_directory() {
+    public void testLsCurrentDirectory() {
         File f = new File(System.getProperty("user.dir"));
-        File[] f_list = f.listFiles();
+        File[] fList = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results;
 
-        assert f_list != null;
-        for (File file : f_list) {
+        assert fList != null;
+        for (File file : fList) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
@@ -39,14 +39,14 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_specified_directory() {
+    public void testLsSpecifiedDirectory() {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory);
-        File[] f_list = f.listFiles();
+        File[] fList = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results;
 
-        assert f_list != null;
-        for (File file : f_list) {
+        assert fList != null;
+        for (File file : fList) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
@@ -60,14 +60,14 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_specified_subDirectory() {
+    public void testLsSpecifiedSubDirectory() {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory + File.separator + JshTest.testSubDirectory);
-        File[] f_list = f.listFiles();
+        File[] fList = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results;
 
-        assert f_list != null;
-        for (File file : f_list) {
+        assert fList != null;
+        for (File file : fList) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
@@ -84,7 +84,7 @@ public class LsTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_ls_argument_error() throws IOException {
+    public void testLsArgumentError() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("ls: too many arguments");
         Ls ls = new Ls();
@@ -94,7 +94,7 @@ public class LsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_directory_error() throws IOException {
+    public void testLsDirectoryError() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("ls: directory does not exist");
         Ls ls = new Ls();

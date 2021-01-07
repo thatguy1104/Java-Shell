@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class testFactory extends JshTest {
 
-    public testFactory() throws IOException {
+    public testFactory() {
     }
 
     @Test

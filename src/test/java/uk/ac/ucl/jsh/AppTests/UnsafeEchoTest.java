@@ -11,35 +11,35 @@ public class UnsafeEchoTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_simple_1() {
+    public void testUnsafeSimple1() {
         String[] arg = {"_echo hello world", "hello world"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_unsafe_simple_2() {
+    public void testUnsafeSimple2() {
         String[] arg = {"_echo foo", "foo"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_unsafe_input_sub() {
+    public void testUnsafeInputSub() {
         String[] arg = {"`_echo _echo` foo", "foo"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_complex_unsafe_input_sub() {
+    public void testComplexUnsafeInputSub() {
         String[] arg = {"_echo \"a `_echo \"b\"`\"", "a b"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());
     }
 
     @Test
-    public void test_unsafe_double_quotes() {
+    public void testUnsafeDoubleQuotes() {
         String[] arg = {"_echo \"a b\"", "a b"};
         Jsh.eval(arg[0], outs);
         assertEquals(arg[1], outs.toString().trim());

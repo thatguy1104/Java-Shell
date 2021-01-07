@@ -14,14 +14,14 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_head_simple() throws IOException {
+    public void testUnsafeHeadSimple() throws IOException {
         String[] args = {"_head " + testDirectory + File.separator + "text1.txt", readFile(testDirectory + File.separator + "text1.txt")};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
-    public void test_unsafe_head_7() {
+    public void testUnsafeHead7() {
         String[] args = {"_head -n 7 " + testDirectory + File.separator + "text3.txt", "AAA" + System.getProperty("line.separator") +
                                                                                        "BBB" + System.getProperty("line.separator") +
                                                                                        "AAA" + System.getProperty("line.separator") +
@@ -34,14 +34,14 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_head_0() {
+    public void testUnsafeHead0() {
         String[] args = {"_head -n 0 " + testDirectory + File.separator + "text1.txt", ""};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());
     }
 
     @Test
-    public void test_unsafe_head_subdir() {
+    public void testUnsafeHeadSubdir() {
         String[] args = {"_head " + subDirString + File.separator + "text1.txt", "1" + System.getProperty("line.separator") +
                                                                                  "2" + System.getProperty("line.separator") +
                                                                                  "3" + System.getProperty("line.separator") +
@@ -52,7 +52,7 @@ public class UnsafeHeadTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_head_subdir_2() {
+    public void testUnsafeHeadSubdir2() {
         String[] args = {"_head -n 2 " + subDirString + File.separator + "text2.txt", "A" + System.getProperty("line.separator") +
                                                                                       "a"};
         Jsh.eval(args[0], outs);

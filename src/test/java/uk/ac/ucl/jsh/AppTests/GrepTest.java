@@ -18,7 +18,7 @@ public class GrepTest extends JshTest {
     }
 
     @Test
-    public void test_grep_simple_1() {
+    public void testGrepSimple1() {
         String[] args = {"grep d " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi"};
         Jsh.eval(args[0], outs);
         assertEquals(args[1], outs.toString().trim());

@@ -16,14 +16,14 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_ls_current_directory() {
+    public void testLsCurrentDirectory() {
         File f = new File(System.getProperty("user.dir"));
-        File[] f_list = f.listFiles();
+        File[] fList = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results;
 
-        assert f_list != null;
-        for (File file : f_list) {
+        assert fList != null;
+        for (File file : fList) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
@@ -37,14 +37,14 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_ls_specified_directory() {
+    public void testUnsafeLsSpecifiedDirectory() {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory);
-        File[] f_list = f.listFiles();
+        File[] fList = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results = new ArrayList<>();
 
-        assert f_list != null;
-        for (File file : f_list) {
+        assert fList != null;
+        for (File file : fList) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
@@ -58,14 +58,14 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_ls_specified_sub_directory() {
+    public void testUnsafeLsSpecifiedSubDirectory() {
         File f = new File(System.getProperty("user.dir") + File.separator + JshTest.testDirectory + File.separator + JshTest.testSubDirectory);
-        File[] f_list = f.listFiles();
+        File[] fList = f.listFiles();
         List<String> expected = new ArrayList<>();
         List<String> results = new ArrayList<>();
 
-        assert f_list != null;
-        for (File file : f_list) {
+        assert fList != null;
+        for (File file : fList) {
             if (!file.getName().startsWith(".")) expected.add(file.getName());
         }
 
@@ -79,7 +79,7 @@ public class UnsafeLsTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_ls_nothing() {
+    public void testUnsafeLsNothing() {
         String expected = "_ls: too many arguments";
         Jsh.eval("_ls a b", outs);
         String result = outs.toString().strip();

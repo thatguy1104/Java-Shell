@@ -18,7 +18,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_simple() {
+    public void testUniqSimple() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"uniq " + filepath + "text3.txt", "AAA" + System.getProperty("line.separator") +
                                                            "BBB" + System.getProperty("line.separator") +
@@ -39,7 +39,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_empty() {
+    public void testUniqEmpty() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq " + filepath + "text3.txt", ""};
         Jsh.eval(args[0], outs);
@@ -47,7 +47,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_i() {
+    public void testUniqI() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq -i " + filepath + "text2.txt", "A" + System.getProperty("line.separator") +
                                                               "B" + System.getProperty("line.separator") +
@@ -57,7 +57,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_stdin() {
+    public void testUniqStdin() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq < " + filepath + "text2.txt", "A" + System.getProperty("line.separator") +
                                                              "a" + System.getProperty("line.separator") +
@@ -70,7 +70,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_stdin_i() {
+    public void testUniqStdinI() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"uniq -i < " + filepath + "text2.txt", "A" + System.getProperty("line.separator") +
                                                                 "B" + System.getProperty("line.separator") +
@@ -80,7 +80,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_tail_pipe_uniq_i() {
+    public void testTailPipeUniqI() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"tail -n 4 " + filepath + "text2.txt | uniq -i", "B" + System.getProperty("line.separator") +
                                                                           "C"};
@@ -92,7 +92,7 @@ public class UniqTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_uniq_argument_error() throws IOException{
+    public void testUniqArgumentError() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("a");args.add("b");
@@ -102,7 +102,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_argument_error2() throws IOException{
+    public void testUniqArgumentError2() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("a");args.add("b");
@@ -112,7 +112,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_wrong_filename() throws IOException{
+    public void testUniqWrongFilename() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("nonExistentFile");
@@ -122,7 +122,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_cannot_open() throws IOException{
+    public void testUniqCannotOpen() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("target");
@@ -132,7 +132,7 @@ public class UniqTest extends JshTest {
     }
 
     @Test
-    public void test_uniq_too_many_args() throws IOException{
+    public void testUniqTooManyArgs() throws IOException{
         Uniq uniq = new Uniq();
         ArrayList<String> args = new ArrayList<>();
         args.add("uniq");args.add("a");args.add("b");args.add("c");

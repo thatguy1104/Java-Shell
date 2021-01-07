@@ -92,62 +92,62 @@ public class JshTest {
     }
 
     @Test
-    public void testEcho() throws Exception {
+    public void testEcho() {
         new EchoTest();
     }
 
     @Test
-    public void testCat() throws Exception {
+    public void testCat() {
         new CatTest();
     }
 
     @Test
-    public void testCd() throws Exception {
+    public void testCd() {
         new CdTest();
     }
 
     @Test
-    public void testCut() throws Exception {
+    public void testCut() {
         new CutTest();
     }
 
     @Test
-    public void testFind() throws Exception {
+    public void testFind() {
         new FindTest();
     }
 
     @Test
-    public void testGrep() throws Exception {
+    public void testGrep() {
         new GrepTest();
     }
 
     @Test
-    public void testHead() throws Exception {
+    public void testHead() {
         new HeadTest();
     }
 
     @Test
-    public void testLs() throws Exception {
+    public void testLs() {
         new LsTest();
     }
 
     @Test
-    public void testPwd() throws Exception {
+    public void testPwd() {
         new PwdTest();
     }
 
     @Test
-    public void testSort() throws Exception {
+    public void testSort() {
         new SortTest();
     }
 
     @Test
-    public void testTail() throws Exception {
+    public void testTail() {
         new TailTest();
     }
 
     @Test
-    public void testUniq() throws Exception {
+    public void testUniq() {
         new UniqTest();
     }
 
@@ -157,72 +157,72 @@ public class JshTest {
     }
 
     @Test
-    public void testUnsafeCat() throws IOException {
+    public void testUnsafeCat() {
         new UnsafeCatTest();
     }
 
     @Test
-    public void testUnsafeCd() throws IOException {
+    public void testUnsafeCd() {
         new UnsafeCdTest();
     }
 
     @Test
-    public void testUnsafeCut() throws IOException {
+    public void testUnsafeCut() {
         new UnsafeCutTest();
     }
 
     @Test
-    public void testUnsafeEcho() throws IOException {
+    public void testUnsafeEcho() {
         new UnsafeEchoTest();
     }
 
     @Test
-    public void testUnsafeFind() throws IOException {
+    public void testUnsafeFind() {
         new UnsafeFindTest();
     }
 
     @Test
-    public void testUnsafeGrep() throws IOException {
+    public void testUnsafeGrep() {
         new UnsafeGrepTest();
     }
 
     @Test
-    public void testUnsafeLs() throws IOException {
+    public void testUnsafeLs() {
         new UnsafeLsTest();
     }
 
     @Test
-    public void testUnsafeHead() throws IOException {
+    public void testUnsafeHead() {
         new UnsafeHeadTest();
     }
 
     @Test
-    public void testUnsafePwd() throws IOException {
+    public void testUnsafePwd() {
         new UnsafePwdTest();
     }
 
     @Test
-    public void testUnsafeSort() throws IOException {
+    public void testUnsafeSort() {
         new UnsafeSortTest();
     }
 
     @Test
-    public void testUnsafeTail() throws IOException {
+    public void testUnsafeTail() {
         new UnsafeTailTest();
     }
 
     @Test
-    public void testUnsafeUniq() throws IOException {
+    public void testUnsafeUniq() {
         new UnsafeUniqTest();
     }
 
     @Test
-    public void testUnsafeUnsafe() throws Exception {
+    public void testUnsafeUnsafe() {
         new UnsafeUnsafeTest();
     }
 
     @Test
-    public void testGlobbing() throws Exception {
+    public void testGlobbing() {
         new GlobTest();
     }
 }

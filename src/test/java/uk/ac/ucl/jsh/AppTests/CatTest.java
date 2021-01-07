@@ -17,15 +17,15 @@ public class CatTest extends JshTest {
     }
 
     @Test
-    public void test_cat_simple() throws IOException {
-        String file_name = JshTest.testDirectory + File.separator + "text1.txt";
-        Jsh.eval("cat " + file_name, outs);
-        String expected = readFile(file_name);
+    public void testCatSimple() throws IOException {
+        String fileName = JshTest.testDirectory + File.separator + "text1.txt";
+        Jsh.eval("cat " + fileName, outs);
+        String expected = readFile(fileName);
         assertEquals(expected, outs.toString().trim());
     }
 
     @Test
-    public void test_cat_redirection() throws IOException {
+    public void testCatRedirection() throws IOException {
         String fileName = JshTest.testDirectory + File.separator + "text2.txt";
         Jsh.eval("cat < " + fileName, outs);
         String expected = readFile(fileName);
@@ -33,14 +33,14 @@ public class CatTest extends JshTest {
     }
 
     @Test
-    public void test_cat_input_sub() {
+    public void testCatInputSub() {
         String[] cases = {"echo `cat testDir/text1.txt`", "abcdefghiofeijnwio"};
         Jsh.eval(cases[0], outs);
         assertEquals(cases[1], outs.toString().trim());
     }
 
     @Test
-    public void test_cat_multi_file() {
+    public void testCatMultiFile() {
         String[] cases = {"cat testDir/text1.txt testDir/text2.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                                      "ofeijnwio" + System.getProperty("line.separator") +
                                                                      "AAA" + System.getProperty("line.separator") +
@@ -51,14 +51,14 @@ public class CatTest extends JshTest {
     }
 
     @Test
-    public void test_cat_io() {
+    public void testCatIo() {
         String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") + "ofeijnwio"};
         Jsh.eval(cases[0], outs);
         assertEquals(cases[1], outs.toString().trim());
     }
 
     @Test
-    public void test_cat_double_quote() {
+    public void testCatDoubleQuote() {
         String[] cases = {"cat < " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator")+ "ofeijnwio"};
         Jsh.eval(cases[0], outs);
         assertEquals(cases[1], outs.toString().trim());
@@ -68,7 +68,7 @@ public class CatTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_cat_fileTest() throws IOException {
+    public void testCatFileTest() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cat: file does not exist");
         Cat cat = new Cat();
@@ -78,7 +78,7 @@ public class CatTest extends JshTest {
     }
 
     @Test
-    public void test_cat_no_args() throws IOException {
+    public void testCatNoArgs() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cat: missing arguments");
         Cat cat = new Cat();

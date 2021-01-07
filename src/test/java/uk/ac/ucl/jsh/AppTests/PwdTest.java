@@ -12,7 +12,7 @@ public class PwdTest extends JshTest {
     }
 
     @Test
-    public void test_pwd() {
+    public void testPwdSimple() {
         String aCase = "pwd";
         String expected = System.getProperty("user.dir");
         Jsh.eval(aCase, outs);

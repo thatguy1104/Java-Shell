@@ -18,7 +18,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_simple() {
+    public void testSortSimple() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"sort " + filepath +  "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                             "ofeijnwio"};
@@ -27,7 +27,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_r() {
+    public void testSortR() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"sort -r " + filepath + "text1.txt", "ofeijnwio" + System.getProperty("line.separator") +
                                                               "abcdefghi"};
@@ -36,7 +36,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_r_stdin() {
+    public void testSortRStdin() {
         String filepath = JshTest.testDirectory + File.separator;
         String[] args = {"sort -r <" + filepath +  "text3.txt", "AAA" + System.getProperty("line.separator") +
                                                                 "AAA" + System.getProperty("line.separator") +
@@ -57,7 +57,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_empty() {
+    public void testSortEmpty() {
         String filepath = JshTest.testDirectory + File.separator + JshTest.testSubDirectory + File.separator;
         String[] args = {"sort " + filepath +  "text3.txt", ""};
         Jsh.eval(args[0], outs);
@@ -65,7 +65,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_cat_pipe_sort() {
+    public void testCatPipeSort() {
         String[] args = {"cat " + JshTest.testDirectory + File.separator + "text2.txt | sort", "AAA" + System.getProperty("line.separator") +
                                                                                                "AAA" + System.getProperty("line.separator") +
                                                                                                "BBB"};
@@ -77,7 +77,7 @@ public class SortTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_sort_wrong_nr_args() throws IOException{
+    public void testSortWrongNrArgs() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
         args.add("sort");args.add("a");args.add("b");args.add("c");
@@ -87,7 +87,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_wrong_args() throws IOException{
+    public void testSortWrongArgs() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
         args.add("sort");args.add("a");args.add("b");
@@ -97,7 +97,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_cannot_open() throws IOException{
+    public void testSortCannotOpen() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
         args.add("sort");args.add("target");
@@ -107,7 +107,7 @@ public class SortTest extends JshTest {
     }
 
     @Test
-    public void test_sort_r_cannot_open() throws IOException{
+    public void testSortRCannotOpen() throws IOException{
         Sort sort = new Sort();
         ArrayList<String> args = new ArrayList<>();
         args.add("sort");args.add("-r");args.add("nonExistingTarget");

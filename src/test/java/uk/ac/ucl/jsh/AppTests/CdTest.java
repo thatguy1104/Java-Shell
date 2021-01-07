@@ -22,31 +22,31 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void test_change_dir() throws IOException {
+    public void testChangeDir() throws IOException {
         String toFolder = "src";
         ArrayList<String> aCase = new ArrayList<>(Collections.singleton("cd"));
         aCase.add(toFolder);
-        String result_dir = currDir + File.separator + toFolder;
-        String new_dir = new Factory().getApp("cd").exec(aCase, currDir, null, outs);
-        assertEquals(result_dir, new_dir);
+        String resultDir = currDir + File.separator + toFolder;
+        String newDir = new Factory().getApp("cd").exec(aCase, currDir, null, outs);
+        assertEquals(resultDir, newDir);
     }
 
     @Test
-    public void test_change_back() throws IOException {
+    public void testChangeBack() throws IOException {
         String[] args = {"cd", "src"};
-        String new_dir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, outs);
+        String newDir = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args)), currDir, null, outs);
 
-        String[] args_2 = {"cd", ".."};
-        String new_dir_2 = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args_2)), new_dir, null, outs);
+        String[] args2 = {"cd", ".."};
+        String newDir2 = new Factory().getApp("cd").exec(new ArrayList<>(Arrays.asList(args2)), newDir, null, outs);
 
-        assertEquals(currDir, new_dir_2);
+        assertEquals(currDir, newDir2);
     }
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_cd_exception() throws IOException {
+    public void testCdException() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cd: nonexistingdirectory is not an existing directory");
         Cd cd = new Cd();
@@ -56,7 +56,7 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void test_cd_empty() throws IOException {
+    public void testCdEmpty() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cd: missing argument");
         Cd cd = new Cd();
@@ -65,9 +65,9 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void test_cd_file_not_found() throws IOException {
+    public void testCdFileNotFound() throws IOException {
         exceptionRule.expect(FileNotFoundException.class);
-        exceptionRule.expectMessage("nonexistingfile.txt (No such file or directory)");
+        exceptionRule.expectMessage("nonexistingfile.txt (The system cannot find the file specified)");
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
         args.add("cd");
@@ -75,17 +75,17 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void test_cd_file_but_no_arg() throws IOException {
+    public void testCdFileButNoArg() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cd: text1.txt is not an existing directory");
         Cd cd = new Cd();
         ArrayList<String> args = new ArrayList<>();
-        args.add("cd");args.add("text1.txt");
+        args.add("cd"); args.add("text1.txt");
         cd.mainExec(args, System.getProperty("user.dir")+File.separator+JshTest.testDirectory, InputStream.nullInputStream(), outs);
     }
 
     @Test
-    public void test_cd_too_many_args() throws IOException {
+    public void testCdTooManyArgs() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cd: too many arguments");
         Cd cd = new Cd();

@@ -13,7 +13,7 @@ public class UnsafeCutTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_cut_simple() {
+    public void testUnsafeCutSimple() {
         String[] arg = {"_cut -b 1 " + JshTest.testDirectory + File.separator + "text1.txt", "a" + System.getProperty("line.separator") +
                                                                                              "o"};
         Jsh.eval(arg[0], outs);
@@ -21,7 +21,7 @@ public class UnsafeCutTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_cut_simple_2() {
+    public void testUnsafeCutSimple2() {
         String[] arg = {"_cut -b 1,2 " + JshTest.testDirectory + File.separator + "text1.txt", "ab" + System.getProperty("line.separator") +
                                                                                                "of"};
         Jsh.eval(arg[0], outs);
@@ -29,7 +29,7 @@ public class UnsafeCutTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_cut_simple_3() {
+    public void testUnsafeCutSimple3() {
         String[] arg = {"_cut -b 1- " + JshTest.testDirectory + File.separator + "text1.txt", "abcdefghi" + System.getProperty("line.separator") +
                                                                                               "ofeijnwio"};
         Jsh.eval(arg[0], outs);
@@ -37,7 +37,7 @@ public class UnsafeCutTest extends JshTest {
     }
 
     @Test
-    public void test_unsafe_cut_simple_4() {
+    public void testUnsafeCutSimple4() {
         String[] arg = {"_cut -b 1,3-4 " + JshTest.testDirectory + File.separator + "text1.txt", "acd" + System.getProperty("line.separator") +
                                                                                                  "oei"};
         Jsh.eval(arg[0], outs);

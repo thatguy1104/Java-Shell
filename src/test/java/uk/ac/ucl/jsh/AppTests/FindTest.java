@@ -22,7 +22,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_simple() {
+    public void testFindSimple() {
         String testCase = "cd testDir; find -name text1.txt; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "." + File.separator + "text1.txt" + System.getProperty("line.separator") +
@@ -36,7 +36,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_dir() {
+    public void testFindDir() {
         String testCase = "find testDir -name text1.txt";
         Jsh.eval(testCase, outs);
         String evalCase = testDirectory + File.separator + testSubDirectory + File.separator + "text1.txt" + System.getProperty("line.separator") +
@@ -50,7 +50,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_glob() {
+    public void testFindGlob() {
         String testCase = "cd testDir; find -name *.txt; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "." + File.separator + testSubDirectory + File.separator + "text3.txt" + System.getProperty("line.separator") +
@@ -68,7 +68,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_dir_glob() {
+    public void testFindDirGlob() {
         String testCase = "find testDir/testSubDir -name *.txt";
         Jsh.eval(testCase, outs);
         String evalCase = testDirectory + File.separator + testSubDirectory + File.separator + "text2.txt" + System.getProperty("line.separator") +
@@ -83,7 +83,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_subDir() {
+    public void testFindSubDir() {
         String testCase = "cd testDir/testSubDir; find -name text1.txt; cd ..; cd ..";
         Jsh.eval(testCase, outs);
         String evalCase = "." + File.separator + "text1.txt";
@@ -96,7 +96,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_glob_word() {
+    public void testFindGlobWord() {
         String testCase = "find testDir -name *.word";
         Jsh.eval(testCase, outs);
         String evalCase = "";
@@ -112,7 +112,7 @@ public class FindTest extends JshTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void test_find_argument_error() throws IOException {
+    public void testFindArgumentError() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("find: missing arguments");
         Find find = new Find();
@@ -122,7 +122,7 @@ public class FindTest extends JshTest {
     }
 
     @Test
-    public void test_find_directory_error() throws IOException {
+    public void testFindDirectoryError() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("find: no such directory");
         Find find = new Find();
