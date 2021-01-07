@@ -22,7 +22,7 @@ public class Pipe implements Visitable {
     }
 
     @Override
-    public <T> T accept(Visitor<T> visitor, InputStream is, OutputStream os, String currentDirectory) throws IOException {
-        return visitor.visit(this, is, os, currentDirectory);
+    public <T> T accept(Visitor<T> visitor, InputStream inputStream, OutputStream outputStream, String currentDirectory) throws IOException {
+        return visitor.visit(this, inputStream, outputStream, currentDirectory);
     }
 }

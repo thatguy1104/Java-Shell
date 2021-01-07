@@ -11,30 +11,30 @@ import java.util.ArrayList;
 public class AppVisitor extends Jsh implements Visitor<Void> {
 
     @Override
-    public Void visit(Pipe pipe, InputStream is, OutputStream os, String currentDirectory) throws IOException {
+    public Void visit(Pipe pipe, InputStream inputStream, OutputStream outputStream, String currentDirectory) throws IOException {
         ByteArrayOutputStream newOutputStream = new ByteArrayOutputStream();
-        pipe.getLeft().accept(this, is, newOutputStream, currentDirectory);
+        pipe.getLeft().accept(this, inputStream, newOutputStream, currentDirectory);
         ByteArrayInputStream newInputStream = new ByteArrayInputStream(newOutputStream.toByteArray());
-        pipe.getRight().accept(this, newInputStream, os, currentDirectory);
+        pipe.getRight().accept(this, newInputStream, outputStream, currentDirectory);
         return null;
     }
 
     @Override
-    public Void visit(Call call, InputStream is, OutputStream os, String currentDirectory) throws IOException {
+    public Void visit(Call call, InputStream inputStream, OutputStream outputStream, String currentDirectory) throws IOException {
         ArrayList<String> tokens = Parser.parseCallCommand(call.getVisitable());
 
-        is = getInputStream(tokens, is);
-        os = getOutputStream(tokens, os);
+        inputStream = getInputStream(tokens, inputStream);
+        outputStream = getOutputStream(tokens, outputStream);
         Factory factory = new Factory();
         Application app = factory.getApp(tokens.get(0));
-        Jsh.currentDirectory = app.mainExec(tokens, currentDirectory, is, os);
+        Jsh.currentDirectory = app.mainExec(tokens, currentDirectory, inputStream, outputStream);
         return null;
     }
 
     @Override
-    public Void visit(Seq seq, InputStream is, OutputStream os, String currentDirectory) throws IOException {
-        seq.getLeft().accept(this, is, os, currentDirectory);
-        seq.getRight().accept(this, is,  os, Jsh.currentDirectory);
+    public Void visit(Seq seq, InputStream inputStream, OutputStream outputStream, String currentDirectory) throws IOException {
+        seq.getLeft().accept(this, inputStream, outputStream, currentDirectory);
+        seq.getRight().accept(this, inputStream, outputStream, Jsh.currentDirectory);
         return null;
     }
 
