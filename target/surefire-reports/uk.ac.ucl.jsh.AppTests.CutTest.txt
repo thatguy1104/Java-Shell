@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ucl.jsh.AppTests.CutTest
 -------------------------------------------------------------------------------
-Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.161 s - in uk.ac.ucl.jsh.AppTests.CutTest
+Tests run: 39, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.27 s - in uk.ac.ucl.jsh.AppTests.CutTest

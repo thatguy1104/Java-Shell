@@ -65,16 +65,6 @@ public class CdTest extends JshTest {
     }
 
     @Test
-    public void testCdFileNotFound() throws IOException {
-        exceptionRule.expect(FileNotFoundException.class);
-        exceptionRule.expectMessage("nonexistingfile.txt (The system cannot find the file specified)");
-        Cd cd = new Cd();
-        ArrayList<String> args = new ArrayList<>();
-        args.add("cd");
-        cd.mainExec(args, System.getProperty("user.dir"), new FileInputStream("nonexistingfile.txt"), outs);
-    }
-
-    @Test
     public void testCdFileButNoArg() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("cd: text1.txt is not an existing directory");
